@@ -96,8 +96,8 @@ public static class PackResolver
 
 	/// <summary>
 	/// The offer of one draft round. Candidates are unlocked packs with a preview card that are not in the
-	/// run yet. By default the previous round's leftovers sit this round out; with
-	/// <see cref="PackmasterSettings.ExcludeAllUnpicked"/> (STS1) every unpicked pack stays out. Either way
+	/// run yet. By default (STS1) every pack offered and not picked stays out; with
+	/// <see cref="PackmasterSettings.ExcludeOnlyLastRound"/> only the previous round's leftovers do. Either way
 	/// excluded packs fill in when there would otherwise be fewer than <see cref="PackCharacterRegistration.ChoiceSize"/>.
 	/// Empty when no pack is left.
 	/// </summary>

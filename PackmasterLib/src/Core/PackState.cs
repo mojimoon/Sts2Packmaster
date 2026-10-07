@@ -45,7 +45,7 @@ public sealed class PlayerPackState
 	{
 		while (_currentOffer == null && ChoicesLeft > 0)
 		{
-			var excluded = PackmasterSettings.ExcludeAllUnpicked ? (IReadOnlyCollection<PackDefinition>)Unpicked : LastOffer;
+			var excluded = PackmasterSettings.ExcludeOnlyLastRound ? LastOffer : (IReadOnlyCollection<PackDefinition>)Unpicked;
 			_currentOffer = PackResolver.Offer(Registration, Selected, excluded, Round, OfferRng());
 			if (_currentOffer.Count == 0)
 			{

@@ -45,7 +45,7 @@ internal static class PackSettingsSection
 			AddToggle(options, "multinone", () => PackmasterSettings.AllowMultipleNone, v => PackmasterSettings.AllowMultipleNone = v);
 			AddToggle(options, "unlockall", () => PackmasterSettings.UnlockAllPacks, v => PackmasterSettings.UnlockAllPacks = v);
 			AddToggle(options, "autochoice", () => PackmasterSettings.AutoResolveChoices, v => PackmasterSettings.AutoResolveChoices = v);
-			AddToggle(options, "excludeall", () => PackmasterSettings.ExcludeAllUnpicked, v => PackmasterSettings.ExcludeAllUnpicked = v);
+			AddToggle(options, "excludelast", () => PackmasterSettings.ExcludeOnlyLastRound, v => PackmasterSettings.ExcludeOnlyLastRound = v);
 
 			// Group row = a clone of the Modding row ("label .... [button]"), without its signal wiring.
 			var group = (Control)modding.Duplicate((int)(Node.DuplicateFlags.Groups | Node.DuplicateFlags.Scripts | Node.DuplicateFlags.UseInstantiation));

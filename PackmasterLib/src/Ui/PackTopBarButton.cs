@@ -30,6 +30,12 @@ public static class PackTopBarButton
 
 	private static NSimpleCardsViewScreen? _poolScreen;
 
+	private static readonly System.Reflection.MethodInfo UpdateScreenOpen = AccessTools.Method(typeof(NTopBarButton), "UpdateScreenOpen");
+
+	/// <summary>Whether the button shows its "screen open" state (icon rocking).</summary>
+	public static bool IsShowingOpen => Instance != null && GodotObject.IsInstanceValid(Instance)
+		&& (bool)AccessTools.Property(typeof(NTopBarButton), "IsScreenOpen").GetValue(Instance)!;
+
 	private static bool IsOurs(Node node) => node.Name == NodeName;
 
 	/// <summary>The button in the current run's top bar (null if absent).</summary>
@@ -58,6 +64,19 @@ public static class PackTopBarButton
 				icon.Texture = ResourceLoader.Load<Texture2D>("res://images/packed/modifiers/draft.png");
 				icon.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
 				icon.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+			}
+			// The top bar only refreshes the vanilla deck/pause buttons when a capstone screen opens or
+			// closes; refresh ours too, so closing the pool view with its confirm button or Esc stops the
+			// icon's "screen open" rocking.
+			if (AccessTools.Field(typeof(NTopBar), "_capstoneContainer").GetValue(__instance) is NCapstoneContainer capstones)
+			{
+				capstones.Connect(NCapstoneContainer.SignalName.Changed, Callable.From(() =>
+				{
+					if (GodotObject.IsInstanceValid(button))
+					{
+						UpdateScreenOpen.Invoke(button, null);
+					}
+				}));
 			}
 			Instance = button;
 		}
@@ -133,7 +152,7 @@ public static class PackTopBarButton
 			return true;
 		}
 		TogglePoolView();
-		AccessTools.Method(typeof(NTopBarButton), "UpdateScreenOpen").Invoke(__instance, null);
+		UpdateScreenOpen.Invoke(__instance, null);
 		return false;
 	}
 

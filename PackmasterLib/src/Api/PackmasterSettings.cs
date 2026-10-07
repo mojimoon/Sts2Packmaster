@@ -18,7 +18,7 @@ public static class PackmasterSettings
 		public bool AutoResolveChoices { get; set; }
 		public bool OneFrameMode { get; set; }
 		public bool HideSummaries { get; set; }
-		public bool ExcludeAllUnpicked { get; set; }
+		public bool ExcludeOnlyLastRound { get; set; }
 	}
 
 	private static Data? _data;
@@ -64,13 +64,14 @@ public static class PackmasterSettings
 	}
 
 	/// <summary>
-	/// Developer: STS1 drafting — a pack offered and not picked is never offered again until the pool runs
-	/// out. Default (off): only the previous round's leftovers sit the next round out.
+	/// Developer: relaxed drafting — only the previous round's unpicked packs sit the next round out, so
+	/// a pack passed on can return two rounds later. Default (off): STS1 rule, a pack offered and not
+	/// picked is never offered again until the pool runs out.
 	/// </summary>
-	public static bool ExcludeAllUnpicked
+	public static bool ExcludeOnlyLastRound
 	{
-		get => Current.ExcludeAllUnpicked;
-		set { Current.ExcludeAllUnpicked = value; Save(); }
+		get => Current.ExcludeOnlyLastRound;
+		set { Current.ExcludeOnlyLastRound = value; Save(); }
 	}
 
 	private static Data Load()

@@ -131,7 +131,7 @@ internal static class PackmasterAutoTest
 			"panel.title", "allpacks", "count", "slot", "slot.random", "slot.choice", "slot.none", "sort.pack", "filter.all",
 			"preview.type", "setup.chosen", "setup.choose", "setup.ratings", "setup.author", "setup.confirm_hint", "setup.hidden_hint",
 			"summary.title", "summary.offense", "summary.tags", "topbar.title", "topbar.desc", "topbar.pool", "run.desc",
-			"settings.group", "settings.oneframe", "settings.multinone", "settings.unlockall", "settings.autochoice", "settings.excludeall",
+			"settings.group", "settings.oneframe", "settings.multinone", "settings.unlockall", "settings.autochoice", "settings.excludelast",
 			"tag.None", "tag.Doom", "tag.Generation",
 		};
 		foreach (var language in languages)
@@ -218,9 +218,9 @@ internal static class PackmasterAutoTest
 			}
 		}
 		Yes(fullOffers, "default config (4 random + 3 drafts, 11 packs): every draft round offers 3 packs");
-		Yes(previousRoundRespected, "default rule: the previous round's leftovers sit the next round out");
+		Yes(previousRoundRespected, "relaxed rule (dev setting): the previous round's leftovers sit the next round out");
 
-		// STS1 developer rule: no unpicked pack returns until the pool runs out.
+		// STS1 rule (default): no unpicked pack returns until the pool runs out.
 		var sts1 = true;
 		for (var seed = 0; seed < 100; seed++)
 		{
@@ -243,7 +243,7 @@ internal static class PackmasterAutoTest
 				unpicked.AddRange(offer.Where(p => p != pick));
 			}
 		}
-		Yes(sts1, "STS1 rule (dev setting): unpicked packs never return while fresh ones remain");
+		Yes(sts1, "STS1 rule (default): unpicked packs never return while fresh ones remain");
 	}
 
 	private sealed class LeftGuaranteeDrawer : IPackDrawer
@@ -362,12 +362,13 @@ internal static class PackmasterAutoTest
 			groupButton.EmitSignal(NClickableControl.SignalName.Released, groupButton);
 			await Task.Delay(300);
 			var toggles = Paginators(options);
-			Yes(options.Visible && toggles.Count == 5, $"settings group: 5 options incl. the STS1 drafting dev option (got {toggles.Count})");
+			Yes(options.Visible && toggles.Count == 5, $"settings group: 5 options incl. the relaxed drafting dev option (got {toggles.Count})");
 			if (toggles.Count == 5)
 			{
 				toggles[4].PageRight();
-				Yes(PackmasterSettings.ExcludeAllUnpicked, "settings toggle writes PackmasterSettings.ExcludeAllUnpicked");
+				Yes(PackmasterSettings.ExcludeOnlyLastRound, "settings toggle writes PackmasterSettings.ExcludeOnlyLastRound");
 				toggles[4].PageLeft();
+				Yes(!PackmasterSettings.ExcludeOnlyLastRound, "STS1 drafting is the default", quiet: true);
 			}
 			var scroller = stack.FindChildren("*", "", true, false).OfType<NScrollableContainer>().First();
 			AccessTools.Field(scroller.GetType(), "_targetDragPosY").SetValue(scroller, -group.Position.Y + 150);
@@ -477,8 +478,15 @@ internal static class PackmasterAutoTest
 		await Task.Delay(1400);
 		Yes(screen.CurrentChoices.Select(p => p.Id).SequenceEqual(secondOffer), "the same pick leads to the same second offer");
 
+		// STS1 default: round 3 offers every never-offered pack before any pack passed on earlier.
 		for (var round = 1; round < 3; round++)
 		{
+			if (round == 2)
+			{
+				var fresh = Reg.Packs.Where(p => !state.Selected.Contains(p) && !state.Unpicked.Contains(p)).ToList();
+				Yes(fresh.All(screen.CurrentChoices.Contains) && screen.CurrentChoices.Count == 3,
+					$"STS1 default: the last round offers all {fresh.Count} never-offered pack(s), topped up to 3");
+			}
 			Yes(screen.CurrentChoices.Count == 3, $"draft {round + 1} offers 3 packs");
 			var candidates = screen.CurrentChoices.ToList();
 			var pick = candidates[round % candidates.Count];
@@ -566,8 +574,19 @@ internal static class PackmasterAutoTest
 		await Task.Delay(1200);
 		Yes(NCapstoneContainer.Instance?.CurrentCapstoneScreen is NSimpleCardsViewScreen, "clicking the button opens the pool view");
 		await Screenshot("9_pool_view");
-		PackTopBarButton.TogglePoolView();
+		// Close it the way its confirm button / Esc do (not through our button).
+		NCapstoneContainer.Instance!.Close();
 		await Task.Delay(600);
+		Yes(NCapstoneContainer.Instance.CurrentCapstoneScreen == null && !PackTopBarButton.IsShowingOpen,
+			"closing the pool view with its confirm button / Esc stops the button's rocking");
+		// And with a real click on the button: opens (rocking) and closes (stops).
+		await Click(button);
+		await Task.Delay(600);
+		var openedByClick = NCapstoneContainer.Instance.CurrentCapstoneScreen is NSimpleCardsViewScreen && PackTopBarButton.IsShowingOpen;
+		await Click(button);
+		await Task.Delay(600);
+		Yes(openedByClick && NCapstoneContainer.Instance.CurrentCapstoneScreen == null && !PackTopBarButton.IsShowingOpen,
+			"a real click on the button toggles the pool view and its rocking");
 	}
 
 	private static void PoolChecks(Player player)
