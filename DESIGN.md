@@ -257,3 +257,16 @@ public static void Init()
 存档：`PackRunModifier` 新增 `PackPending`（未选三选一及其候选）与 `PackSetupDone`，中途存档读档后选包界面以同样候选重新打开。多人：无同步选包 UI，三选一用同一随机种子确定性解析并跳过界面。
 
 卡包深度：`PackRegistry.ValidateDepth` 对少于 10 张、或某类型/稀有度少于 2 张（不计仅多人牌）的卡包输出警告。
+
+## 8. v0.3
+
+- **选包界面**：返回按钮（`NBackButton`）收起/展开界面；界面显示时用 `NHotkeyManager.AddBlockingScreen` 屏蔽其他快捷键，再把返回/确认按钮的绑定重新压栈（快捷键管理器取栈顶），所以 Esc 归返回按钮而不是暂停菜单。确认前点涅奥选项（`NEventRoom.OptionButtonClicked`）或地图节点（`NMapScreen.OnMapPointSelectedLocally`）会重新打开界面。
+- **SL**：选择只保存在内存，确认时才写入 `PackRunModifier`；存档里只有 固定+随机 的卡包和剩余轮数（`PackChoicesLeft`）。每轮候选用 `new Rng(runSeed, "packmaster/玩家/轮次/已选卡包")` 惰性生成，相同选择 → 相同候选。
+- **候选规则**：默认排除上一轮的候选（即上一轮未选的），不足 `ChoiceSize` 时用被排除的补足；`ExcludeAllUnpicked` = 1 代规则。旧版"开局预先抽好所有候选并移出卡池"导致 4 随机 + 3 三选一时最后一轮只剩 1 个候选，已移除。
+- **抽取 API**：`IPackDrawer`（随机槽 / 每轮候选，返回顺序即显示顺序）、`WeightedPackDrawer`（按 `PackDefinition.Weight` 无放回加权）；库对返回值做合法性过滤并补足。
+- **共享卡包**：注册表按角色分别解析，`GetPackOf(card, registration)` 按角色查询；测试中临时把同一卡包注册给第二个角色（铁甲战士）验证后注销。
+- **字体**：新增文字统一用 `MegaLabel`（`_Ready` 里调用 `ApplyLocaleFontSubstitution`，即游戏按语言替换 CJK 字体的机制）。位于容器里的标签关闭 MegaLabel 自动缩放（它在布局前测量，会卡在最小字号）。
+- **图鉴筛选**：`test_dropdown.tscn` 的 `NDropdown` 克隆放在"卡包"排序按钮下，选中卡包角色的筛选按钮时显示；过滤器在 `NCardLibraryGrid.FilterCards` 前缀中与搜索一起包装。
+- **卡面包名**：卡框上边缘（y≈-205）白色 21 号字，`MegaLabel` 自动缩放适配长名字。
+- **本地化**：`tools/gen_libloc.py` 生成 `LibLoc.cs`，59 个键 × 16 种语言。
+

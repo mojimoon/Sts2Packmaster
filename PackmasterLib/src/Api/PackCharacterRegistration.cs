@@ -56,6 +56,12 @@ public sealed class PackCharacterRegistration
 	/// </summary>
 	public required string[] DefaultSlots { get; init; }
 
+	/// <summary>Pack drawing algorithm (null = <see cref="WeightedPackDrawer"/>). Settable any time.</summary>
+	public IPackDrawer? Drawer { get; set; }
+
+	/// <summary>Packs offered per "choice" slot (STS1: 3).</summary>
+	public int ChoiceSize { get; init; } = 3;
+
 	/// <summary>
 	/// Pack unlock rule. Null (default) = every pack is unlocked. Locked packs are not offered by
 	/// random/choice slots, all-packs mode or the config UI. Settable any time, so other mods can

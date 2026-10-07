@@ -13,24 +13,76 @@ public sealed class PlayerPackState
 {
 	public required ulong PlayerId;
 	public required PackCharacterRegistration Registration;
+	public required ulong RunSeed;
 	public bool AllMode;
 	public List<string> SlotTokens = new();
 
 	/// <summary>Packs in this run's pool (fixed + random first, then picks in order).</summary>
 	public readonly List<PackDefinition> Selected = new();
 
-	/// <summary>Remaining "choice of 3" slots, each with its candidates (rolled at run start, saved).</summary>
-	public readonly List<List<PackDefinition>> PendingChoices = new();
+	/// <summary>Draft rounds left on the setup screen.</summary>
+	public int ChoicesLeft;
+
+	/// <summary>Draft rounds done so far (in memory; reset by save/load until the setup is confirmed).</summary>
+	public int Round;
+
+	/// <summary>The previous round's offer.</summary>
+	public List<PackDefinition> LastOffer = new();
+
+	/// <summary>Every pack offered and not picked this setup.</summary>
+	public readonly List<PackDefinition> Unpicked = new();
+
+	private List<PackDefinition>? _currentOffer;
 
 	/// <summary>The start-of-run pack setup screen has been confirmed (or skipped).</summary>
 	public bool SetupDone;
 
-	/// <summary>Pops the next pending choice slot; returns its still-available candidates (null = nothing left, slot skipped).</summary>
-	public List<PackDefinition>? TakeNextChoice(Rng rng)
+	/// <summary>
+	/// The current draft round's offer (empty when no round is left or no pack is left to offer).
+	/// Deterministic: the same picks after a save/load lead to the same offers.
+	/// </summary>
+	public IReadOnlyList<PackDefinition> CurrentOffer()
 	{
-		var rolled = PendingChoices[0];
-		PendingChoices.RemoveAt(0);
-		return PackResolver.NextCandidates(Registration, rolled, Selected, rng);
+		while (_currentOffer == null && ChoicesLeft > 0)
+		{
+			var excluded = PackmasterSettings.ExcludeAllUnpicked ? (IReadOnlyCollection<PackDefinition>)Unpicked : LastOffer;
+			_currentOffer = PackResolver.Offer(Registration, Selected, excluded, Round, OfferRng());
+			if (_currentOffer.Count == 0)
+			{
+				ChoicesLeft = 0; // pool exhausted: remaining slots are skipped
+			}
+		}
+		return _currentOffer ?? (IReadOnlyList<PackDefinition>)Array.Empty<PackDefinition>();
+	}
+
+	private Rng OfferRng() =>
+		new(RunSeed, $"packmaster/{PlayerId}/{Round}/{string.Join(",", Selected.Select(p => p.Id))}");
+
+	/// <summary>Pick a pack of the current offer (in memory only).</summary>
+	public void Pick(PackDefinition pack)
+	{
+		var offer = CurrentOffer();
+		if (!offer.Contains(pack))
+		{
+			throw new InvalidOperationException($"'{pack.Id}' is not offered in this round.");
+		}
+		Selected.Add(pack);
+		Unpicked.AddRange(offer.Where(p => p != pack));
+		LastOffer = offer.ToList();
+		_currentOffer = null;
+		ChoicesLeft--;
+		Round++;
+	}
+
+	/// <summary>Resolve every remaining round with a deterministic random pick.</summary>
+	public void PickRemainingRandomly(string reason)
+	{
+		while (CurrentOffer() is { Count: > 0 } offer)
+		{
+			var pick = offer[OfferRng().NextInt(offer.Count)];
+			Pick(pick);
+			Log.Info($"[PackmasterLib] {reason}: randomly took '{pick.Id}'.");
+		}
 	}
 
 	/// <summary>Cards of the selected packs.</summary>
@@ -41,8 +93,8 @@ public sealed class PlayerPackState
 
 /// <summary>
 /// Run-scoped pack state. The durable copy lives in <see cref="PackRunModifier"/>'s SavedProperty
-/// strings (selected packs, pending choice candidates, setup-done flags), so saving and quitting
-/// in the middle of the pack setup screen resumes with the same choices.
+/// strings. Draft picks are kept in memory until the setup is confirmed, so saving and quitting during
+/// the setup screen restarts the setup (STS1-style save/load), with the same offers for the same picks.
 /// </summary>
 public static class PackState
 {
@@ -64,17 +116,12 @@ public static class PackState
 
 	public static PlayerPackState? Get(Player? player) => player == null ? null : Get(player.RunState as RunState, player.NetId);
 
-	public static bool HasPendingChoices(Player player) => Get(player)?.PendingChoices.Count > 0;
-
 	public static bool NeedsSetup(Player? player) => Get(player) is { SetupDone: false };
 
 	/// <summary>Card ids the player may obtain rewards from; null when pack logic is not active for this player.</summary>
 	public static HashSet<ModelId>? GetSelectedCardIds(Player player) => Get(player)?.SelectedCardIds();
 
-	/// <summary>
-	/// Build state for a new run from the modifier's config string. Resolves fixed/random slots and
-	/// rolls the choice candidates deterministically from the given rng (same on every peer).
-	/// </summary>
+	/// <summary>Build state for a new run: resolves fixed/random slots deterministically (same on every peer).</summary>
 	public static void InitializeRun(RunState runState, string configString, Rng rng)
 	{
 		var entry = Runs.GetOrCreateValue(runState);
@@ -93,25 +140,25 @@ public static class PackState
 			{
 				PlayerId = playerId,
 				Registration = registration,
+				RunSeed = runState.Rng.Seed,
 				AllMode = allMode,
 				SlotTokens = tokens.ToList(),
+				ChoicesLeft = resolution.ChoiceSlots,
 			};
 			state.Selected.AddRange(resolution.Selected);
-			state.PendingChoices.AddRange(resolution.PendingChoices);
 			entry.ByPlayer[playerId] = state;
 			foreach (var line in resolution.Trace)
 			{
 				Log.Info($"[PackmasterLib]   {line}");
 			}
 			Log.Info($"[PackmasterLib] {player.Character.Id.Entry} packs resolved: [{string.Join(", ", state.Selected.Select(p => p.Id))}]"
-				+ (state.PendingChoices.Count > 0 ? $" + {state.PendingChoices.Count} choice slot(s)" : ""));
+				+ (state.ChoicesLeft > 0 ? $" + {state.ChoicesLeft} draft round(s)" : ""));
 
-			// STS1 skips the setup screen in all-packs mode. Multiplayer has no synced pick UI, so
-			// choices resolve deterministically (same rng on every peer) and the screen is skipped.
-			// The developer setting skips it in singleplayer.
+			// STS1 skips the setup screen in all-packs mode. Multiplayer has no synced pick UI, so drafts
+			// resolve deterministically (same seed on every peer). The developer setting skips it in singleplayer.
 			if (allMode || multiplayer || PackmasterSettings.AutoResolveChoices)
 			{
-				ResolvePendingInternal(state, rng, multiplayer ? "Multiplayer" : allMode ? "All packs mode" : "AutoResolveChoices setting");
+				state.PickRemainingRandomly(multiplayer ? "Multiplayer" : allMode ? "All packs mode" : "AutoResolveChoices setting");
 				state.SetupDone = true;
 			}
 		}
@@ -123,9 +170,11 @@ public static class PackState
 	{
 		var entry = Runs.GetOrCreateValue(runState);
 		var selected = DecodeIdLists(modifier.PackSelected);
-		var pending = DecodePending(modifier.PackPending);
-		var done = modifier.PackSetupDone.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-			.Select(s => ulong.TryParse(s, out var v) ? v : 0UL).ToHashSet();
+		var choicesLeft = DecodeCounts(modifier.PackChoicesLeft);
+		var legacyPending = DecodeCounts(modifier.PackPending, legacy: true);
+		var done = Split(modifier.PackSetupDone, ',').Select(s => ulong.TryParse(s, out var v) ? v : 0UL).ToHashSet();
+		// Saves from before the setup screen existed have no flags at all: treat them as done.
+		var preSetupSave = string.IsNullOrEmpty(modifier.PackSetupDone) && string.IsNullOrEmpty(modifier.PackChoicesLeft) && string.IsNullOrEmpty(modifier.PackPending);
 		foreach (var (playerId, charEntry, allMode, tokens) in DecodeSegments(modifier.PackConfig))
 		{
 			var registration = FindRegistration(charEntry);
@@ -137,83 +186,51 @@ public static class PackState
 			{
 				PlayerId = playerId,
 				Registration = registration,
+				RunSeed = runState.Rng.Seed,
 				AllMode = allMode,
 				SlotTokens = tokens.ToList(),
-				// Saves written before the setup-screen rework have no done flags: treat them as done.
-				SetupDone = done.Contains(playerId) || string.IsNullOrEmpty(modifier.PackPending) && string.IsNullOrEmpty(modifier.PackSetupDone),
+				SetupDone = done.Contains(playerId) || preSetupSave,
+				ChoicesLeft = choicesLeft.TryGetValue(playerId, out var n) ? n : legacyPending.GetValueOrDefault(playerId),
 			};
+			if (state.SetupDone)
+			{
+				state.ChoicesLeft = 0;
+			}
 			if (selected.TryGetValue(playerId, out var ids))
 			{
 				state.Selected.AddRange(ids.Select(id => registration.Packs.FirstOrDefault(p => p.Id == id)).OfType<PackDefinition>());
 			}
-			if (pending.TryGetValue(playerId, out var slots))
-			{
-				foreach (var slot in slots)
-				{
-					state.PendingChoices.Add(slot.Select(id => registration.Packs.FirstOrDefault(p => p.Id == id)).OfType<PackDefinition>().ToList());
-				}
-			}
 			entry.ByPlayer[playerId] = state;
 			Log.Info($"[PackmasterLib] Loaded packs for player {playerId}: [{string.Join(", ", state.Selected.Select(p => p.Id))}], "
-				+ $"{state.PendingChoices.Count} pending choice(s), setup {(state.SetupDone ? "done" : "pending")}.");
+				+ $"{state.ChoicesLeft} draft round(s) left, setup {(state.SetupDone ? "done" : "pending")}.");
 		}
 	}
 
-	/// <summary>The player picked <paramref name="pack"/> for the current choice slot.</summary>
+	/// <summary>The player picked <paramref name="pack"/> in the current draft round (not saved until confirmed).</summary>
 	public static void Pick(Player player, PackDefinition pack)
 	{
 		var state = Get(player) ?? throw new InvalidOperationException("No pack state for player.");
-		if (state.PendingChoices.Count == 0 || !state.PendingChoices[0].Contains(pack))
-		{
-			throw new InvalidOperationException($"'{pack.Id}' is not a candidate of the current choice.");
-		}
-		state.PendingChoices.RemoveAt(0);
-		state.Selected.Add(pack);
-		Log.Info($"[PackmasterLib] Player {player.NetId} picked pack '{pack.Id}' ({state.PendingChoices.Count} choice(s) left).");
-		Persist((RunState)player.RunState);
+		state.Pick(pack);
+		Log.Info($"[PackmasterLib] Player {player.NetId} picked pack '{pack.Id}' ({state.ChoicesLeft} round(s) left).");
 	}
 
-	/// <summary>The pack setup screen was confirmed.</summary>
+	/// <summary>The pack setup screen was confirmed: the pack pool becomes final and is saved.</summary>
 	public static void CompleteSetup(Player player)
 	{
 		var state = Get(player) ?? throw new InvalidOperationException("No pack state for player.");
-		if (state.PendingChoices.Count > 0)
-		{
-			ResolvePendingInternal(state, ((RunState)player.RunState).Rng.Niche, "Setup confirmed with open choices");
-		}
+		state.PickRemainingRandomly("Setup confirmed with open rounds");
 		state.SetupDone = true;
 		Log.Info($"[PackmasterLib] Player {player.NetId} pack setup complete: [{string.Join(", ", state.Selected.Select(p => p.Id))}]");
 		Persist((RunState)player.RunState);
 	}
 
-	/// <summary>Randomly resolve any remaining choice slots (tests / developer tools).</summary>
+	/// <summary>Randomly resolve any remaining rounds (tests / developer tools).</summary>
 	public static void ResolvePending(RunState runState, ulong playerId, string reason)
 	{
-		var state = Get(runState, playerId);
-		if (state == null)
-		{
-			return;
-		}
-		ResolvePendingInternal(state, runState.Rng.Niche, reason);
-		Persist(runState);
+		Get(runState, playerId)?.PickRemainingRandomly(reason);
 	}
 
-	private static void ResolvePendingInternal(PlayerPackState state, Rng rng, string reason)
-	{
-		while (state.PendingChoices.Count > 0)
-		{
-			var candidates = state.TakeNextChoice(rng);
-			if (candidates == null)
-			{
-				continue;
-			}
-			var pick = candidates[rng.NextInt(candidates.Count)];
-			state.Selected.Add(pick);
-			Log.Info($"[PackmasterLib] {reason}: randomly took '{pick.Id}'.");
-		}
-	}
-
-	/// <summary>Write the in-memory state back into the run modifier's saved strings.</summary>
+	/// <summary>Write the saved state into the run modifier. Unconfirmed drafts are not written.</summary>
 	public static void Persist(RunState runState)
 	{
 		var modifier = runState.Modifiers.OfType<PackRunModifier>().FirstOrDefault();
@@ -224,8 +241,8 @@ public static class PackState
 		var states = entry.ByPlayer.Values.ToList();
 		modifier.PackSelected = string.Join(";", states.Select(s =>
 			$"{s.PlayerId}:{PackRegistry.RegistrationKey(s.Registration)}:{string.Join(",", s.Selected.Select(p => p.Id))}"));
-		modifier.PackPending = string.Join(";", states.Where(s => s.PendingChoices.Count > 0).Select(s =>
-			$"{s.PlayerId}:{string.Join("/", s.PendingChoices.Select(c => string.Join("|", c.Select(p => p.Id))))}"));
+		modifier.PackChoicesLeft = string.Join(";", states.Select(s => $"{s.PlayerId}:{s.ChoicesLeft}"));
+		modifier.PackPending = "";
 		modifier.PackSetupDone = string.Join(",", states.Where(s => s.SetupDone).Select(s => s.PlayerId));
 	}
 
@@ -269,16 +286,16 @@ public static class PackState
 		return result;
 	}
 
-	/// <summary>"pid:a|b|c/d|e|f;..." → pid → [[a,b,c],[d,e,f]].</summary>
-	private static Dictionary<ulong, List<List<string>>> DecodePending(string value)
+	/// <summary>"pid:n;..." → pid → n. Legacy v0.2 "pid:a|b|c/d|e|f" → number of rounds.</summary>
+	private static Dictionary<ulong, int> DecodeCounts(string value, bool legacy = false)
 	{
-		var result = new Dictionary<ulong, List<List<string>>>();
+		var result = new Dictionary<ulong, int>();
 		foreach (var raw in Split(value, ';'))
 		{
 			var parts = raw.Split(':', 2);
 			if (parts.Length == 2 && ulong.TryParse(parts[0], out var pid))
 			{
-				result[pid] = Split(parts[1], '/').Select(slot => Split(slot, '|').ToList()).ToList();
+				result[pid] = legacy ? Split(parts[1], '/').Length : int.TryParse(parts[1], out var n) ? n : 0;
 			}
 		}
 		return result;

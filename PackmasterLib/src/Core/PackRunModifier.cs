@@ -22,9 +22,13 @@ public class PackRunModifier : ModifierModel
 	[SavedProperty]
 	public string PackSelected { get; set; } = "";
 
-	/// <summary>"playerId:a|b|c/d|e|f;..." — choice slots not picked yet, with their candidates.</summary>
+	/// <summary>Legacy (v0.2 saves): pre-rolled choice candidates. Read once for compatibility.</summary>
 	[SavedProperty]
 	public string PackPending { get; set; } = "";
+
+	/// <summary>"playerId:n;..." — draft rounds left (picks are only saved once the setup is confirmed).</summary>
+	[SavedProperty]
+	public string PackChoicesLeft { get; set; } = "";
 
 	/// <summary>"playerId,playerId" — players whose pack setup screen is done.</summary>
 	[SavedProperty]
@@ -32,7 +36,7 @@ public class PackRunModifier : ModifierModel
 
 	public override LocString Title => new LocString("gameplay_ui", "PACKMASTER_LIB.topbar.title");
 
-	public override LocString Description => new LocString("gameplay_ui", "PACKMASTER_LIB.neow.desc");
+	public override LocString Description => new LocString("gameplay_ui", "PACKMASTER_LIB.run.desc");
 
 	// Still listed in run history; reuse the vanilla Draft icon instead of the missing-icon fallback.
 	protected override string IconPath => MegaCrit.Sts2.Core.Helpers.ImageHelper.GetImagePath("packed/modifiers/draft.png");

@@ -83,25 +83,31 @@ public class PackTestConsoleCmd : AbstractConsoleCmd
 					// 3. count invariant: selected + choice-slots == slots - none - invalid
 					var expectedPending = slots.Count(t => t == PackSlotToken.Choice);
 					checks++;
-					if (result.PendingChoices.Count > expectedPending)
+					if (result.ChoiceSlots != expectedPending)
 					{
 						failures++;
-						report.AppendLine($"FAIL {charName}: pending choices {result.PendingChoices.Count} > {expectedPending}");
+						report.AppendLine($"FAIL {charName}: choice slots {result.ChoiceSlots} != {expectedPending}");
 					}
-					// 4. candidates are valid, unique and pack-preview-backed
-					foreach (var candidates in result.PendingChoices)
+					// 4. every draft offer is valid: unique, not owned, at most ChoiceSize
+					var offerSelected = result.Selected.ToList();
+					for (var round = 0; round < result.ChoiceSlots; round++)
 					{
+						var offer = PackResolver.Offer(registration, offerSelected, Array.Empty<PackDefinition>(), round, rng);
 						checks++;
-						if (candidates.Count < 1 || candidates.Count > 3 || candidates.Select(c => c.Id).Distinct().Count() != candidates.Count)
+						if (offer.Count > registration.ChoiceSize || offer.Distinct().Count() != offer.Count || offer.Any(offerSelected.Contains))
 						{
 							failures++;
-							report.AppendLine($"FAIL {charName}: bad candidate list {string.Join(",", candidates.Select(c => c.Id))}");
+							report.AppendLine($"FAIL {charName}: bad offer {string.Join(",", offer.Select(c => c.Id))}");
+						}
+						if (offer.Count > 0)
+						{
+							offerSelected.Add(offer[0]);
 						}
 					}
 					// 5. all-packs mode
 					var allResult = PackResolver.Resolve(registration, slots, allMode: true, rng);
 					checks++;
-					if (allResult.Selected.Count != registration.Packs.Count || allResult.PendingChoices.Count != 0)
+					if (allResult.Selected.Count != registration.Packs.Count || allResult.ChoiceSlots != 0)
 					{
 						failures++;
 						report.AppendLine($"FAIL {charName}: all-packs mode wrong ({allResult.Selected.Count}/{registration.Packs.Count})");
@@ -144,7 +150,7 @@ public class PackTestConsoleCmd : AbstractConsoleCmd
 				continue;
 			}
 			var ids = state.SelectedCardIds();
-			report.AppendLine($"{p.Character.Id.Entry}: selected=[{string.Join(", ", state.Selected.Select(x => x.Id))}] pending={state.PendingChoices.Count} cards={ids.Count}");
+			report.AppendLine($"{p.Character.Id.Entry}: selected=[{string.Join(", ", state.Selected.Select(x => x.Id))}] rounds left={state.ChoicesLeft} setup={(state.SetupDone ? "done" : "pending")} cards={ids.Count}");
 			// Every card in the pool of this character must belong to exactly one selected pack or be a preview/extra.
 			var ownPoolCards = p.Character.CardPool.AllCards.Where(c => PackRegistry.GetPackOf(c) != null).ToList();
 			foreach (var card in ownPoolCards)

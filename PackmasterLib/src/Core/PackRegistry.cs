@@ -65,6 +65,15 @@ public static class PackRegistry
 		}
 	}
 
+	/// <summary>Remove a registration (tests only).</summary>
+	internal static bool Unregister(PackCharacterRegistration registration)
+	{
+		lock (Lock)
+		{
+			return Entries.RemoveAll(e => e.Registration == registration) > 0;
+		}
+	}
+
 	private static void AddCardType(Entry entry, Type cardType, PackDefinition? pack)
 	{
 		if (!typeof(CardModel).IsAssignableFrom(cardType))

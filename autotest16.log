@@ -1,0 +1,347 @@
+MegaDot v4.5.1.m.14.mono.custom_build - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: Intel - Intel(R) Arc(TM) B370 GPU
+WARNING: PSO caching is not implemented yet in the Direct3D 12 driver.
+   at: pipeline_cache_create (drivers/d3d12/rendering_device_driver_d3d12.cpp:4469)
+
+FMOD Sound System: Successfully initialized
+[INFO] Found release_info.json at: D:\SteamLibrary\steamapps\common\Slay the Spire 2\release_info.json
+[INFO] [Sentry.NET] Initialized: env=unknown, release=v0.111.0
+[INFO] Steam initialization skipped (editor mode). Use --force-steam to enable.
+[INFO] Registered 22 migrations
+[INFO] Current save versions: PrefsSave v2; ProfileSave v2; SerializableProgress v24; RunHistory v10; SerializableRun v20; SettingsSave v8
+[INFO] Found mod manifest file D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\PackmasterLib\PackmasterLib.json
+[INFO] Found mod manifest file D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\VanillaPacks\VanillaPacks.json
+[INFO] Loading assembly DLL D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\PackmasterLib\PackmasterLib.dll
+[INFO] Calling initializer method of type Sts2Packmaster.Lib.PackmasterLibEntry for PackmasterLib, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+[INFO] [PackmasterLib] initialized (harmony patched, loc injected, API ready).
+[INFO] Finished mod initialization for 'Packmaster Lib' (PackmasterLib).
+[INFO] Loading assembly DLL D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\VanillaPacks\VanillaPacks.dll
+[INFO] Calling initializer method of type Sts2Packmaster.VanillaPacks.VanillaPacksEntry for VanillaPacks, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+[INFO] [PackmasterLib] Registered pack character 'VanillaSlinger' with 11 packs.
+[INFO] [VanillaPacks] initialized.
+[INFO] Finished mod initialization for 'Vanilla Packs (Packmaster Demo)' (VanillaPacks).
+[INFO]  --- RUNNING MODDED! --- Loaded 2 mods (2 total)
+[WARN] Asset not cached: res://scenes/debug/dev_console.tscn
+[WARN] Asset not cached: res://scenes/cards/card.tscn
+[WARN] Asset not cached: res://scenes/cards/holders/grid_card_holder.tscn
+[INFO] AtlasManager: Loaded ui_atlas with 102 sprites
+[INFO] AtlasManager: Loaded compressed with 45 sprites
+[INFO] Loading locale path=res://localization/eng
+[INFO] Loading locale path=res://localization/zhs
+[INFO] [PackmasterLib] Injected 100 loc entries for language 'zhs'.
+[INFO] ModelIdSerializationCache initialized. Categories: 20 Entries: 1674 Epochs: 57 Properties: 52 Hash: 3561245630
+[WARN] Tried to read file at user://default/1/leaderboards.save, but there was no such file
+[INFO] Profile-scoped data path initialized: user://default/1/modded/profile1
+[INFO] [Sentry.NET] Steam not initialized
+[INFO] [Sentry.NET] Shutting down because event reporting is disabled.
+[INFO] [Sentry.NET] Shutting down
+[INFO] AtlasManager: Loaded controller_atlas with 112 sprites
+[INFO] MuteInBackground: FocusIn received [tween=False, msSinceFocusOut=4386, windowFocused=True]
+[INFO] Applying display settings...
+  FULLSCREEN: True
+  ASPECT_RATIO: (SixteenByNine)
+  TARGET_DISPLAY: (0)
+  WINDOW_SIZE: (1920, 1080)
+  POSITION: (-1, -1)
+[INFO] [Display] Min size: (64, 64) Max size: (16384, 16384)
+[INFO] [Display] Setting FULLSCREEN on Display: 1 of 1
+[INFO] Window changed! New size: (1918, 1080)
+[INFO] Window changed! New size: (1944, 1151)
+[INFO] Window changed! New size: (2880, 1800)
+[INFO] VSync: Adaptive
+[WARN] Cannot initialize Steam Input because Steamworks is not initialized. Falling back to standard input.
+[INFO] === Godot OS Debug Information ===
+Timestamp: 10/08/2026 00:05:46
+OS: Windows
+OS Version: 10.0.26200
+Distribution Name: Windows
+Device Model: REDMI Book Pro 14 2026
+Is Debug Build: False
+Is Sandboxed: False
+Executable Path: D:/SteamLibrary/steamapps/common/Slay the Spire 2/SlayTheSpire2.exe
+Data Directory: C:/Users/Moon/AppData/Roaming
+User Data Directory: C:/Users/Moon/AppData/Roaming/SlayTheSpire2
+Command Line Args: --packmastertest --force-steam=off
+User Command Line Args: 
+OS Locale: zh_CN
+OS Language: zh
+Game Locale: zh_CN
+Is UserFS Persistent: True
+Is Stdout Verbose: False
+Is Low Processor Usage Mode: False
+Architecture: x86_64
+Engine Version: 4.5.1-m.14 (custom_build)
+Is Editor: False
+Release Version: v0.111.0
+Release Commit: 41cef1ea
+Release Date: 08/14/2026 00:39:18
+Processor Count: 12
+Processor Name: Intel(R) Core(TM) Ultra 5 338H
+Main assembly hash: 222455745
+Rendering device name: Intel(R) Arc(TM) B370 GPU
+  Graphics adapter 0: Intel(R) Arc(TM) B370 GPU
+  version: 32.0.101.0
+  Graphics adapter 1: Intel(R) Arc(TM) B370 GPU
+  version: 32.0.101.0
+  Graphics adapter 2: Intel(R) Arc(TM) B370 GPU
+  version: 32.0.101.0
+  Graphics adapter 3: Microsoft Basic Render Driver
+  version: 10.0.26100.0
+Screen info (primary 0):
+  Index 0: Size: (2880, 1800) Orientation: Landscape Scale: 1 DPI: 192 Refresh Rate: 120
+Video Memory Used: 0.0B
+Memory Info:
+  physical: 31.5GB
+  free: 15.6GB
+  available: 52.0GB
+  stack: 8.0MB
+  Static Memory Usage: 0.0B
+  Static Memory Peak Usage: 0.0B
+Disk Info:
+  Index 0: Name: C:\ Type: Fixed Format: NTFS Available: 107.6GB Total Free: 107.6GB Total Size: 300.0GB
+  Index 1: Name: D:\ Type: Fixed Format: NTFS Available: 397.2GB Total Free: 397.2GB Total Size: 0.6TB
+Important Environment Variables:
+  PATH: %USERPROFILE%\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;%USERPROFILE%\bin;D:\env\Eclipse Adoptium\jdk-8.0.504.1-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft VS Code\bin;C:\TDM-GCC-64\bin;C:\Program Files\Git\cmd;C:\Program Files\Bandizip\Bandizip;D:\env\nvm;D:\env\nodejs;C:\Program Files\GitHub CLI;%USERPROFILE%\.local\bin;%USERPROFILE%\AppData\Local\pnpm\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%USERPROFILE%\AppData\Local\Programs\DockerDesktop\resources\bin;%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\Kitware.CMake_Microsoft.Winget.Source_8wekyb3d8bbwe\cmake-4.4.0-windows-x86_64\bin;%USERPROFILE%\.dotnet\tools;%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools;D:\env\dotnet-sdk-8;D:\env\flutter\bin;%USERPROFILE%\AppData\Local\Programs\MiKTeX\miktex\bin\x64;%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;D:\env\cargo\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+  GODOT_ROOT_DIR: 
+  HOME: %USERPROFILE%
+  DYLD_LIBRARY_PATH: 
+  LD_LIBRARY_PATH: 
+
+[INFO] Preloading 'IntroLogo' assets... count=3 vfx=0
+[INFO] Preloading 'IntroLogo' Complete: assets=3 time_elapsed=85ms
+[INFO] Preloading 'MainMenuEssentials' assets... count=5 vfx=0
+[INFO] Preloading 'MainMenuEssentials' Complete: assets=5 time_elapsed=178ms
+[WARN] Asset not cached: res://debug_audio/SOTE_Logo_Echoing_ShortTail.mp3
+[INFO] [PackmasterLib] Settings group added.
+[INFO] [PackmasterLib] Character select panel attached.
+[INFO] [Startup] Time to main menu (Godot ticks): 13824ms
+[WARN] Asset not cached: res://images/ui/top_panel/character_icon_ironclad.png
+[INFO] [Startup] Time to main menu: 13,917ms
+[INFO] [Startup] Resource stats (main menu loaded (essential)): StaticMem=0B, VRAM=365MB, Objects=8,894, Resources=621, Nodes=1,801, CachedAssets=12
+[INFO] AtlasManager: Loaded epoch_atlas with 57 sprites
+[INFO] AtlasManager: Loaded relic_atlas with 346 sprites
+[INFO] AtlasManager: Loaded relic_outline_atlas with 346 sprites
+[INFO] AtlasManager: Loaded power_atlas with 271 sprites
+[INFO] AtlasManager: Loaded card_atlas with 626 sprites
+[INFO] AtlasManager: Loaded potion_atlas with 64 sprites
+[INFO] AtlasManager: Loaded potion_outline_atlas with 64 sprites
+[INFO] AtlasManager: Loaded stats_screen_atlas with 16 sprites
+[INFO] AtlasManager: Loaded intent_atlas with 310 sprites
+[INFO] AtlasManager: Loaded era_atlas with 27 sprites
+[INFO] Unloading 5 missed cache assets
+[INFO] [PackmasterLib] Registered pack character 'Ironclad' with 4 packs.
+[INFO] Preloading 'Common' assets... count=698 vfx=94
+[INFO] [Startup] Resource stats (main menu loaded (complete)): StaticMem=0B, VRAM=583.9MB, Objects=8,857, Resources=619, Nodes=1,799, CachedAssets=5
+[INFO] Preloading 'Common' Complete: assets=792 time_elapsed=3,628ms
+[INFO] Max ascension changed to 0
+[INFO] Max ascension changed to 0
+[INFO] [StartRunLobby (1)] CHARACTER.IRONCLAD has not revealed the Ascension Epoch, disabling Ascension.
+[INFO] Max ascension changed to 0
+[INFO] [StartRunLobby (1)] CHARACTER.VANILLA_SLINGER has no progress, disabling Ascension.
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_1_charselect.png
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_2_settings.png
+[INFO] Wrote 3581 bytes to path=user://default/1/settings.save save_dir=user://default/1
+[INFO] Wrote 365 bytes to path=user://default/1/modded/profile1/saves/prefs.save save_dir=user://default/1
+[INFO] Max ascension changed to 0
+[INFO] Max ascension changed to 0
+[INFO] [StartRunLobby (1)] CHARACTER.IRONCLAD has not revealed the Ascension Epoch, disabling Ascension.
+[INFO] Max ascension changed to 0
+[INFO] [StartRunLobby (1)] CHARACTER.VANILLA_SLINGER has no progress, disabling Ascension.
+[INFO] [StartRunLobby (1)] Local player 1 is ready
+[INFO] Embarking on a singleplayer VANILLA_SLINGER run. Ascension: 0 Seed: 4S76TJL5FS9M
+[INFO] [PackmasterLib] Attaching pack setup for 1 player(s). Config: 1:VANILLA_SLINGER:0:random,random,random,random,choice,choice,choice
+[INFO] [PackmasterLib]   slot 1: random -> 'starlight'
+[INFO] [PackmasterLib]   slot 2: random -> 'iron_wall'
+[INFO] [PackmasterLib]   slot 3: random -> 'bone_friends'
+[INFO] [PackmasterLib]   slot 4: random -> 'chaos'
+[INFO] [PackmasterLib]   slot 5: choice
+[INFO] [PackmasterLib]   slot 6: choice
+[INFO] [PackmasterLib]   slot 7: choice
+[INFO] [PackmasterLib] VANILLA_SLINGER packs resolved: [starlight, iron_wall, bone_friends, chaos] + 3 draft round(s)
+[INFO] First run ever. Presenting rooms in a set order.
+[INFO] Preloading 'characters=VANILLA_SLINGER' assets... count=37 vfx=6
+[INFO] Preloading 'characters=VANILLA_SLINGER' Complete: assets=43 time_elapsed=283ms
+[INFO] Preloading 'Act=OVERGROWTH' assets... count=8 vfx=0
+[INFO] Preloading 'Act=OVERGROWTH' Complete: assets=8 time_elapsed=53ms
+[INFO] [PackmasterLib] Settings group added.
+[INFO] Preloading 'Act=OVERGROWTH' assets... count=0 vfx=0
+[INFO] Preloading 'Act=OVERGROWTH' Complete: assets=0 time_elapsed=29ms
+[INFO] Wrote 2873 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
+[INFO] Wrote 40843 bytes to path=user://default/1/modded/profile1/saves/current_run.save save_dir=user://default/1
+[INFO] Preloading 'Event Room' assets... count=2 vfx=0
+[INFO] Preloading 'Event Room' Complete: assets=2 time_elapsed=150ms
+[INFO] [PackmasterLib] Pack setup screen opened (4 packs, 3 draft round(s)).
+[WARN] Asset not cached: res://scenes/events/ancient_dialogue_line.tscn
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_3_setup_draft.png
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_4_setup_hover.png
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_5_setup_hidden_neow.png
+[INFO] [PackmasterLib] Player 1 picked pack 'poison' (2 round(s) left).
+[INFO] [PackmasterLib] Loaded packs for player 1: [starlight, iron_wall, bone_friends, chaos], 3 draft round(s) left, setup pending.
+[INFO] [PackmasterLib] Pack setup screen opened (4 packs, 3 draft round(s)).
+[INFO] [PackmasterLib] Player 1 picked pack 'poison' (2 round(s) left).
+[INFO] [PackmasterLib] Player 1 picked pack 'phantom_blades' (1 round(s) left).
+[INFO] [PackmasterLib] Player 1 picked pack 'pain' (0 round(s) left).
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_6_setup_confirm.png
+[INFO] [PackmasterLib] Player 1 pack setup complete: [starlight, iron_wall, bone_friends, chaos, poison, phantom_blades, pain]
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_7_neow.png
+[WARN] Asset not cached: res://scenes/screens/card_library/card_library.tscn
+[INFO] [PackmasterLib] Card library: injected controls for 1 pack character(s).
+[WARN] Asset not cached: res://scenes/screens/card_library/card_library_stats.tscn
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_8_library_filter.png
+[WARN] Asset not cached: res://images/packed/sprite_fonts/star_icon.png
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_9_pool_view.png
+[INFO] Card rarity: Rolled 0.421085, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.099194214, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.2822563, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.7296377, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.5281332, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.32353857, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.7682387, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.7391168, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.9217709, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.5147086, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.8231344, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.19978228, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.95544934, need < 0.099999994 for rare (offset = 0.06999999)
+[INFO] Card rarity: Rolled 0.34565023, need < 0.10999999 for rare (offset = 0.07999999)
+[INFO] Card rarity: Rolled 0.3940273, need < 0.11999999 for rare (offset = 0.08999999)
+[INFO] Card rarity: Rolled 0.1580403, need < 0.12999998 for rare (offset = 0.09999999)
+[INFO] Card rarity: Rolled 0.46469277, need < 0.13999999 for rare (offset = 0.109999985)
+[INFO] Card rarity: Rolled 0.2768772, need < 0.14999998 for rare (offset = 0.11999998)
+[INFO] Card rarity: Rolled 0.62667674, need < 0.15999998 for rare (offset = 0.12999998)
+[INFO] Card rarity: Rolled 0.49306744, need < 0.16999999 for rare (offset = 0.13999999)
+[INFO] Card rarity: Rolled 0.5318229, need < 0.17999999 for rare (offset = 0.14999999)
+[INFO] Card rarity: Rolled 0.94610786, need < 0.19 for rare (offset = 0.16)
+[INFO] Card rarity: Rolled 0.64812523, need < 0.2 for rare (offset = 0.17)
+[INFO] Card rarity: Rolled 0.46485612, need < 0.21000001 for rare (offset = 0.18)
+[INFO] Card rarity: Rolled 0.90678716, need < 0.22000001 for rare (offset = 0.19000001)
+[INFO] Card rarity: Rolled 0.35178986, need < 0.23000002 for rare (offset = 0.20000002)
+[INFO] Card rarity: Rolled 0.70647335, need < 0.24000002 for rare (offset = 0.21000002)
+[INFO] Card rarity: Rolled 0.41983452, need < 0.25000003 for rare (offset = 0.22000003)
+[INFO] Card rarity: Rolled 0.6966082, need < 0.26000002 for rare (offset = 0.23000003)
+[INFO] Card rarity: Rolled 0.15004839, need < 0.27000004 for rare (offset = 0.24000004)
+[INFO] Card rarity: Rolled 0.62453127, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.5379847, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.22697952, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.5898347, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.33774757, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.036875367, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.78861207, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.9273939, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.12216192, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.77838457, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.8044722, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.49786586, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.38231307, need < 0.099999994 for rare (offset = 0.06999999)
+[INFO] Card rarity: Rolled 0.30345294, need < 0.10999999 for rare (offset = 0.07999999)
+[INFO] Card rarity: Rolled 0.29035538, need < 0.11999999 for rare (offset = 0.08999999)
+[INFO] Card rarity: Rolled 0.12868908, need < 0.12999998 for rare (offset = 0.09999999)
+[INFO] Card rarity: Rolled 0.06412629, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.15528859, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.92042905, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.73959535, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.6001287, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.45450562, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.110325694, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.13205117, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.56928796, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.7583103, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.95591164, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.7422862, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.17783365, need < 0.099999994 for rare (offset = 0.06999999)
+[INFO] Card rarity: Rolled 0.43946344, need < 0.10999999 for rare (offset = 0.07999999)
+[INFO] [PackmasterLib] Loaded packs for player 1: [starlight, iron_wall, bone_friends, chaos, poison, phantom_blades, pain], 0 draft round(s) left, setup done.
+[INFO] [PackmasterLib-AutoTest] RESULT: 618 checks, 0 failures
+PASS: VanillaSlinger in ModelDb.AllCharacters
+PASS: 11 packs registered (got 11)
+PASS: all 11 packs have STS1 depth (10+ cards, 2+ of each type/rarity) and author MegaCrit
+PASS: no card is in two packs of the same character
+PASS: own pool = 2 starters + 11 previews
+PASS: vanilla pack card keeps its original pool
+PASS: outside a run the pool = all unlocked packs, no previews
+PASS: Dusty Tome has an Ancient card to give
+PASS: library UI strings present in all 16 languages, demo pack names zh/en with English fallback
+PASS: non-English languages are translated, not English copies
+PASS: resolver invariants over 60 seeds x 3 configs
+PASS: all packs unlocked by default
+PASS: IsPackUnlocked: a locked pack is never offered
+PASS: dev setting 'unlock all packs' overrides IsPackUnlocked
+PASS: multiple None off: extra None slots roll random
+PASS: multiple None on: every None slot stays empty
+PASS: default config (4 random + 3 drafts, 11 packs): every draft round offers 3 packs
+PASS: default rule: the previous round's leftovers sit the next round out
+PASS: STS1 rule (dev setting): unpicked packs never return while fresh ones remain
+PASS: weights: 0 never drawn, 9:1 ratio respected (218/1782)
+PASS: weight 0 still drawn when nothing else is left
+PASS: custom IPackDrawer: the left pack of every offer is the guaranteed one
+PASS: shared: second character registered
+PASS: shared: a card of a shared pack belongs to that pack for both characters
+PASS: shared: each character draws from its own pack list
+PASS: shared: pack cards reach the second character's pool
+PASS: shared: pack card list unchanged for the first character
+PASS: shared: test registration removed
+PASS: main menu loaded
+PASS: pack config panel on character select
+PASS: panel labels are MegaLabels (game font substitution)
+PASS: settings group: 5 options incl. the STS1 drafting dev option (got 5)
+PASS: settings toggle writes PackmasterSettings.ExcludeAllUnpicked
+PASS: embarking opens the pack setup screen in the first room
+PASS: 4 random packs on top, first draft offers 3
+PASS: the first room is Neow
+PASS: back button hides the setup screen
+PASS: choosing a Neow option before confirming brings the setup screen back instead
+PASS: Esc is bound to the setup screen's back button (not the pause menu)
+PASS: other hotkeys (deck) are blocked while the screen is up
+PASS: while hidden, the deck/map hotkeys work again
+PASS: an unconfirmed pick is not written to the save
+PASS: round 2 does not repeat round 1's packs
+PASS: after save/load the setup restarts with the same first offer
+PASS: the same pick leads to the same second offer
+PASS: draft 2 offers 3 packs
+PASS: draft 3 offers 3 packs
+PASS: 7 distinct packs, confirm step
+PASS: confirm saves the 7 packs and closes the screen
+PASS: Neow keeps its normal rewards
+PASS: pack sort/filter hidden until a pack character's tab is selected
+PASS: pack sort/filter shown for the pack character
+PASS: filter lists 'all packs' + this character's 11 packs (got 12)
+PASS: selecting 'poison' shows exactly its 12 cards
+PASS: 'all packs' clears the filter
+PASS: packs button in the top-right group
+PASS: clicking the button opens the pool view
+PASS: in-run pool = selected packs only
+PASS: 60 combat reward cards, all from the selected packs
+PASS: transforms stay within the packs
+PASS: pack name '星辰之力' on the frame's top edge (y -218)
+PASS: one-frame mode uses the pack character's frame
+PASS: a confirmed setup survives save/load
+
+[INFO] NGame.Quit called
+[INFO] Wrote 3581 bytes to path=user://default/1/settings.save save_dir=user://default/1
+[INFO] Wrote 365 bytes to path=user://default/1/modded/profile1/saves/prefs.save save_dir=user://default/1
+[INFO] Wrote 2899 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
+[INFO] Wrote 52 bytes to path=user://default/1/modded/profile.save save_dir=user://default/1
+FMOD Sound System: System released
+WARNING: 2003 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2678)
+ERROR: 1 RID allocations of type 'N26RendererEnvironmentStorage11EnvironmentE' were leaked at exit.
+ERROR: 7 shaders of type CanvasShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1044)
+ERROR: 49 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 1 shaders of type ParticlesShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1044)
+ERROR: 49 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 67 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 8 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 169 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 127 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:6981)
+WARNING: 334 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:7191)
+ERROR: 878 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 8 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 3 RID allocations of type 'PN18TextServerAdvanced27FontAdvancedLinkedVariationE' were leaked at exit.
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2514)
+ERROR: 230 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:795)

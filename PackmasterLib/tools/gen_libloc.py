@@ -1,0 +1,357 @@
+# Generates PackmasterLib/src/Core/LibLoc.cs: every library UI string in all 16 vanilla languages.
+# Run: python tools/gen_libloc.py   (from PackmasterLib/)
+import os
+
+KEYS = [
+    "panel.title", "allpacks", "count", "slot", "slot.random", "slot.choice", "slot.none",
+    "sort.pack", "filter.label", "filter.all", "preview.type",
+    "setup.chosen", "setup.choose", "setup.ratings", "setup.author", "setup.confirm_hint", "setup.hidden_hint",
+    "summary.title", "summary.offense", "summary.defense", "summary.support", "summary.frontload",
+    "summary.scaling", "summary.tags", "summary.separator", "summary.credits",
+    "topbar.title", "topbar.desc", "topbar.pool", "run.desc",
+    "settings.group", "settings.expand", "settings.collapse", "settings.oneframe", "settings.multinone",
+    "settings.unlockall", "settings.autochoice", "settings.excludeall",
+    "tag.None", "tag.Strength", "tag.Exhaust", "tag.Orbs", "tag.Discard", "tag.Debuffs", "tag.Attacks",
+    "tag.Tokens", "tag.Powers", "tag.Block", "tag.Poison", "tag.Shivs", "tag.Doom", "tag.Summon",
+    "tag.Stars", "tag.Forge", "tag.SelfDamage", "tag.Draw", "tag.Energy", "tag.Generation",
+    "pool.tip",
+]
+
+L = {}
+
+L["eng"] = [
+    "Packs", "All Packs", "Pack slots", "Slot {Num}", "Random", "Choice of 3", "None",
+    "Pack", "Pack filter", "All packs", "Pack",
+    "Current Packs", "Draft a Pack!", "Show pack ratings", "By: {0}",
+    "These are the Packs available to you this run. Click Confirm to proceed.",
+    "Pack setup is not finished. Press Back to return to it.",
+    "Pack Summary", "Offense: {0}", "Defense: {0}", "Support: {0}", "Frontload: {0}",
+    "Scaling: {0}", "Tags: {0}", ", ", "Additional Credits",
+    "Packs", "{0}\n\nClick to view the card pool for this run.", "Cards available in this run",
+    "The card packs of this run.",
+    "Packmaster", "Expand", "Collapse", "One frame for all: pack cards use the pack character's card frame",
+    "Allow multiple \"None\" slots (risky with tiny card pools)",
+    "[Dev] Unlock every pack (ignore character mods' unlock rules)",
+    "[Dev] Skip pack setup: resolve \"Choice of 3\" slots randomly",
+    "[Dev] STS1 drafting: unpicked packs never return until the pool runs out",
+    "None", "Strength", "Exhaust", "Orbs", "Discard", "Debuffs", "Attacks", "Tokens", "Powers", "Block",
+    "Poison", "Shivs", "Doom", "Summon", "Stars", "Forge", "Self-damage", "Draw", "Energy", "Card generation",
+    "View the pack character's cards",
+]
+
+L["zhs"] = [
+    "卡包配置", "全卡包", "卡包数量", "槽位 {Num}", "随机", "三选一", "无",
+    "卡包", "筛选卡包", "全部卡包", "卡包",
+    "已选定卡包：", "选择一组卡包来将其加入本局游戏的牌池！", "显示卡包评分", "作者：{0}",
+    "这些卡包中的牌将会出现在本局游戏中，点击确认继续。",
+    "卡包选择尚未完成。点击返回按钮回到选包界面。",
+    "卡包概要", "伤害：{0}", "防御：{0}", "辅助：{0}", "即效：{0}",
+    "成长：{0}", "标签：{0}", "、", "额外标注",
+    "本局卡包", "{0}\n\n点击查看本局牌池。", "本局游戏作为卡牌奖励出现的牌",
+    "本局游戏所用的卡包。",
+    "卡包大师", "展开", "折叠", "统一卡框：卡包中的牌使用卡包角色的卡框",
+    "允许多个“无”槽位（卡池过小有风险）",
+    "[开发] 解锁全部卡包（忽略角色mod的解锁规则）",
+    "[开发] 跳过选包：“三选一”槽位开局直接随机",
+    "[开发] 1代选包规则：未选的卡包在耗尽前不再出现",
+    "无", "力量", "消耗", "充能球", "弃牌", "负面效果", "攻击", "衍生牌", "能力", "格挡",
+    "中毒", "小刀", "灾厄", "召唤", "星辉", "铸造", "自伤", "抽牌", "能量", "生成卡牌",
+    "查看卡包角色的卡牌",
+]
+
+L["zht"] = [
+    "卡包配置", "全卡包", "卡包數量", "槽位 {Num}", "隨機", "三選一", "無",
+    "卡包", "篩選卡包", "全部卡包", "卡包",
+    "已選定卡包：", "選擇一組卡包來將其加入本局遊戲的牌池！", "顯示卡包評分", "作者：{0}",
+    "這些卡包中的牌將會出現在本局遊戲中，點擊確認繼續。",
+    "卡包選擇尚未完成。點擊返回按鈕回到選包介面。",
+    "卡包概要", "傷害：{0}", "防禦：{0}", "輔助：{0}", "即效：{0}",
+    "成長：{0}", "標籤：{0}", "、", "額外標註",
+    "本局卡包", "{0}\n\n點擊查看本局牌池。", "本局遊戲作為卡牌獎勵出現的牌",
+    "本局遊戲所用的卡包。",
+    "卡包大師", "展開", "摺疊", "統一卡框：卡包中的牌使用卡包角色的卡框",
+    "允許多個「無」槽位（卡池過小有風險）",
+    "[開發] 解鎖全部卡包（忽略角色mod的解鎖規則）",
+    "[開發] 跳過選包：「三選一」槽位開局直接隨機",
+    "[開發] 1代選包規則：未選的卡包在耗盡前不再出現",
+    "無", "力量", "消耗", "充能球", "棄牌", "負面效果", "攻擊", "衍生牌", "能力", "格擋",
+    "中毒", "小刀", "災厄", "召喚", "星輝", "鑄造", "自傷", "抽牌", "能量", "生成卡牌",
+    "查看卡包角色的卡牌",
+]
+
+L["jpn"] = [
+    "カードパック設定", "全パック", "パック数", "スロット {Num}", "ランダム", "3択", "なし",
+    "パック", "パック絞り込み", "すべてのパック", "パック",
+    "選択済みのパック", "パックを1つ選ぼう！", "パック評価を表示", "作者：{0}",
+    "このランで使用できるパックです。確定を押して進もう。",
+    "パック選択が終わっていません。戻るボタンで選択画面に戻れます。",
+    "パック概要", "攻撃：{0}", "防御：{0}", "サポート：{0}", "即効性：{0}",
+    "成長性：{0}", "タグ：{0}", "、", "追加クレジット",
+    "このランのパック", "{0}\n\nクリックでこのランのカードプールを表示。", "このランで報酬に出るカード",
+    "このランで使用するカードパック。",
+    "パックマスター", "展開", "折りたたむ", "フレーム統一：パックのカードにパックキャラのカード枠を使う",
+    "「なし」スロットの複数選択を許可（プールが小さいと危険）",
+    "[開発] 全パックを解放（キャラMODの解放条件を無視）",
+    "[開発] パック選択をスキップ：3択スロットを開始時にランダム決定",
+    "[開発] 初代のドラフト：選ばなかったパックはプールが尽きるまで再登場しない",
+    "なし", "筋力", "廃棄", "オーブ", "捨て札", "デバフ", "アタック", "トークン", "パワー", "ブロック",
+    "毒", "ナイフ", "破滅", "召喚", "星", "鍛造", "自傷", "ドロー", "エナジー", "カード生成",
+    "パックキャラクターのカードを見る",
+]
+
+L["kor"] = [
+    "카드팩 설정", "전체 카드팩", "카드팩 수", "슬롯 {Num}", "무작위", "3중 선택", "없음",
+    "카드팩", "카드팩 필터", "모든 카드팩", "카드팩",
+    "선택된 카드팩", "카드팩을 하나 고르세요!", "카드팩 평점 표시", "제작: {0}",
+    "이번 런에서 사용할 카드팩입니다. 확인을 눌러 진행하세요.",
+    "카드팩 선택이 끝나지 않았습니다. 뒤로 버튼으로 돌아가세요.",
+    "카드팩 요약", "공격: {0}", "방어: {0}", "지원: {0}", "즉효성: {0}",
+    "성장성: {0}", "태그: {0}", ", ", "추가 크레딧",
+    "이번 런의 카드팩", "{0}\n\n클릭하여 이번 런의 카드 풀을 확인합니다.", "이번 런에서 보상으로 나오는 카드",
+    "이번 런에서 사용하는 카드팩.",
+    "팩마스터", "펼치기", "접기", "프레임 통일: 카드팩 카드에 카드팩 캐릭터의 프레임 사용",
+    "\"없음\" 슬롯 여러 개 허용 (카드 풀이 작으면 위험)",
+    "[개발] 모든 카드팩 해금 (캐릭터 모드의 해금 규칙 무시)",
+    "[개발] 카드팩 선택 건너뛰기: 3중 선택 슬롯을 시작 시 무작위로 결정",
+    "[개발] 1편 방식: 고르지 않은 카드팩은 풀이 바닥날 때까지 다시 나오지 않음",
+    "없음", "힘", "소멸", "구체", "버리기", "디버프", "공격", "토큰", "파워", "방어도",
+    "중독", "단도", "파멸", "소환", "별", "단조", "자해", "드로우", "에너지", "카드 생성",
+    "카드팩 캐릭터의 카드 보기",
+]
+
+L["deu"] = [
+    "Kartenpacks", "Alle Packs", "Packanzahl", "Platz {Num}", "Zufällig", "3 zur Wahl", "Keine",
+    "Pack", "Packfilter", "Alle Packs", "Pack",
+    "Aktuelle Packs", "Wähle ein Pack!", "Pack-Bewertungen zeigen", "Von: {0}",
+    "Diese Packs stehen dir in diesem Durchlauf zur Verfügung. Bestätige, um fortzufahren.",
+    "Die Packwahl ist noch nicht fertig. Mit Zurück kehrst du dorthin zurück.",
+    "Pack-Übersicht", "Angriff: {0}", "Verteidigung: {0}", "Unterstützung: {0}", "Sofortwirkung: {0}",
+    "Skalierung: {0}", "Tags: {0}", ", ", "Weitere Credits",
+    "Packs", "{0}\n\nKlicken, um den Kartenpool dieses Durchlaufs anzusehen.", "In diesem Durchlauf verfügbare Karten",
+    "Die Kartenpacks dieses Durchlaufs.",
+    "Packmaster", "Aufklappen", "Zuklappen", "Einheitlicher Rahmen: Packkarten nutzen den Rahmen des Pack-Charakters",
+    "Mehrere \"Keine\"-Plätze erlauben (riskant bei kleinem Kartenpool)",
+    "[Dev] Alle Packs freischalten (Freischaltregeln der Charakter-Mods ignorieren)",
+    "[Dev] Packwahl überspringen: \"3 zur Wahl\"-Plätze zufällig festlegen",
+    "[Dev] STS1-Draft: nicht gewählte Packs kehren erst zurück, wenn der Pool erschöpft ist",
+    "Keine", "Stärke", "Verbrauchen", "Kugeln", "Abwerfen", "Debuffs", "Angriffe", "Token", "Kräfte", "Block",
+    "Gift", "Shivs", "Verhängnis", "Beschwören", "Sterne", "Schmieden", "Selbstschaden", "Ziehen", "Energie", "Kartenerzeugung",
+    "Karten des Pack-Charakters ansehen",
+]
+
+L["fra"] = [
+    "Paquets", "Tous", "Nombre de paquets", "Emplacement {Num}", "Aléatoire", "Choix de 3", "Aucun",
+    "Paquet", "Filtre de paquet", "Tous les paquets", "Paquet",
+    "Paquets actuels", "Choisissez un paquet !", "Afficher les notes", "Par : {0}",
+    "Voici les paquets disponibles pour cette partie. Cliquez sur Confirmer pour continuer.",
+    "La sélection des paquets n'est pas terminée. Appuyez sur Retour pour y revenir.",
+    "Résumé du paquet", "Attaque : {0}", "Défense : {0}", "Soutien : {0}", "Effet immédiat : {0}",
+    "Montée en puissance : {0}", "Étiquettes : {0}", ", ", "Crédits supplémentaires",
+    "Paquets", "{0}\n\nCliquez pour voir le pool de cartes de cette partie.", "Cartes disponibles dans cette partie",
+    "Les paquets de cartes de cette partie.",
+    "Packmaster", "Déplier", "Replier", "Cadre unique : les cartes des paquets utilisent le cadre du personnage",
+    "Autoriser plusieurs emplacements \"Aucun\" (risqué avec un petit pool)",
+    "[Dev] Débloquer tous les paquets (ignorer les règles des mods de personnage)",
+    "[Dev] Passer la sélection : les choix de 3 sont tirés au hasard",
+    "[Dev] Draft STS1 : les paquets non choisis ne reviennent qu'une fois le pool épuisé",
+    "Aucun", "Force", "Épuisement", "Orbes", "Défausse", "Affaiblissements", "Attaques", "Jetons", "Pouvoirs", "Armure",
+    "Poison", "Surins", "Fatalité", "Invocation", "Étoiles", "Forge", "Auto-dégâts", "Pioche", "Énergie", "Génération de cartes",
+    "Voir les cartes du personnage à paquets",
+]
+
+L["spa"] = [
+    "Paquetes", "Todos", "Número de paquetes", "Espacio {Num}", "Aleatorio", "Elegir 1 de 3", "Ninguno",
+    "Paquete", "Filtro de paquete", "Todos los paquetes", "Paquete",
+    "Paquetes actuales", "¡Elige un paquete!", "Mostrar valoraciones", "Por: {0}",
+    "Estos son los paquetes disponibles en esta partida. Pulsa Confirmar para continuar.",
+    "La selección de paquetes no ha terminado. Pulsa Volver para regresar.",
+    "Resumen del paquete", "Ataque: {0}", "Defensa: {0}", "Apoyo: {0}", "Efecto inmediato: {0}",
+    "Escalado: {0}", "Etiquetas: {0}", ", ", "Créditos adicionales",
+    "Paquetes", "{0}\n\nHaz clic para ver el pool de cartas de esta partida.", "Cartas disponibles en esta partida",
+    "Los paquetes de cartas de esta partida.",
+    "Packmaster", "Desplegar", "Plegar", "Marco único: las cartas de los paquetes usan el marco del personaje",
+    "Permitir varios espacios \"Ninguno\" (arriesgado con pools pequeños)",
+    "[Dev] Desbloquear todos los paquetes (ignorar las reglas de los mods)",
+    "[Dev] Saltar la selección: los espacios de 1 de 3 se eligen al azar",
+    "[Dev] Draft de STS1: los paquetes no elegidos no vuelven hasta agotar el pool",
+    "Ninguna", "Fuerza", "Agotar", "Orbes", "Descartar", "Penalizaciones", "Ataques", "Fichas", "Poderes", "Bloqueo",
+    "Veneno", "Puñales", "Perdición", "Invocación", "Estrellas", "Forja", "Autodaño", "Robar", "Energía", "Generación de cartas",
+    "Ver las cartas del personaje de paquetes",
+]
+L["esp"] = L["spa"]
+
+L["ita"] = [
+    "Buste", "Tutte", "Numero di buste", "Slot {Num}", "Casuale", "Scegli 1 di 3", "Nessuno",
+    "Busta", "Filtro buste", "Tutte le buste", "Busta",
+    "Buste attuali", "Scegli una busta!", "Mostra valutazioni", "Di: {0}",
+    "Queste sono le buste disponibili in questa partita. Premi Conferma per proseguire.",
+    "La scelta delle buste non è finita. Premi Indietro per tornarci.",
+    "Riepilogo busta", "Attacco: {0}", "Difesa: {0}", "Supporto: {0}", "Effetto immediato: {0}",
+    "Crescita: {0}", "Etichette: {0}", ", ", "Crediti aggiuntivi",
+    "Buste", "{0}\n\nClicca per vedere il pool di carte di questa partita.", "Carte disponibili in questa partita",
+    "Le buste di carte di questa partita.",
+    "Packmaster", "Espandi", "Comprimi", "Cornice unica: le carte delle buste usano la cornice del personaggio",
+    "Consenti più slot \"Nessuno\" (rischioso con pool piccoli)",
+    "[Dev] Sblocca tutte le buste (ignora le regole delle mod)",
+    "[Dev] Salta la scelta: gli slot 1 di 3 sono casuali",
+    "[Dev] Draft di STS1: le buste non scelte non tornano finché il pool non si esaurisce",
+    "Nessuna", "Forza", "Esaurire", "Sfere", "Scarto", "Penalità", "Attacchi", "Gettoni", "Poteri", "Blocco",
+    "Veleno", "Coltelli", "Rovina", "Evocazione", "Stelle", "Forgia", "Autodanno", "Pescare", "Energia", "Generazione di carte",
+    "Vedi le carte del personaggio delle buste",
+]
+
+L["pol"] = [
+    "Paczki", "Wszystkie", "Liczba paczek", "Gniazdo {Num}", "Losowa", "Wybór 1 z 3", "Brak",
+    "Paczka", "Filtr paczek", "Wszystkie paczki", "Paczka",
+    "Wybrane paczki", "Wybierz paczkę!", "Pokaż oceny paczek", "Autor: {0}",
+    "Te paczki są dostępne w tej rozgrywce. Kliknij Potwierdź, aby kontynuować.",
+    "Wybór paczek nie jest zakończony. Naciśnij Wstecz, aby do niego wrócić.",
+    "Podsumowanie paczki", "Atak: {0}", "Obrona: {0}", "Wsparcie: {0}", "Efekt natychmiastowy: {0}",
+    "Skalowanie: {0}", "Tagi: {0}", ", ", "Dodatkowe podziękowania",
+    "Paczki", "{0}\n\nKliknij, aby zobaczyć pulę kart tej rozgrywki.", "Karty dostępne w tej rozgrywce",
+    "Paczki kart tej rozgrywki.",
+    "Packmaster", "Rozwiń", "Zwiń", "Jedna ramka: karty z paczek używają ramki postaci",
+    "Pozwól na wiele gniazd \"Brak\" (ryzykowne przy małej puli)",
+    "[Dev] Odblokuj wszystkie paczki (ignoruj zasady modów postaci)",
+    "[Dev] Pomiń wybór: gniazda 1 z 3 są losowane",
+    "[Dev] Draft z STS1: niewybrane paczki wracają dopiero po wyczerpaniu puli",
+    "Brak", "Siła", "Wyczerpanie", "Kule", "Odrzucanie", "Osłabienia", "Ataki", "Żetony", "Moce", "Blok",
+    "Trucizna", "Noże", "Zguba", "Przywołanie", "Gwiazdy", "Kucie", "Samookaleczenie", "Dobieranie", "Energia", "Tworzenie kart",
+    "Zobacz karty postaci od paczek",
+]
+
+L["ptb"] = [
+    "Pacotes", "Todos", "Número de pacotes", "Espaço {Num}", "Aleatório", "Escolha 1 de 3", "Nenhum",
+    "Pacote", "Filtro de pacote", "Todos os pacotes", "Pacote",
+    "Pacotes atuais", "Escolha um pacote!", "Mostrar avaliações", "Por: {0}",
+    "Estes são os pacotes disponíveis nesta partida. Clique em Confirmar para continuar.",
+    "A escolha de pacotes não terminou. Aperte Voltar para retornar.",
+    "Resumo do pacote", "Ataque: {0}", "Defesa: {0}", "Suporte: {0}", "Efeito imediato: {0}",
+    "Escalonamento: {0}", "Tags: {0}", ", ", "Créditos adicionais",
+    "Pacotes", "{0}\n\nClique para ver o pool de cartas desta partida.", "Cartas disponíveis nesta partida",
+    "Os pacotes de cartas desta partida.",
+    "Packmaster", "Expandir", "Recolher", "Moldura única: cartas dos pacotes usam a moldura do personagem",
+    "Permitir vários espaços \"Nenhum\" (arriscado com pools pequenos)",
+    "[Dev] Desbloquear todos os pacotes (ignorar regras dos mods)",
+    "[Dev] Pular a escolha: espaços 1 de 3 são sorteados",
+    "[Dev] Draft do STS1: pacotes não escolhidos só voltam quando o pool se esgota",
+    "Nenhuma", "Força", "Exaurir", "Orbes", "Descarte", "Penalidades", "Ataques", "Fichas", "Poderes", "Bloqueio",
+    "Veneno", "Facas", "Ruína", "Invocação", "Estrelas", "Forja", "Autodano", "Compra", "Energia", "Geração de cartas",
+    "Ver as cartas do personagem de pacotes",
+]
+
+L["rus"] = [
+    "Наборы", "Все наборы", "Кол-во наборов", "Слот {Num}", "Случайно", "Выбор из 3", "Нет",
+    "Набор", "Фильтр наборов", "Все наборы", "Набор",
+    "Текущие наборы", "Выберите набор!", "Показать оценки", "Автор: {0}",
+    "Эти наборы доступны в этом забеге. Нажмите «Подтвердить», чтобы продолжить.",
+    "Выбор наборов не завершён. Нажмите «Назад», чтобы вернуться к нему.",
+    "Сводка набора", "Атака: {0}", "Защита: {0}", "Поддержка: {0}", "Мгновенный эффект: {0}",
+    "Рост: {0}", "Метки: {0}", ", ", "Дополнительные благодарности",
+    "Наборы", "{0}\n\nНажмите, чтобы увидеть пул карт этого забега.", "Карты, доступные в этом забеге",
+    "Наборы карт этого забега.",
+    "Packmaster", "Развернуть", "Свернуть", "Единая рамка: карты наборов используют рамку персонажа",
+    "Разрешить несколько слотов «Нет» (рискованно при малом пуле)",
+    "[Dev] Открыть все наборы (игнорировать правила модов персонажей)",
+    "[Dev] Пропустить выбор: слоты «Выбор из 3» случайны",
+    "[Dev] Драфт STS1: невыбранные наборы не возвращаются, пока пул не исчерпан",
+    "Нет", "Сила", "Сжигание", "Сферы", "Сброс", "Ослабления", "Атаки", "Жетоны", "Силы", "Защита",
+    "Яд", "Ножи", "Рок", "Призыв", "Звёзды", "Ковка", "Самоповреждение", "Добор", "Энергия", "Создание карт",
+    "Посмотреть карты наборов персонажа",
+]
+
+L["tha"] = [
+    "แพ็ก", "ทุกแพ็ก", "จำนวนแพ็ก", "ช่องที่ {Num}", "สุ่ม", "เลือก 1 จาก 3", "ไม่เลือก",
+    "แพ็ก", "กรองแพ็ก", "ทุกแพ็ก", "แพ็ก",
+    "แพ็กที่เลือกแล้ว", "เลือกแพ็ก!", "แสดงคะแนนแพ็ก", "โดย: {0}",
+    "นี่คือแพ็กที่ใช้ได้ในรันนี้ กดยืนยันเพื่อไปต่อ",
+    "ยังเลือกแพ็กไม่เสร็จ กดปุ่มย้อนกลับเพื่อกลับไปเลือก",
+    "สรุปแพ็ก", "โจมตี: {0}", "ป้องกัน: {0}", "สนับสนุน: {0}", "ผลทันที: {0}",
+    "การเติบโต: {0}", "แท็ก: {0}", ", ", "เครดิตเพิ่มเติม",
+    "แพ็ก", "{0}\n\nคลิกเพื่อดูพูลการ์ดของรันนี้", "การ์ดที่มีในรันนี้",
+    "แพ็กการ์ดของรันนี้",
+    "แพ็กมาสเตอร์", "ขยาย", "ย่อ", "กรอบเดียว: การ์ดในแพ็กใช้กรอบของตัวละครแพ็ก",
+    "อนุญาตช่อง \"ไม่เลือก\" หลายช่อง (เสี่ยงหากพูลการ์ดเล็ก)",
+    "[Dev] ปลดล็อกทุกแพ็ก (ไม่สนกฎปลดล็อกของม็อดตัวละคร)",
+    "[Dev] ข้ามการเลือกแพ็ก: ช่องเลือก 1 จาก 3 จะสุ่มให้",
+    "[Dev] แบบภาค 1: แพ็กที่ไม่ถูกเลือกจะไม่กลับมาจนกว่าพูลจะหมด",
+    "ไม่มี", "พลัง", "เผาทิ้ง", "ออร์บ", "ทิ้งการ์ด", "ดีบัฟ", "โจมตี", "โทเคน", "พลังพิเศษ", "บล็อก",
+    "พิษ", "มีดสั้น", "หายนะ", "อัญเชิญ", "ดวงดาว", "ตีเหล็ก", "ทำร้ายตัวเอง", "จั่ว", "พลังงาน", "สร้างการ์ด",
+    "ดูการ์ดของตัวละครแพ็ก",
+]
+
+L["tur"] = [
+    "Paketler", "Tüm Paketler", "Paket sayısı", "Yuva {Num}", "Rastgele", "3 seçenekten 1", "Yok",
+    "Paket", "Paket filtresi", "Tüm paketler", "Paket",
+    "Mevcut Paketler", "Bir paket seç!", "Paket puanlarını göster", "Yapan: {0}",
+    "Bu oyunda kullanabileceğin paketler bunlar. Devam etmek için Onayla'ya bas.",
+    "Paket seçimi bitmedi. Geri dönmek için Geri'ye bas.",
+    "Paket Özeti", "Saldırı: {0}", "Savunma: {0}", "Destek: {0}", "Anlık etki: {0}",
+    "Ölçeklenme: {0}", "Etiketler: {0}", ", ", "Ek Emeği Geçenler",
+    "Paketler", "{0}\n\nBu oyunun kart havuzunu görmek için tıkla.", "Bu oyunda çıkabilecek kartlar",
+    "Bu oyunun kart paketleri.",
+    "Packmaster", "Genişlet", "Daralt", "Tek çerçeve: paket kartları paket karakterinin çerçevesini kullanır",
+    "Birden fazla \"Yok\" yuvasına izin ver (küçük havuzda riskli)",
+    "[Dev] Tüm paketleri aç (karakter modlarının kilit kurallarını yok say)",
+    "[Dev] Paket seçimini atla: 3'ten 1 yuvaları rastgele seçilir",
+    "[Dev] STS1 seçimi: seçilmeyen paketler havuz bitene kadar geri gelmez",
+    "Yok", "Güç", "Tüketme", "Küreler", "Atma", "Zayıflatmalar", "Saldırılar", "Jetonlar", "Güçler", "Blok",
+    "Zehir", "Bıçaklar", "Kıyamet", "Çağırma", "Yıldızlar", "Dövme", "Kendine hasar", "Çekme", "Enerji", "Kart üretimi",
+    "Paket karakterinin kartlarını gör",
+]
+
+L["ind"] = [
+    "Paket", "Semua Paket", "Jumlah paket", "Slot {Num}", "Acak", "Pilih 1 dari 3", "Tidak ada",
+    "Paket", "Filter paket", "Semua paket", "Paket",
+    "Paket Saat Ini", "Pilih sebuah paket!", "Tampilkan nilai paket", "Oleh: {0}",
+    "Inilah paket yang tersedia di run ini. Klik Konfirmasi untuk lanjut.",
+    "Pemilihan paket belum selesai. Tekan Kembali untuk kembali ke sana.",
+    "Ringkasan Paket", "Serangan: {0}", "Pertahanan: {0}", "Dukungan: {0}", "Efek langsung: {0}",
+    "Perkembangan: {0}", "Tag: {0}", ", ", "Kredit Tambahan",
+    "Paket", "{0}\n\nKlik untuk melihat pool kartu run ini.", "Kartu yang tersedia di run ini",
+    "Paket kartu run ini.",
+    "Packmaster", "Bentangkan", "Ciutkan", "Satu bingkai: kartu paket memakai bingkai karakter paket",
+    "Izinkan beberapa slot \"Tidak ada\" (berisiko jika pool kecil)",
+    "[Dev] Buka semua paket (abaikan aturan buka mod karakter)",
+    "[Dev] Lewati pemilihan: slot pilih 1 dari 3 diacak",
+    "[Dev] Draft STS1: paket yang tidak dipilih tak muncul lagi sampai pool habis",
+    "Tidak ada", "Kekuatan", "Musnah", "Orb", "Buang", "Debuff", "Serangan", "Token", "Kekuatan", "Blok",
+    "Racun", "Pisau", "Malapetaka", "Panggil", "Bintang", "Tempa", "Melukai diri", "Tarik", "Energi", "Pembuatan kartu",
+    "Lihat kartu karakter paket",
+]
+
+for lang, vals in L.items():
+    assert len(vals) == len(KEYS), (lang, len(vals), len(KEYS))
+
+
+def cs(s):
+    return s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+
+
+out = ['// <auto-generated> by tools/gen_libloc.py — edit the generator, not this file. </auto-generated>',
+       'using Sts2Packmaster.Lib.Api;', '', 'namespace Sts2Packmaster.Lib.Core;', '',
+       '/// <summary>Library UI strings in every vanilla language (generated).</summary>',
+       'internal static class LibLoc', '{',
+       '\tpublic static readonly string[] Languages =',
+       '\t{', '\t\t' + ', '.join(f'"{l}"' for l in ["deu", "eng", "esp", "fra", "ind", "ita", "jpn", "kor", "pol", "ptb", "rus", "spa", "tha", "tur", "zhs", "zht"]) + ',', '\t};', '',
+       '\t/// <summary>Key (table "gameplay_ui" unless the key is "pool.tip", which lives in "card_library").</summary>',
+       '\tpublic static readonly string[] Keys =', '\t{']
+out += [f'\t\t"{k}",' for k in KEYS]
+out += ['\t};', '', '\tprivate static readonly Dictionary<string, string[]> Values = new()', '\t{']
+for lang in ["deu", "eng", "esp", "fra", "ind", "ita", "jpn", "kor", "pol", "ptb", "rus", "spa", "tha", "tur", "zhs", "zht"]:
+    out.append(f'\t\t["{lang}"] = new[]')
+    out.append('\t\t{')
+    out += [f'\t\t\t"{cs(v)}",' for v in L[lang]]
+    out.append('\t\t},')
+out += ['\t};', '',
+        '\t/// <summary>Registers every key x language with PackmasterApi.AddLoc.</summary>',
+        '\tpublic static void RegisterAll()', '\t{',
+        '\t\tforeach (var (language, values) in Values)', '\t\t{',
+        '\t\t\tvar ui = new Dictionary<string, string>();', '\t\t\tvar library = new Dictionary<string, string>();',
+        '\t\t\tfor (var i = 0; i < Keys.Length; i++)', '\t\t\t{',
+        '\t\t\t\t(Keys[i] == "pool.tip" ? library : ui)["PACKMASTER_LIB." + Keys[i]] = values[i];', '\t\t\t}',
+        '\t\t\tPackmasterApi.AddLoc("gameplay_ui", language, ui);',
+        '\t\t\tPackmasterApi.AddLoc("card_library", language, library);', '\t\t}', '\t}', '}', '']
+path = os.path.join(os.path.dirname(__file__), '..', 'src', 'Core', 'LibLoc.cs')
+open(path, 'w', encoding='utf-8', newline='\n').write('\n'.join(out))
+print('wrote', path, len(KEYS), 'keys x', len(L), 'languages')

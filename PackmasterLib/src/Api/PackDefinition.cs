@@ -48,6 +48,9 @@ public sealed class PackDefinition
 	/// <summary>Card whose portrait the preview card shows (default: the pack's first Rare card).</summary>
 	public Type? CoverCardType { get; init; }
 
+	/// <summary>Draw weight for random slots and choice offers (default drawer). Default 1; 0 = only when nothing else is left.</summary>
+	public double Weight { get; init; } = 1.0;
+
 	/// <summary>Ratings and tags shown when hovering the pack (STS1 "pack summary").</summary>
 	public PackSummary Summary { get; init; } = new();
 

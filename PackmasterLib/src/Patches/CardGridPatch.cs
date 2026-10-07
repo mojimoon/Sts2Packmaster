@@ -98,6 +98,8 @@ internal static class CardLibrarySearchPatch
 			{
 				return;
 			}
+			var original = filter;
+			filter = c => original(c) && PackLibraryFilter.Passes(c);
 			var searchBar = AccessTools.Field(typeof(NCardLibrary), "_searchBar")?.GetValue(library) as NSearchBar;
 			var query = searchBar?.Text?.Trim().ToLowerInvariant();
 			if (string.IsNullOrEmpty(query))

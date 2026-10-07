@@ -139,7 +139,7 @@ public static class VanillaPacksEntry
 			Id = id,
 			NameKey = $"cards:{entry}.title",
 			DescriptionKey = $"cards:{entry}.description",
-			Author = "Moon",
+			Author = "MegaCrit", // vanilla cards
 			CardTypes = cards,
 			PreviewCardType = preview,
 			CoverCardType = cover,

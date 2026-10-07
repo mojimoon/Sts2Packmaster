@@ -65,7 +65,7 @@ internal static class CardVisualPatch
 				return; // _Ready calls Reload again once the card's nodes exist
 			}
 			var model = __instance.Model;
-			var label = __instance.Body.GetNodeOrNull<Label>(PackNameLabelName);
+			var label = __instance.Body.GetNodeOrNull<MegaLabel>(PackNameLabelName);
 			var pack = model == null || __instance.Visibility != ModelVisibility.Visible ? null : PackDisplayContext.PackOf(model);
 			if (pack == null)
 			{
@@ -77,24 +77,26 @@ internal static class CardVisualPatch
 			}
 			if (label == null)
 			{
-				label = new Label
+				// STS1 draws the pack name on the frame's top edge in small light text, taking no extra space.
+				label = new MegaLabel
 				{
 					Name = PackNameLabelName,
 					HorizontalAlignment = HorizontalAlignment.Center,
-					VerticalAlignment = VerticalAlignment.Bottom,
+					VerticalAlignment = VerticalAlignment.Center,
 					MouseFilter = Control.MouseFilterEnum.Ignore,
-					Position = new Vector2(-170, -262),
-					Size = new Vector2(340, 48),
-					ClipText = true,
+					Position = new Vector2(-115, -218),
+					Size = new Vector2(230, 26),
+					MaxFontSize = 21,
+					MinFontSize = 13,
 				};
-				label.AddThemeFontOverride("font", ResourceLoader.Load<Font>("res://themes/kreon_bold_shared.tres"));
-				label.AddThemeFontSizeOverride("font_size", 26);
-				label.AddThemeColorOverride("font_color", new Color(1f, 0.84f, 0.42f));
-				label.AddThemeColorOverride("font_outline_color", new Color(0.12f, 0.1f, 0.08f));
-				label.AddThemeConstantOverride("outline_size", 10);
+				label.AddThemeFontOverride("font", ResourceLoader.Load<Font>("res://themes/kreon_regular_shared.tres"));
+				label.AddThemeFontSizeOverride("font_size", 21);
+				label.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
+				label.AddThemeColorOverride("font_outline_color", new Color(0.08f, 0.07f, 0.06f, 0.9f));
+				label.AddThemeConstantOverride("outline_size", 6);
 				__instance.Body.AddChild(label);
 			}
-			label.Text = PackRegistry.GetPackName(pack);
+			label.SetTextAutoSize(PackRegistry.GetPackName(pack));
 			label.Visible = true;
 		}
 		catch (Exception e)

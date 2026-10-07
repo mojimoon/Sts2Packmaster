@@ -104,7 +104,6 @@ internal static class PackConfigRows
 		row.AddThemeConstantOverride("separation", (int)(8 * scale));
 		var label = Label(text, fontSize);
 		label.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-		label.TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis;
 		row.AddChild(label);
 		// The paginator scene has fixed-size art; scale it inside a holder that reserves the scaled size.
 		var holder = new Control { CustomMinimumSize = new Vector2(324, 64) * scale, MouseFilter = Control.MouseFilterEnum.Ignore };
@@ -119,14 +118,20 @@ internal static class PackConfigRows
 		return wrapper;
 	}
 
-	public static Label Label(string text, int size)
+	/// <summary>
+	/// A text label that renders like the game's own: a <see cref="MegaLabel"/>, which applies the game's
+	/// per-language font substitution (CJK etc., and whatever font mods hook there). Fixed font size with
+	/// clipping: MegaLabel's auto-shrink measures before container layout and would stick at its minimum.
+	/// </summary>
+	public static MegaLabel Label(string text, int size)
 	{
-		var label = new Label
+		var label = new MegaLabel
 		{
 			Text = text,
 			VerticalAlignment = VerticalAlignment.Center,
 			MouseFilter = Control.MouseFilterEnum.Ignore,
 			ClipText = true,
+			AutoSizeEnabled = false,
 		};
 		label.AddThemeFontOverride("font", ResourceLoader.Load<Font>("res://themes/kreon_regular_shared.tres"));
 		label.AddThemeFontSizeOverride("font_size", size);
