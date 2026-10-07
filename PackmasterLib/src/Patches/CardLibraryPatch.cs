@@ -142,35 +142,62 @@ public static class PackLibraryFilter
 		public required NCardViewSortButton Sort;
 		public required Control Holder;
 		public required NDropdown Dropdown;
+		public required Action Fit;
 		public PackCharacterRegistration? ShownFor;
 	}
 
 	private static readonly ConditionalWeakTable<NCardLibrary, Controls> ByLibrary = new();
 
+	private const float ItemHeight = 44f;
+	private const int MaxVisibleItems = 11;
+
 	internal static void Attach(NCardLibrary library, Control parent, NCardViewSortButton sortButton)
 	{
-		var holder = new Control { Name = "PackmasterPackFilter", CustomMinimumSize = new Vector2(0, 48), MouseFilter = Control.MouseFilterEnum.Ignore, ZIndex = 5 };
+		// The sidebar only holds a placeholder. The dropdown itself is the library's last child, so its
+		// header, list and click-outside dismisser win input picking (Godot picks by tree order, not
+		// z-index) instead of the sidebar rows drawn below it.
+		var holder = new Control { Name = "PackmasterPackFilter", CustomMinimumSize = new Vector2(0, 48), MouseFilter = Control.MouseFilterEnum.Ignore };
 		parent.AddChild(holder);
 		parent.MoveChild(holder, sortButton.GetIndex() + 1);
 		var scene = ResourceLoader.Load<PackedScene>(DropdownScene).Instantiate<Control>();
-		holder.AddChild(scene);
+		scene.Name = "PackmasterPackFilterDropdown";
+		scene.MouseFilter = Control.MouseFilterEnum.Ignore;
+		library.AddChild(scene);
 		scene.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
 		var dropdown = scene.GetNode<NDropdown>("Dropdown");
 		dropdown.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
+		var container = dropdown.GetNode<Control>("%DropdownContainer");
+		// Closed by default (the scene ships open), and at most ~11 rows tall with the game's scrollbar.
+		container.Visible = false;
+		scene.GetNode<Control>("Dismisser").Visible = false;
+		AccessTools.Field(container.GetType(), "_maxHeight").SetValue(container, ItemHeight * MaxVisibleItems);
+		container.Connect(CanvasItem.SignalName.VisibilityChanged, Callable.From(() =>
+			Callable.From(() => { Traverse.Create(container).Method("RefreshLayout").GetValue(); }).CallDeferred()));
 		void Fit()
 		{
-			scene.Position = Vector2.Zero;
+			scene.Visible = holder.IsVisibleInTree();
+			scene.GlobalPosition = holder.GlobalPosition;
 			scene.Size = holder.Size;
+			var width = Math.Max(120, holder.Size.X - 12);
 			dropdown.Position = new Vector2(6, 4);
-			dropdown.Size = new Vector2(Math.Max(120, holder.Size.X - 12), 40);
-			dropdown.GetNode<Control>("%DropdownContainer").Size = new Vector2(dropdown.Size.X, dropdown.GetNode<Control>("%DropdownContainer").Size.Y);
+			dropdown.Size = new Vector2(width, 40);
+			dropdown.GetNode<Control>("CurrentOption").CustomMinimumSize = new Vector2(width, 40);
+			container.Size = new Vector2(width, container.Size.Y);
+			var items = container.GetNode<Control>("VBoxContainer");
+			items.CustomMinimumSize = new Vector2(width, 0);
+			foreach (var item in items.GetChildren().OfType<Control>())
+			{
+				item.CustomMinimumSize = new Vector2(width, ItemHeight);
+			}
 		}
-		holder.Connect(Control.SignalName.Resized, Callable.From(Fit));
-		Fit();
+		holder.Connect(CanvasItem.SignalName.ItemRectChanged, Callable.From(Fit));
+		holder.Connect(CanvasItem.SignalName.VisibilityChanged, Callable.From(Fit));
 		ClearItems(dropdown); // the dropdown scene ships with placeholder items
-		var controls = new Controls { Sort = sortButton, Holder = holder, Dropdown = dropdown };
+		PassThroughDecorations(dropdown);
+		var controls = new Controls { Sort = sortButton, Holder = holder, Dropdown = dropdown, Fit = Fit };
 		ByLibrary.AddOrUpdate(library, controls);
 		Refresh(library);
+		Fit();
 	}
 
 	/// <summary>Show/hide and repopulate for the currently selected pack character tab.</summary>
@@ -204,7 +231,31 @@ public static class PackLibraryFilter
 			item.Text = text;
 			item.Connect(NDropdownItem.SignalName.Selected, Callable.From<NDropdownItem>(_ => Select(library, pack, text)));
 		}
-		Traverse.Create(c.Dropdown.GetNode("%DropdownContainer")).Method("RefreshLayout").GetValue();
+		c.Fit();
+	}
+
+	/// <summary>
+	/// test_dropdown.tscn leaves its decorative nodes (current-option background, arrow, list background)
+	/// at MouseFilter.Stop, so they would swallow the clicks meant for the dropdown; the game's real
+	/// dropdowns set them to Ignore. Items, the list container and its scrollbar stay interactive.
+	/// </summary>
+	private static void PassThroughDecorations(Node node)
+	{
+		foreach (var child in node.GetChildren())
+		{
+			switch (child)
+			{
+				case NClickableControl or NDropdownContainer or NDropdownScrollbar:
+					break;
+				case Control control:
+					control.MouseFilter = Control.MouseFilterEnum.Ignore;
+					break;
+			}
+			if (child is not NClickableControl and not NDropdownScrollbar)
+			{
+				PassThroughDecorations(child);
+			}
+		}
 	}
 
 	private static Control ClearItems(NDropdown dropdown)

@@ -516,23 +516,36 @@ internal static class PackmasterAutoTest
 		filters[character].EmitSignal(NCardPoolFilter.SignalName.Toggled, filters[character]);
 		await Task.Delay(800);
 		Yes(holder is { Visible: true } && sort is { Visible: true }, "pack sort/filter shown for the pack character");
-		var dropdown = holder!.FindChildren("*", "", true, false).OfType<NDropdown>().First();
-		var items = dropdown.FindChildren("*", "", true, false).OfType<NDropdownItem>().ToList();
+		var dropdown = library.GetNode<NDropdown>("PackmasterPackFilterDropdown/Dropdown");
+		var container = dropdown.GetNode<Control>("%DropdownContainer");
+		var items = container.GetNode("VBoxContainer").GetChildren().OfType<NDropdownItem>().ToList();
+		Yes(!container.Visible, "the pack dropdown starts closed");
 		Yes(items.Count == Reg.Packs.Count + 1, $"filter lists 'all packs' + this character's {Reg.Packs.Count} packs (got {items.Count})");
-		var pack = Reg.Packs[4];
-		items[5].EmitSignal(NDropdownItem.SignalName.Selected, items[5]);
-		await Task.Delay(1000);
+		var sidebarRight = holder!.GetGlobalRect().End.X;
+		Yes(dropdown.GetGlobalRect().End.X <= sidebarRight + 1 && items.All(it => it.Size.X <= dropdown.Size.X + 1),
+			$"dropdown fits the sidebar width ({dropdown.GetGlobalRect().End.X:0} <= {sidebarRight:0})");
 		var grid = library.GetNode<NCardLibraryGrid>("%CardGrid");
+
+		// Real mouse clicks through the GUI: the list must win over the sidebar rows below it.
+		await Click(dropdown);
+		Yes(container.Visible, "clicking the dropdown opens it");
+		Yes(container.Size.Y <= 11 * 44 + 1, $"list height capped at ~11 rows ({container.Size.Y:0})");
+		await Click(items[2]);
+		Yes(PackLibraryFilter.SelectedPack == Reg.Packs[1] && !container.Visible, $"clicking a row over the sidebar's buttons selects it ('{PackLibraryFilter.SelectedPack?.Id}')");
+		await Click(dropdown);
+		Yes(container.Visible, "the dropdown opens again after a selection");
+		var pack = Reg.Packs[4];
+		await Click(items[5]);
+		await Task.Delay(800);
 		var visible = grid.VisibleCards.ToList();
 		Yes(PackLibraryFilter.SelectedPack == pack && visible.Count == PackRegistry.GetPackCards(pack).Count && visible.All(c => PackRegistry.GetPackOf(c, Reg) == pack),
 			$"selecting '{pack.Id}' shows exactly its {visible.Count} cards");
-		Traverse.Create(dropdown).Method("OpenDropdown").GetValue();
-		await Task.Delay(500);
+		await Click(dropdown);
+		await Task.Delay(300);
 		await Screenshot("8_library_filter");
-		Traverse.Create(dropdown).Method("CloseDropdown").GetValue();
-		PackLibraryFilter.Select(library, null);
+		await Click(items[0]);
 		await Task.Delay(800);
-		Yes(grid.VisibleCards.Count() > visible.Count, "'all packs' clears the filter");
+		Yes(PackLibraryFilter.SelectedPack == null && grid.VisibleCards.Count() > visible.Count, "'all packs' clears the filter");
 		library.OnSubmenuClosed();
 		await Task.Delay(1500); // let the grid's async layout finish before freeing
 		library.QueueFree();
@@ -584,7 +597,7 @@ internal static class PackmasterAutoTest
 		NRun.Instance!.GlobalUi.AddChild(node);
 		node.UpdateVisuals(PileType.None, CardPreviewMode.Normal);
 		var label = node.Body.GetNodeOrNull<MegaCrit.Sts2.addons.mega_text.MegaLabel>(CardVisualPatch.PackNameLabelName);
-		Yes(label is { Visible: true } && label.Text == PackRegistry.GetPackName(pack) && Math.Abs(label.Position.Y + label.Size.Y / 2 + 205) <= 6,
+		Yes(label is { Visible: true } && label.Text == PackRegistry.GetPackName(pack) && Math.Abs(label.Position.Y + label.Size.Y / 2 + 212) <= 4,
 			$"pack name '{label?.Text}' on the frame's top edge (y {label?.Position.Y})");
 		PackmasterSettings.OneFrameMode = true;
 		Yes(ReferenceEquals(card.VisualCardPool, player.Character.CardPool), "one-frame mode uses the pack character's frame");
@@ -603,6 +616,20 @@ internal static class PackmasterAutoTest
 	}
 
 	// ---------------------------------------------------------------- helpers
+
+	/// <summary>A real left click (motion, press, release) at the center of a control, through Godot's input.</summary>
+	private static async Task Click(Control control)
+	{
+		var viewport = control.GetViewport();
+		var position = viewport.GetFinalTransform() * control.GetGlobalTransformWithCanvas() * (control.Size / 2);
+		viewport.PushInput(new InputEventMouseMotion { Position = position, GlobalPosition = position });
+		await Task.Delay(120);
+		Log.Info($"[PackmasterLib-AutoTest] click {control.Name} at {position}; hovered: {viewport.GuiGetHoveredControl()?.GetPath()}");
+		viewport.PushInput(new InputEventMouseButton { ButtonIndex = MouseButton.Left, Pressed = true, Position = position, GlobalPosition = position });
+		await Task.Delay(80);
+		viewport.PushInput(new InputEventMouseButton { ButtonIndex = MouseButton.Left, Pressed = false, Position = position, GlobalPosition = position });
+		await Task.Delay(350);
+	}
 
 	private static List<NPaginator> Paginators(Node root) =>
 		root.GetChildren().SelectMany(c => c is NPaginator p ? new List<NPaginator> { p } : Paginators(c)).ToList();

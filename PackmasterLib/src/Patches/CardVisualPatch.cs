@@ -84,7 +84,7 @@ internal static class CardVisualPatch
 					HorizontalAlignment = HorizontalAlignment.Center,
 					VerticalAlignment = VerticalAlignment.Center,
 					MouseFilter = Control.MouseFilterEnum.Ignore,
-					Position = new Vector2(-115, -218),
+					Position = new Vector2(-115, -225),
 					Size = new Vector2(230, 26),
 					MaxFontSize = 21,
 					MinFontSize = 13,
@@ -92,8 +92,9 @@ internal static class CardVisualPatch
 				label.AddThemeFontOverride("font", ResourceLoader.Load<Font>("res://themes/kreon_regular_shared.tres"));
 				label.AddThemeFontSizeOverride("font_size", 21);
 				label.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
-				label.AddThemeColorOverride("font_outline_color", new Color(0.08f, 0.07f, 0.06f, 0.9f));
-				label.AddThemeConstantOverride("outline_size", 6);
+				// Same gray outline as the card title (card.tscn TitleLabel).
+				label.AddThemeColorOverride("font_outline_color", new Color(0.301961f, 0.294118f, 0.25098f));
+				label.AddThemeConstantOverride("outline_size", 8);
 				__instance.Body.AddChild(label);
 			}
 			label.SetTextAutoSize(PackRegistry.GetPackName(pack));

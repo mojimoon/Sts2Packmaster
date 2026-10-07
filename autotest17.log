@@ -36,7 +36,7 @@ FMOD Sound System: Successfully initialized
 [INFO] [Sentry.NET] Shutting down because event reporting is disabled.
 [INFO] [Sentry.NET] Shutting down
 [INFO] AtlasManager: Loaded controller_atlas with 112 sprites
-[INFO] MuteInBackground: FocusIn received [tween=False, msSinceFocusOut=4386, windowFocused=True]
+[INFO] MuteInBackground: FocusIn received [tween=False, msSinceFocusOut=2767, windowFocused=True]
 [INFO] Applying display settings...
   FULLSCREEN: True
   ASPECT_RATIO: (SixteenByNine)
@@ -51,7 +51,7 @@ FMOD Sound System: Successfully initialized
 [INFO] VSync: Adaptive
 [WARN] Cannot initialize Steam Input because Steamworks is not initialized. Falling back to standard input.
 [INFO] === Godot OS Debug Information ===
-Timestamp: 10/08/2026 00:05:46
+Timestamp: 10/08/2026 00:29:37
 OS: Windows
 OS Version: 10.0.26200
 Distribution Name: Windows
@@ -92,14 +92,14 @@ Screen info (primary 0):
 Video Memory Used: 0.0B
 Memory Info:
   physical: 31.5GB
-  free: 15.6GB
+  free: 15.7GB
   available: 52.0GB
   stack: 8.0MB
   Static Memory Usage: 0.0B
   Static Memory Peak Usage: 0.0B
 Disk Info:
-  Index 0: Name: C:\ Type: Fixed Format: NTFS Available: 107.6GB Total Free: 107.6GB Total Size: 300.0GB
-  Index 1: Name: D:\ Type: Fixed Format: NTFS Available: 397.2GB Total Free: 397.2GB Total Size: 0.6TB
+  Index 0: Name: C:\ Type: Fixed Format: NTFS Available: 107.2GB Total Free: 107.2GB Total Size: 300.0GB
+  Index 1: Name: D:\ Type: Fixed Format: NTFS Available: 397.1GB Total Free: 397.1GB Total Size: 0.6TB
 Important Environment Variables:
   PATH: %USERPROFILE%\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;%USERPROFILE%\bin;D:\env\Eclipse Adoptium\jdk-8.0.504.1-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft VS Code\bin;C:\TDM-GCC-64\bin;C:\Program Files\Git\cmd;C:\Program Files\Bandizip\Bandizip;D:\env\nvm;D:\env\nodejs;C:\Program Files\GitHub CLI;%USERPROFILE%\.local\bin;%USERPROFILE%\AppData\Local\pnpm\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%USERPROFILE%\AppData\Local\Programs\DockerDesktop\resources\bin;%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\Kitware.CMake_Microsoft.Winget.Source_8wekyb3d8bbwe\cmake-4.4.0-windows-x86_64\bin;%USERPROFILE%\.dotnet\tools;%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools;D:\env\dotnet-sdk-8;D:\env\flutter\bin;%USERPROFILE%\AppData\Local\Programs\MiKTeX\miktex\bin\x64;%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;D:\env\cargo\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
   GODOT_ROOT_DIR: 
@@ -108,16 +108,16 @@ Important Environment Variables:
   LD_LIBRARY_PATH: 
 
 [INFO] Preloading 'IntroLogo' assets... count=3 vfx=0
-[INFO] Preloading 'IntroLogo' Complete: assets=3 time_elapsed=85ms
+[INFO] Preloading 'IntroLogo' Complete: assets=3 time_elapsed=80ms
 [INFO] Preloading 'MainMenuEssentials' assets... count=5 vfx=0
-[INFO] Preloading 'MainMenuEssentials' Complete: assets=5 time_elapsed=178ms
+[INFO] Preloading 'MainMenuEssentials' Complete: assets=5 time_elapsed=177ms
 [WARN] Asset not cached: res://debug_audio/SOTE_Logo_Echoing_ShortTail.mp3
 [INFO] [PackmasterLib] Settings group added.
 [INFO] [PackmasterLib] Character select panel attached.
-[INFO] [Startup] Time to main menu (Godot ticks): 13824ms
+[INFO] [Startup] Time to main menu (Godot ticks): 12233ms
 [WARN] Asset not cached: res://images/ui/top_panel/character_icon_ironclad.png
-[INFO] [Startup] Time to main menu: 13,917ms
-[INFO] [Startup] Resource stats (main menu loaded (essential)): StaticMem=0B, VRAM=365MB, Objects=8,894, Resources=621, Nodes=1,801, CachedAssets=12
+[INFO] [Startup] Time to main menu: 12,316ms
+[INFO] [Startup] Resource stats (main menu loaded (essential)): StaticMem=0B, VRAM=365MB, Objects=8,897, Resources=623, Nodes=1,801, CachedAssets=12
 [INFO] AtlasManager: Loaded epoch_atlas with 57 sprites
 [INFO] AtlasManager: Loaded relic_atlas with 346 sprites
 [INFO] AtlasManager: Loaded relic_outline_atlas with 346 sprites
@@ -131,8 +131,8 @@ Important Environment Variables:
 [INFO] Unloading 5 missed cache assets
 [INFO] [PackmasterLib] Registered pack character 'Ironclad' with 4 packs.
 [INFO] Preloading 'Common' assets... count=698 vfx=94
-[INFO] [Startup] Resource stats (main menu loaded (complete)): StaticMem=0B, VRAM=583.9MB, Objects=8,857, Resources=619, Nodes=1,799, CachedAssets=5
-[INFO] Preloading 'Common' Complete: assets=792 time_elapsed=3,628ms
+[INFO] [Startup] Resource stats (main menu loaded (complete)): StaticMem=0B, VRAM=615.9MB, Objects=8,857, Resources=619, Nodes=1,799, CachedAssets=5
+[INFO] Preloading 'Common' Complete: assets=792 time_elapsed=3,663ms
 [INFO] Max ascension changed to 0
 [INFO] Max ascension changed to 0
 [INFO] [StartRunLobby (1)] CHARACTER.IRONCLAD has not revealed the Ascension Epoch, disabling Ascension.
@@ -148,110 +148,118 @@ Important Environment Variables:
 [INFO] Max ascension changed to 0
 [INFO] [StartRunLobby (1)] CHARACTER.VANILLA_SLINGER has no progress, disabling Ascension.
 [INFO] [StartRunLobby (1)] Local player 1 is ready
-[INFO] Embarking on a singleplayer VANILLA_SLINGER run. Ascension: 0 Seed: 4S76TJL5FS9M
+[INFO] Embarking on a singleplayer VANILLA_SLINGER run. Ascension: 0 Seed: VNFPGZ1W88K1
 [INFO] [PackmasterLib] Attaching pack setup for 1 player(s). Config: 1:VANILLA_SLINGER:0:random,random,random,random,choice,choice,choice
-[INFO] [PackmasterLib]   slot 1: random -> 'starlight'
-[INFO] [PackmasterLib]   slot 2: random -> 'iron_wall'
-[INFO] [PackmasterLib]   slot 3: random -> 'bone_friends'
-[INFO] [PackmasterLib]   slot 4: random -> 'chaos'
+[INFO] [PackmasterLib]   slot 1: random -> 'pain'
+[INFO] [PackmasterLib]   slot 2: random -> 'bone_friends'
+[INFO] [PackmasterLib]   slot 3: random -> 'doom'
+[INFO] [PackmasterLib]   slot 4: random -> 'starlight'
 [INFO] [PackmasterLib]   slot 5: choice
 [INFO] [PackmasterLib]   slot 6: choice
 [INFO] [PackmasterLib]   slot 7: choice
-[INFO] [PackmasterLib] VANILLA_SLINGER packs resolved: [starlight, iron_wall, bone_friends, chaos] + 3 draft round(s)
+[INFO] [PackmasterLib] VANILLA_SLINGER packs resolved: [pain, bone_friends, doom, starlight] + 3 draft round(s)
 [INFO] First run ever. Presenting rooms in a set order.
 [INFO] Preloading 'characters=VANILLA_SLINGER' assets... count=37 vfx=6
-[INFO] Preloading 'characters=VANILLA_SLINGER' Complete: assets=43 time_elapsed=283ms
+[INFO] Preloading 'characters=VANILLA_SLINGER' Complete: assets=43 time_elapsed=284ms
 [INFO] Preloading 'Act=OVERGROWTH' assets... count=8 vfx=0
 [INFO] Preloading 'Act=OVERGROWTH' Complete: assets=8 time_elapsed=53ms
 [INFO] [PackmasterLib] Settings group added.
 [INFO] Preloading 'Act=OVERGROWTH' assets... count=0 vfx=0
-[INFO] Preloading 'Act=OVERGROWTH' Complete: assets=0 time_elapsed=29ms
-[INFO] Wrote 2873 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
-[INFO] Wrote 40843 bytes to path=user://default/1/modded/profile1/saves/current_run.save save_dir=user://default/1
+[INFO] Preloading 'Act=OVERGROWTH' Complete: assets=0 time_elapsed=28ms
+[INFO] Wrote 2983 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
+[INFO] Wrote 38437 bytes to path=user://default/1/modded/profile1/saves/current_run.save save_dir=user://default/1
 [INFO] Preloading 'Event Room' assets... count=2 vfx=0
-[INFO] Preloading 'Event Room' Complete: assets=2 time_elapsed=150ms
+[INFO] Preloading 'Event Room' Complete: assets=2 time_elapsed=133ms
 [INFO] [PackmasterLib] Pack setup screen opened (4 packs, 3 draft round(s)).
 [WARN] Asset not cached: res://scenes/events/ancient_dialogue_line.tscn
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_3_setup_draft.png
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_4_setup_hover.png
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_5_setup_hidden_neow.png
-[INFO] [PackmasterLib] Player 1 picked pack 'poison' (2 round(s) left).
-[INFO] [PackmasterLib] Loaded packs for player 1: [starlight, iron_wall, bone_friends, chaos], 3 draft round(s) left, setup pending.
+[INFO] [PackmasterLib] Player 1 picked pack 'phantom_blades' (2 round(s) left).
+[INFO] [PackmasterLib] Loaded packs for player 1: [pain, bone_friends, doom, starlight], 3 draft round(s) left, setup pending.
 [INFO] [PackmasterLib] Pack setup screen opened (4 packs, 3 draft round(s)).
-[INFO] [PackmasterLib] Player 1 picked pack 'poison' (2 round(s) left).
-[INFO] [PackmasterLib] Player 1 picked pack 'phantom_blades' (1 round(s) left).
-[INFO] [PackmasterLib] Player 1 picked pack 'pain' (0 round(s) left).
+[INFO] [PackmasterLib] Player 1 picked pack 'phantom_blades' (2 round(s) left).
+[INFO] [PackmasterLib] Player 1 picked pack 'lightning' (1 round(s) left).
+[INFO] [PackmasterLib] Player 1 picked pack 'chaos' (0 round(s) left).
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_6_setup_confirm.png
-[INFO] [PackmasterLib] Player 1 pack setup complete: [starlight, iron_wall, bone_friends, chaos, poison, phantom_blades, pain]
+[INFO] [PackmasterLib] Player 1 pack setup complete: [pain, bone_friends, doom, starlight, phantom_blades, lightning, chaos]
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_7_neow.png
 [WARN] Asset not cached: res://scenes/screens/card_library/card_library.tscn
 [INFO] [PackmasterLib] Card library: injected controls for 1 pack character(s).
 [WARN] Asset not cached: res://scenes/screens/card_library/card_library_stats.tscn
-[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_8_library_filter.png
 [WARN] Asset not cached: res://images/packed/sprite_fonts/star_icon.png
+[INFO] [PackmasterLib-AutoTest] click Dropdown at (216, 513); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown
+[INFO] [PackmasterLib-AutoTest] click @Control@1321 at (216, 714); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown/DropdownContainer/VBoxContainer/@Control@1321
+[INFO] [PackmasterLib-AutoTest] click Dropdown at (216, 513); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown
+[INFO] [PackmasterLib-AutoTest] click @Control@1324 at (216, 912); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown/DropdownContainer/VBoxContainer/@Control@1324
+[INFO] [PackmasterLib-AutoTest] click Dropdown at (216, 513); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown
+[INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_8_library_filter.png
+[INFO] [PackmasterLib-AutoTest] click DropdownItem at (216, 582); hovered: /root/Game/RootSceneContainer/Run/GlobalUi/CardLibrary/PackmasterPackFilterDropdown/Dropdown/DropdownContainer/VBoxContainer/DropdownItem
+[WARN] Asset not cached: res://images/packed/sprite_fonts/ironclad_energy_icon.png
+[WARN] Asset not cached: res://images/packed/sprite_fonts/necrobinder_energy_icon.png
 [INFO] [PackmasterLib-AutoTest] screenshot: C:/Users/Moon/AppData/Roaming/SlayTheSpire2/packtest_9_pool_view.png
-[INFO] Card rarity: Rolled 0.421085, need < -0.020000001 for rare (offset = -0.05)
-[INFO] Card rarity: Rolled 0.099194214, need < -0.01 for rare (offset = -0.04)
-[INFO] Card rarity: Rolled 0.2822563, need < 0 for rare (offset = -0.03)
-[INFO] Card rarity: Rolled 0.7296377, need < 0.01 for rare (offset = -0.02)
-[INFO] Card rarity: Rolled 0.5281332, need < 0.02 for rare (offset = -0.01)
-[INFO] Card rarity: Rolled 0.32353857, need < 0.03 for rare (offset = 0)
-[INFO] Card rarity: Rolled 0.7682387, need < 0.04 for rare (offset = 0.01)
-[INFO] Card rarity: Rolled 0.7391168, need < 0.049999997 for rare (offset = 0.02)
-[INFO] Card rarity: Rolled 0.9217709, need < 0.06 for rare (offset = 0.03)
-[INFO] Card rarity: Rolled 0.5147086, need < 0.07 for rare (offset = 0.04)
-[INFO] Card rarity: Rolled 0.8231344, need < 0.08 for rare (offset = 0.049999997)
-[INFO] Card rarity: Rolled 0.19978228, need < 0.089999996 for rare (offset = 0.059999995)
-[INFO] Card rarity: Rolled 0.95544934, need < 0.099999994 for rare (offset = 0.06999999)
-[INFO] Card rarity: Rolled 0.34565023, need < 0.10999999 for rare (offset = 0.07999999)
-[INFO] Card rarity: Rolled 0.3940273, need < 0.11999999 for rare (offset = 0.08999999)
-[INFO] Card rarity: Rolled 0.1580403, need < 0.12999998 for rare (offset = 0.09999999)
-[INFO] Card rarity: Rolled 0.46469277, need < 0.13999999 for rare (offset = 0.109999985)
-[INFO] Card rarity: Rolled 0.2768772, need < 0.14999998 for rare (offset = 0.11999998)
-[INFO] Card rarity: Rolled 0.62667674, need < 0.15999998 for rare (offset = 0.12999998)
-[INFO] Card rarity: Rolled 0.49306744, need < 0.16999999 for rare (offset = 0.13999999)
-[INFO] Card rarity: Rolled 0.5318229, need < 0.17999999 for rare (offset = 0.14999999)
-[INFO] Card rarity: Rolled 0.94610786, need < 0.19 for rare (offset = 0.16)
-[INFO] Card rarity: Rolled 0.64812523, need < 0.2 for rare (offset = 0.17)
-[INFO] Card rarity: Rolled 0.46485612, need < 0.21000001 for rare (offset = 0.18)
-[INFO] Card rarity: Rolled 0.90678716, need < 0.22000001 for rare (offset = 0.19000001)
-[INFO] Card rarity: Rolled 0.35178986, need < 0.23000002 for rare (offset = 0.20000002)
-[INFO] Card rarity: Rolled 0.70647335, need < 0.24000002 for rare (offset = 0.21000002)
-[INFO] Card rarity: Rolled 0.41983452, need < 0.25000003 for rare (offset = 0.22000003)
-[INFO] Card rarity: Rolled 0.6966082, need < 0.26000002 for rare (offset = 0.23000003)
-[INFO] Card rarity: Rolled 0.15004839, need < 0.27000004 for rare (offset = 0.24000004)
-[INFO] Card rarity: Rolled 0.62453127, need < -0.020000001 for rare (offset = -0.05)
-[INFO] Card rarity: Rolled 0.5379847, need < -0.01 for rare (offset = -0.04)
-[INFO] Card rarity: Rolled 0.22697952, need < 0 for rare (offset = -0.03)
-[INFO] Card rarity: Rolled 0.5898347, need < 0.01 for rare (offset = -0.02)
-[INFO] Card rarity: Rolled 0.33774757, need < 0.02 for rare (offset = -0.01)
-[INFO] Card rarity: Rolled 0.036875367, need < 0.03 for rare (offset = 0)
-[INFO] Card rarity: Rolled 0.78861207, need < 0.04 for rare (offset = 0.01)
-[INFO] Card rarity: Rolled 0.9273939, need < 0.049999997 for rare (offset = 0.02)
-[INFO] Card rarity: Rolled 0.12216192, need < 0.06 for rare (offset = 0.03)
-[INFO] Card rarity: Rolled 0.77838457, need < 0.07 for rare (offset = 0.04)
-[INFO] Card rarity: Rolled 0.8044722, need < 0.08 for rare (offset = 0.049999997)
-[INFO] Card rarity: Rolled 0.49786586, need < 0.089999996 for rare (offset = 0.059999995)
-[INFO] Card rarity: Rolled 0.38231307, need < 0.099999994 for rare (offset = 0.06999999)
-[INFO] Card rarity: Rolled 0.30345294, need < 0.10999999 for rare (offset = 0.07999999)
-[INFO] Card rarity: Rolled 0.29035538, need < 0.11999999 for rare (offset = 0.08999999)
-[INFO] Card rarity: Rolled 0.12868908, need < 0.12999998 for rare (offset = 0.09999999)
-[INFO] Card rarity: Rolled 0.06412629, need < -0.020000001 for rare (offset = -0.05)
-[INFO] Card rarity: Rolled 0.15528859, need < -0.01 for rare (offset = -0.04)
-[INFO] Card rarity: Rolled 0.92042905, need < 0 for rare (offset = -0.03)
-[INFO] Card rarity: Rolled 0.73959535, need < 0.01 for rare (offset = -0.02)
-[INFO] Card rarity: Rolled 0.6001287, need < 0.02 for rare (offset = -0.01)
-[INFO] Card rarity: Rolled 0.45450562, need < 0.03 for rare (offset = 0)
-[INFO] Card rarity: Rolled 0.110325694, need < 0.04 for rare (offset = 0.01)
-[INFO] Card rarity: Rolled 0.13205117, need < 0.049999997 for rare (offset = 0.02)
-[INFO] Card rarity: Rolled 0.56928796, need < 0.06 for rare (offset = 0.03)
-[INFO] Card rarity: Rolled 0.7583103, need < 0.07 for rare (offset = 0.04)
-[INFO] Card rarity: Rolled 0.95591164, need < 0.08 for rare (offset = 0.049999997)
-[INFO] Card rarity: Rolled 0.7422862, need < 0.089999996 for rare (offset = 0.059999995)
-[INFO] Card rarity: Rolled 0.17783365, need < 0.099999994 for rare (offset = 0.06999999)
-[INFO] Card rarity: Rolled 0.43946344, need < 0.10999999 for rare (offset = 0.07999999)
-[INFO] [PackmasterLib] Loaded packs for player 1: [starlight, iron_wall, bone_friends, chaos, poison, phantom_blades, pain], 0 draft round(s) left, setup done.
-[INFO] [PackmasterLib-AutoTest] RESULT: 618 checks, 0 failures
+[INFO] Card rarity: Rolled 0.772512, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.48704585, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.2231715, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.8546133, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.8984945, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.1708879, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.6600161, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.90218884, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.7933075, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.41707695, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.10534972, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.43022484, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.19826363, need < 0.099999994 for rare (offset = 0.06999999)
+[INFO] Card rarity: Rolled 0.03157133, need < 0.10999999 for rare (offset = 0.07999999)
+[INFO] Card rarity: Rolled 0.34671447, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.012914333, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.005627295, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.65424955, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.50451475, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.09371674, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.27755406, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.5335797, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.21410783, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.4327215, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.09435484, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.6339687, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.7308249, need < 0.099999994 for rare (offset = 0.06999999)
+[INFO] Card rarity: Rolled 0.44657588, need < 0.10999999 for rare (offset = 0.07999999)
+[INFO] Card rarity: Rolled 0.15968394, need < 0.11999999 for rare (offset = 0.08999999)
+[INFO] Card rarity: Rolled 0.109080896, need < 0.12999998 for rare (offset = 0.09999999)
+[INFO] Card rarity: Rolled 0.5252167, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.41298762, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.39073947, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.5482403, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.7028387, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.28354698, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.8247365, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.9481033, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.32430813, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.53067523, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.05089642, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.5989979, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.42770833, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.91493636, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.25925234, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.7391691, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.37213558, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.07156308, need < 0.04 for rare (offset = 0.01)
+[INFO] Card rarity: Rolled 0.71412593, need < 0.049999997 for rare (offset = 0.02)
+[INFO] Card rarity: Rolled 0.16803457, need < 0.06 for rare (offset = 0.03)
+[INFO] Card rarity: Rolled 0.51205003, need < 0.07 for rare (offset = 0.04)
+[INFO] Card rarity: Rolled 0.49865332, need < 0.08 for rare (offset = 0.049999997)
+[INFO] Card rarity: Rolled 0.023537403, need < 0.089999996 for rare (offset = 0.059999995)
+[INFO] Card rarity: Rolled 0.6446938, need < -0.020000001 for rare (offset = -0.05)
+[INFO] Card rarity: Rolled 0.0052088066, need < -0.01 for rare (offset = -0.04)
+[INFO] Card rarity: Rolled 0.5424126, need < 0 for rare (offset = -0.03)
+[INFO] Card rarity: Rolled 0.045365155, need < 0.01 for rare (offset = -0.02)
+[INFO] Card rarity: Rolled 0.71713686, need < 0.02 for rare (offset = -0.01)
+[INFO] Card rarity: Rolled 0.42585397, need < 0.03 for rare (offset = 0)
+[INFO] Card rarity: Rolled 0.8370561, need < 0.04 for rare (offset = 0.01)
+[INFO] [PackmasterLib] Loaded packs for player 1: [pain, bone_friends, doom, starlight, phantom_blades, lightning, chaos], 0 draft round(s) left, setup done.
+[INFO] [PackmasterLib-AutoTest] RESULT: 624 checks, 0 failures
 PASS: VanillaSlinger in ModelDb.AllCharacters
 PASS: 11 packs registered (got 11)
 PASS: all 11 packs have STS1 depth (10+ cards, 2+ of each type/rarity) and author MegaCrit
@@ -304,7 +312,13 @@ PASS: confirm saves the 7 packs and closes the screen
 PASS: Neow keeps its normal rewards
 PASS: pack sort/filter hidden until a pack character's tab is selected
 PASS: pack sort/filter shown for the pack character
+PASS: the pack dropdown starts closed
 PASS: filter lists 'all packs' + this character's 11 packs (got 12)
+PASS: dropdown fits the sidebar width (266 <= 272)
+PASS: clicking the dropdown opens it
+PASS: list height capped at ~11 rows (484)
+PASS: clicking a row over the sidebar's buttons selects it ('iron_wall')
+PASS: the dropdown opens again after a selection
 PASS: selecting 'poison' shows exactly its 12 cards
 PASS: 'all packs' clears the filter
 PASS: packs button in the top-right group
@@ -312,17 +326,17 @@ PASS: clicking the button opens the pool view
 PASS: in-run pool = selected packs only
 PASS: 60 combat reward cards, all from the selected packs
 PASS: transforms stay within the packs
-PASS: pack name '星辰之力' on the frame's top edge (y -218)
+PASS: pack name '疼痛无视' on the frame's top edge (y -225)
 PASS: one-frame mode uses the pack character's frame
 PASS: a confirmed setup survives save/load
 
 [INFO] NGame.Quit called
 [INFO] Wrote 3581 bytes to path=user://default/1/settings.save save_dir=user://default/1
 [INFO] Wrote 365 bytes to path=user://default/1/modded/profile1/saves/prefs.save save_dir=user://default/1
-[INFO] Wrote 2899 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
+[INFO] Wrote 3009 bytes to path=user://default/1/modded/profile1/saves/progress.save save_dir=user://default/1
 [INFO] Wrote 52 bytes to path=user://default/1/modded/profile.save save_dir=user://default/1
 FMOD Sound System: System released
-WARNING: 2003 RIDs of type "CanvasItem" were leaked.
+WARNING: 2005 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2678)
 ERROR: 1 RID allocations of type 'N26RendererEnvironmentStorage11EnvironmentE' were leaked at exit.
 ERROR: 7 shaders of type CanvasShaderRD were never freed
@@ -333,15 +347,15 @@ ERROR: 1 shaders of type ParticlesShaderRD were never freed
 ERROR: 49 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
 ERROR: 67 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
 ERROR: 8 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
-ERROR: 169 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 171 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 WARNING: 127 RIDs of type "UniformBuffer" were leaked.
    at: _free_rids (servers/rendering/rendering_device.cpp:6981)
-WARNING: 334 RIDs of type "Texture" were leaked.
+WARNING: 338 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7191)
-ERROR: 878 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 927 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 8 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 3 RID allocations of type 'PN18TextServerAdvanced27FontAdvancedLinkedVariationE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2514)
-ERROR: 230 resources still in use at exit (run with --verbose for details).
+ERROR: 232 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:795)

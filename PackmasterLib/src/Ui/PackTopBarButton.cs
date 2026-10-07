@@ -70,7 +70,7 @@ public static class PackTopBarButton
 	private static IHoverTip Tip(MegaCrit.Sts2.Core.Entities.Players.Player me)
 	{
 		var state = PackState.Get(me);
-		var names = state == null ? "" : string.Join("\n", state.Selected.Select(p => "[gold]" + PackRegistry.GetPackName(p) + "[/gold]"));
+		var names = state == null ? "" : string.Join("\n", state.Selected.Select(p => PackRegistry.GetPackName(p)));
 		var text = PackRegistry.ResolveLocKey("gameplay_ui:PACKMASTER_LIB.topbar.desc").Replace("{0}", names);
 		return new HoverTip(new LocString("gameplay_ui", "PACKMASTER_LIB.topbar.title"), text);
 	}
