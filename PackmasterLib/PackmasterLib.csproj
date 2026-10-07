@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Sts2Packmaster.Lib</RootNamespace>
+    <AssemblyName>PackmasterLib</AssemblyName>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+</Project>

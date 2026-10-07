@@ -1,0 +1,12 @@
+{
+  "id": "PackmasterLib",
+  "name": "Packmaster Lib",
+  "author": "Moon",
+  "description": "Dependency-free toolkit for card-pack characters. Provides pack registration, a character-select config panel, start-of-run pack choice, pack-based card rewards, and card library pack sorting/search. See DESIGN.md for API usage.",
+  "version": "0.1.0",
+  "min_game_version": "0.111.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}

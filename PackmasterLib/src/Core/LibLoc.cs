@@ -1,0 +1,306 @@
+using Sts2Packmaster.Lib.Api;
+
+namespace Sts2Packmaster.Lib.Core;
+
+/// <summary>
+/// Localization entries injected by the library itself. Ships translations for every vanilla
+/// language (see game localization/ folder); unknown languages fall back to English.
+/// </summary>
+internal static class LibLoc
+{
+	/// <summary>All language codes the game ships (localization/ folder names).</summary>
+	public static readonly string[] Languages =
+	{
+		"deu", "eng", "esp", "fra", "ind", "ita", "jpn", "kor", "pol", "ptb", "rus", "spa", "tha", "tur", "zhs", "zht",
+	};
+
+	// English base. Keys are "table:key"; RegisterAll splits them per table.
+	private static readonly Dictionary<string, string> En = new()
+	{
+		["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Packs",
+		["gameplay_ui:PACKMASTER_LIB.allpacks"] = "All Packs",
+		["gameplay_ui:PACKMASTER_LIB.count"] = "Pack slots",
+		["gameplay_ui:PACKMASTER_LIB.settings.group"] = "Packmaster",
+		["gameplay_ui:PACKMASTER_LIB.settings.expand"] = "Expand",
+		["gameplay_ui:PACKMASTER_LIB.settings.collapse"] = "Collapse",
+		["gameplay_ui:PACKMASTER_LIB.settings.multinone"] = "Allow multiple \"None\" slots (risky with tiny card pools)",
+		["gameplay_ui:PACKMASTER_LIB.settings.unlockall"] = "[Dev] Unlock every pack (ignore character mods' unlock rules)",
+		["gameplay_ui:PACKMASTER_LIB.settings.autochoice"] = "[Dev] Skip pick-a-pack: resolve \"Choice of 3\" slots randomly",
+		["gameplay_ui:PACKMASTER_LIB.slot"] = "Slot {Num}",
+		["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Random",
+		["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Choice of 3",
+		["gameplay_ui:PACKMASTER_LIB.slot.none"] = "None",
+		["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Pack",
+		["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: Choose your packs",
+		["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Pick 1 of 3 candidate packs to add to your card pool.",
+		["card_selection:PACKMASTER_LIB.choice.prompt"] = "Pick 1 pack ({Amount} candidates)",
+		["card_library:PACKMASTER_LIB.pool.tip"] = "View the pack character's cards",
+		["card_library:PACKMASTER_LIB.allpacks.tip"] = "Start the run with every pack of this character",
+	};
+
+	// Per-language overrides, merged over the English base.
+
+	private static readonly Dictionary<string, string> Spanish = new()
+	{
+		["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Paquetes",
+		["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Todos",
+		["gameplay_ui:PACKMASTER_LIB.count"] = "Número de paquetes",
+		["gameplay_ui:PACKMASTER_LIB.slot"] = "Espacio {Num}",
+		["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Aleatorio",
+		["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Elegir 1 de 3",
+		["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Ninguno",
+		["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Paquete",
+		["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: elige tus paquetes",
+		["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Elige 1 de 3 paquetes candidatos para añadirlo a tu pool de cartas de la partida.",
+		["card_selection:PACKMASTER_LIB.choice.prompt"] = "Elige 1 paquete ({Amount} candidatos)",
+		["card_library:PACKMASTER_LIB.pool.tip"] = "Ver las cartas del personaje de paquetes",
+		["card_library:PACKMASTER_LIB.allpacks.tip"] = "Empieza la partida con todos los paquetes de este personaje",
+	};
+
+	private static readonly Dictionary<string, Dictionary<string, string>> Overrides = new()
+	{
+		["zhs"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "卡包配置",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "全卡包",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "卡包数量",
+			["gameplay_ui:PACKMASTER_LIB.settings.group"] = "卡包大师",
+			["gameplay_ui:PACKMASTER_LIB.settings.expand"] = "展开",
+			["gameplay_ui:PACKMASTER_LIB.settings.collapse"] = "折叠",
+			["gameplay_ui:PACKMASTER_LIB.settings.multinone"] = "允许多个“无”槽位（卡池过小有风险）",
+			["gameplay_ui:PACKMASTER_LIB.settings.unlockall"] = "[开发] 解锁全部卡包（忽略角色mod的解锁规则）",
+			["gameplay_ui:PACKMASTER_LIB.settings.autochoice"] = "[开发] 跳过选包：“三选一”槽位开局直接随机",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "槽位 {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "随机",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "三选一",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "无",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "卡包",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "卡包大师：选择卡包",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "从三个候选卡包中选择一个，加入你本局的卡池。",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "选择 1 个卡包（共 {Amount} 个候选）",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "查看卡包角色的卡牌",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "开局直接获得该角色的所有卡包",
+		},
+		["zht"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "卡包配置",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "全卡包",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "卡包數量",
+			["gameplay_ui:PACKMASTER_LIB.settings.group"] = "卡包大師",
+			["gameplay_ui:PACKMASTER_LIB.settings.expand"] = "展開",
+			["gameplay_ui:PACKMASTER_LIB.settings.collapse"] = "折叠",
+			["gameplay_ui:PACKMASTER_LIB.settings.multinone"] = "允許多個「無」槽位（卡池過小有風險）",
+			["gameplay_ui:PACKMASTER_LIB.settings.unlockall"] = "[開發] 解鎖全部卡包（忽略角色mod的解鎖規則）",
+			["gameplay_ui:PACKMASTER_LIB.settings.autochoice"] = "[開發] 跳過選包：「三選一」槽位開局直接隨機",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "槽位 {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "隨機",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "三選一",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "無",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "卡包",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "卡包大師：選擇卡包",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "從三個候選卡包中選擇一個，加入你本局的卡池。",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "選擇 1 個卡包（共 {Amount} 個候選）",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "查看卡包角色的卡牌",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "開局直接獲得該角色的所有卡包",
+		},
+		["jpn"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "カードパック設定",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "全パック",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "パック数",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "スロット {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "ランダム",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "3択",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "なし",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "パック",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "パックマスター：カードパックを選ぼう",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "候補3つのうち1つのパックを選び、ランのカードプールに加えよう。",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "パックを1つ選択（候補 {Amount}）",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "パックキャラクターのカードを見る",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "ラン開始時にこのキャラクターの全パックを獲得",
+		},
+		["kor"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "카드팩 설정",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "전체 카드팩",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "카드팩 수",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "슬롯 {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "무작위",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "3중 선택",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "없음",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "카드팩",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "팩마스터: 카드팩 선택",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "후보 3개 중 카드팩 1개를 골라 이번 런의 카드 풀에 추가합니다.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "카드팩 1개 선택 (후보 {Amount})",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "카드팩 캐릭터의 카드 보기",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "런 시작 시 이 캐릭터의 모든 카드팩 획득",
+		},
+		["deu"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Kartenpacks",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Alle Packs",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Packanzahl",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Platz {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Zufällig",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "3 zur Wahl",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Keine",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Pack",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: Wähle deine Packs",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Wähle 1 von 3 Kandidaten, um ihn deinem Kartenpool hinzuzufügen.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Wähle 1 Pack ({Amount} Kandidaten)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Karten des Pack-Charakters ansehen",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Starte den Lauf mit allen Packs dieses Charakters",
+		},
+		["fra"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Paquets",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Tous",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Nombre de paquets",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Emplacement {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Aléatoire",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Choix de 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Aucun",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Paquet",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Maître des Paquets : choisissez vos paquets",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Choisissez 1 paquet parmi 3 pour l'ajouter à votre pool de cartes.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Choisissez 1 paquet ({Amount} candidats)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Voir les cartes du personnage à paquets",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Commencer la partie avec tous les paquets de ce personnage",
+		},
+		["esp"] = new Dictionary<string, string>(Spanish),
+		["spa"] = new Dictionary<string, string>(Spanish),
+		["ita"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Buste",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Tutte",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Numero di buste",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Slot {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Casuale",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Scegli 1 di 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Nessuno",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Busta",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: scegli le tue buste",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Scegli 1 delle 3 buste candidate da aggiungere al tuo pool di carte.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Scegli 1 busta ({Amount} candidate)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Vedi le carte del personaggio delle buste",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Inizia la partita con tutte le buste di questo personaggio",
+		},
+		["pol"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Paczki",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Wszystkie",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Liczba paczek",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Gniazdo {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Losowa",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Wybór 1 z 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Brak",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Paczka",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Mistrz Paczek: wybierz swoje paczki",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Wybierz 1 z 3 kandydujących paczek, aby dodać ją do puli kart tej rozgrywki.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Wybierz 1 paczkę ({Amount} kandydatów)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Zobacz karty postaci od paczek",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Rozpocznij rozgrywkę ze wszystkimi paczkami tej postaci",
+		},
+		["ptb"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Pacotes",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Todos",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Número de pacotes",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Espaço {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Aleatório",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Escolha 1 de 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Nenhum",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Pacote",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: escolha seus pacotes",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Escolha 1 de 3 pacotes candidatos para adicionar ao seu pool de cartas.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Escolha 1 pacote ({Amount} candidatos)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Ver as cartas do personagem de pacotes",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Comece a partida com todos os pacotes deste personagem",
+		},
+		["rus"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Наборы",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Все наборы",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Кол-во наборов",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Слот {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Случайно",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Выбор из 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Нет",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Набор",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Мастер Наборов: выберите наборы",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Выберите 1 из 3 предложенных наборов, чтобы добавить его в пул карт забега.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Выберите 1 набор (кандидатов: {Amount})",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Посмотреть карты наборов персонажа",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Начните забег со всеми наборами этого персонажа",
+		},
+		["tha"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "แพ็ก",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "ทุกแพ็ก",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "จำนวนแพ็ก",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "ช่องที่ {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "สุ่ม",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "เลือก 1 จาก 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "ไม่เลือก",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "แพ็ก",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "ปรมาจารย์แพ็ก: เลือกแพ็กของคุณ",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "เลือกแพ็ก 1 จาก 3 เพื่อเพิ่มเข้าไปในพูลการ์ดของรันนี้",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "เลือกแพ็ก 1 แพ็ก ({Amount} ตัวเลือก)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "ดูการ์ดของตัวละครแพ็ก",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "เริ่มรันด้วยแพ็กทั้งหมดของตัวละครนี้",
+		},
+		["tur"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Paketler",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Tüm Paketler",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Paket sayısı",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Yuva {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Rastgele",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "3 seçenekten 1",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Yok",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Paket",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Pak Ustası: Paketlerini seç",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Kart havuzuna eklemek için 3 aday paketten 1'ini seç.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "1 paket seç ({Amount} aday)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Pak karakterinin kartlarını gör",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Bu karakterin tüm paketleriyle oyuna başla",
+		},
+		["ind"] = new Dictionary<string, string>
+		{
+			["gameplay_ui:PACKMASTER_LIB.panel.title"] = "Paket",
+			["gameplay_ui:PACKMASTER_LIB.allpacks"] = "Semua Paket",
+			["gameplay_ui:PACKMASTER_LIB.count"] = "Jumlah paket",
+			["gameplay_ui:PACKMASTER_LIB.slot"] = "Slot {Num}",
+			["gameplay_ui:PACKMASTER_LIB.slot.random"] = "Acak",
+			["gameplay_ui:PACKMASTER_LIB.slot.choice"] = "Pilih 1 dari 3",
+			["gameplay_ui:PACKMASTER_LIB.slot.none"] = "Tidak ada",
+			["gameplay_ui:PACKMASTER_LIB.sort.pack"] = "Paket",
+			["gameplay_ui:PACKMASTER_LIB.neow.title"] = "Packmaster: Pilih paketmu",
+			["gameplay_ui:PACKMASTER_LIB.neow.desc"] = "Pilih 1 dari 3 paket kandidat untuk ditambahkan ke pool kartumu.",
+			["card_selection:PACKMASTER_LIB.choice.prompt"] = "Pilih 1 paket ({Amount} kandidat)",
+			["card_library:PACKMASTER_LIB.pool.tip"] = "Lihat kartu karakter paket",
+			["card_library:PACKMASTER_LIB.allpacks.tip"] = "Mulai run dengan semua paket karakter ini",
+		},
+	};
+
+	/// <summary>Registers every table x language with PackmasterApi.AddLoc.</summary>
+	public static void RegisterAll()
+	{
+		foreach (var language in Languages)
+		{
+			var merged = new Dictionary<string, string>(En);
+			if (Overrides.TryGetValue(language, out var overrides))
+			{
+				foreach (var (key, value) in overrides)
+				{
+					merged[key] = value;
+				}
+			}
+			foreach (var tableGroup in merged.GroupBy(kv => kv.Key[..kv.Key.IndexOf(':')]))
+			{
+				PackmasterApi.AddLoc(tableGroup.Key, language,
+					tableGroup.ToDictionary(kv => kv.Key[(kv.Key.IndexOf(':') + 1)..], kv => kv.Value));
+			}
+		}
+	}
+}
