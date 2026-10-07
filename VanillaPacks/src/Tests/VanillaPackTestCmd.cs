@@ -29,7 +29,7 @@ public class VanillaPackTestCmd : AbstractConsoleCmd
 	{
 		if (args.Length < 1 || issuingPlayer == null || !RunManager.Instance.IsInProgress)
 		{
-			return new CmdResult(success: false, "Usage (in run): packgive <strikes|defends|powers|tricks>");
+			return new CmdResult(success: false, "Usage (in run): packgive <packId>  (e.g. pain, iron_wall, doom, poison)");
 		}
 		var registration = PackRegistry.GetRegistration(issuingPlayer.Character);
 		if (registration == null)

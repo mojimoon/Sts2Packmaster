@@ -94,36 +94,3 @@ internal static class CharEpochPatch
 	private static bool SkipForPackCharacters(Player localPlayer) => PackRegistry.GetRegistration(localPlayer.Character) == null;
 }
 
-/// <summary>
-/// Rewards (combat/shop/events) pull from the selected packs. Cards from other pools the options
-/// happened to include (e.g. colorless from relics) still pass through.
-/// </summary>
-[HarmonyPatch]
-internal static class CardPoolPatch
-{
-	[HarmonyPatch(typeof(CardCreationOptions), nameof(CardCreationOptions.GetPossibleCards))]
-	[HarmonyPostfix]
-	private static void FilterToSelectedPacks(Player player, ref IEnumerable<CardModel> __result)
-	{
-		try
-		{
-			var state = PackState.Get(player);
-			if (state == null)
-			{
-				return;
-			}
-			if (state.PendingChoices.Count > 0)
-			{
-				// The Neow choice never happened (locked epoch / skipped): resolve now so rewards work.
-				PackState.ResolvePending((RunState)player.RunState, player.NetId, "First card source reached with unresolved choice slots");
-			}
-			var selected = state.SelectedCardIds();
-			var ownPool = player.Character.CardPool;
-			__result = __result.Where(c => selected.Contains(c.Id) || c.Pool != ownPool);
-		}
-		catch (Exception e)
-		{
-			Log.Error($"[PackmasterLib] CardPoolPatch failed: {e}");
-		}
-	}
-}

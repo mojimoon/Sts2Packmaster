@@ -18,6 +18,7 @@ public static class PackmasterLibEntry
 		harmony.PatchAll(typeof(PackmasterLibEntry).Assembly);
 
 		LibLoc.RegisterAll();
+		Sts2Packmaster.Lib.Ui.PackSetupTrigger.Subscribe();
 
 		Log.Info("[PackmasterLib] initialized (harmony patched, loc injected, API ready).");
 	}

@@ -43,8 +43,8 @@ public sealed class VanillaSlinger : RedirectedCharacterModel
 		ModelDb.Card<PackDefend>(),
 		ModelDb.Card<PackDefend>(),
 		ModelDb.Card<PackDefend>(),
-		ModelDb.Card<PackBash>(),
-		ModelDb.Card<PackNeutralize>(),
+		ModelDb.Card<MegaCrit.Sts2.Core.Models.Cards.Bash>(),
+		ModelDb.Card<MegaCrit.Sts2.Core.Models.Cards.Neutralize>(),
 	};
 
 	public override IReadOnlyList<RelicModel> StartingRelics => new List<RelicModel> { ModelDb.Relic<BurningBlood>() };

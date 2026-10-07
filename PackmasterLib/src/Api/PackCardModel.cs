@@ -48,9 +48,12 @@ public abstract class PackPreviewCard : CardModel
 
 	public override int MaxUpgradeLevel => 0;
 
-	public override string PortraitPath => ImageHelper.GetImagePath("atlases/card_atlas.sprites/colorless/beta.tres");
+	/// <summary>The cover card's art (see <see cref="PackDefinition.CoverCardType"/>), else the beta placeholder.</summary>
+	public override string PortraitPath =>
+		Sts2Packmaster.Lib.Core.PackRegistry.GetCoverCard(this)?.PortraitPath
+		?? ImageHelper.GetImagePath("atlases/card_atlas.sprites/colorless/beta.tres");
 
-	public override string BetaPortraitPath => PortraitPath;
+	public override string BetaPortraitPath => ImageHelper.GetImagePath("atlases/card_atlas.sprites/colorless/beta.tres");
 
 	protected override string PortraitPngPath => ImageHelper.GetImagePath("packed/card_portraits/colorless/beta.png");
 

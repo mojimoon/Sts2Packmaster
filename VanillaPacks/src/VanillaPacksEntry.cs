@@ -2,6 +2,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Modding;
+using MegaCrit.Sts2.Core.Models.Cards;
 using Sts2Packmaster.Lib.Api;
 
 namespace Sts2Packmaster.VanillaPacks;
@@ -73,63 +74,52 @@ public static class VanillaPacksEntry
 		Registration = new PackCharacterRegistration
 		{
 			CharacterType = typeof(VanillaSlinger),
+			// Vanilla cards referenced directly (they keep their own frame/art), 10-14 cards each with
+			// 2+ Attacks/Skills/Powers and 2+ Commons/Uncommons/Rares, so no roll ever runs dry.
 			Packs = new List<PackDefinition>
 			{
-				new PackDefinition
-				{
-					Id = "strikes",
-					NameKey = "cards:PACK_STRIKES_PREVIEW.title",
-					DescriptionKey = "cards:pack_strikes_preview.description",
-					Author = "Moon",
-					CardTypes = new List<Type>
-					{
-						typeof(PackStrike), typeof(PackTwinStrike), typeof(PackPommelStrike),
-						typeof(PackIronWave), typeof(PackAnger), typeof(PackThunderclap), typeof(PackBash),
-					},
-					PreviewCardType = typeof(PackStrikesPreview),
-				},
-				new PackDefinition
-				{
-					Id = "defends",
-					NameKey = "cards:PACK_DEFENDS_PREVIEW.title",
-					DescriptionKey = "cards:pack_defends_preview.description",
-					Author = "Moon",
-					CardTypes = new List<Type>
-					{
-						typeof(PackDefend), typeof(PackShrugItOff), typeof(PackBackflip),
-						typeof(PackArmaments), typeof(PackFlameBarrier), typeof(PackSecondWind), typeof(PackEscapePlan),
-					},
-					PreviewCardType = typeof(PackDefendsPreview),
-				},
-				new PackDefinition
-				{
-					Id = "powers",
-					NameKey = "cards:PACK_POWERS_PREVIEW.title",
-					DescriptionKey = "cards:pack_powers_preview.description",
-					Author = "Moon",
-					CardTypes = new List<Type>
-					{
-						typeof(PackInflame), typeof(PackRupture), typeof(PackBattleTrance),
-						typeof(PackBloodletting), typeof(PackJuggernaut), typeof(PackDemonForm), typeof(PackCorruption),
-					},
-					PreviewCardType = typeof(PackPowersPreview),
-				},
-				new PackDefinition
-				{
-					Id = "tricks",
-					NameKey = "cards:PACK_TRICKS_PREVIEW.title",
-					DescriptionKey = "cards:pack_tricks_preview.description",
-					Author = "Moon",
-					CardTypes = new List<Type>
-					{
-						typeof(PackNeutralize), typeof(PackPrepared), typeof(PackAcrobatics),
-						typeof(PackExpertise), typeof(PackReflex), typeof(PackHeadbutt),
-					},
-					PreviewCardType = typeof(PackTricksPreview),
-				},
+				Pack("pain", typeof(PainPackPreview), typeof(CrimsonMantle), Summary(4, 1, 2, 3, 4, PackTags.SelfDamage, PackTags.Strength),
+					typeof(Breakthrough), typeof(BloodWall), typeof(Hemokinesis), typeof(Spite), typeof(Bloodletting),
+					typeof(Rupture), typeof(Inferno), typeof(TearAsunder), typeof(Offering), typeof(Brand), typeof(CrimsonMantle)),
+				Pack("iron_wall", typeof(IronWallPackPreview), typeof(Barricade), Summary(2, 5, 1, 3, 4, PackTags.Block),
+					typeof(BodySlam), typeof(IronWave), typeof(ShrugItOff), typeof(TrueGrit), typeof(FlameBarrier),
+					typeof(Colossus), typeof(StoneArmor), typeof(Impervious), typeof(Barricade), typeof(Juggernaut), typeof(Unmovable)),
+				Pack("doom", typeof(DoomPackPreview), typeof(EndOfDays), Summary(4, 2, 2, 2, 5, PackTags.Doom, PackTags.Debuffs),
+					typeof(BlightStrike), typeof(Scourge), typeof(NegativePulse), typeof(NoEscape), typeof(Deathbringer), typeof(Shroud),
+					typeof(Countdown), typeof(TimesUp), typeof(Misery), typeof(EndOfDays), typeof(Oblivion), typeof(ReaperForm)),
+				Pack("bone_friends", typeof(BoneFriendsPackPreview), typeof(NecroMastery), Summary(3, 3, 2, 3, 4, PackTags.Summon),
+					typeof(Poke), typeof(Snap), typeof(Flatten), typeof(Afterlife), typeof(PullAggro), typeof(SicEm), typeof(HighFive),
+					typeof(Spur), typeof(Calcify), typeof(Friendship), typeof(Squeeze), typeof(Reanimate), typeof(NecroMastery)),
+				Pack("poison", typeof(PoisonPackPreview), typeof(Envenom), Summary(3, 1, 2, 1, 5, PackTags.Poison, PackTags.Debuffs),
+					typeof(PoisonedStab), typeof(DeadlyPoison), typeof(Snakebite), typeof(Strangle), typeof(BouncingFlask), typeof(Haze),
+					typeof(BubbleBubble), typeof(NoxiousFumes), typeof(Accelerant), typeof(CorrosiveWave), typeof(Outbreak), typeof(Envenom)),
+				Pack("phantom_blades", typeof(PhantomBladesPackPreview), typeof(PhantomBlades), Summary(4, 2, 1, 3, 3, PackTags.Shivs, PackTags.Attacks),
+					typeof(LeadingStrike), typeof(Finisher), typeof(BladeDance), typeof(CloakAndDagger), typeof(HiddenDaggers), typeof(UpMySleeve),
+					typeof(BladeOfInk), typeof(StormOfSteel), typeof(KnifeTrap), typeof(Accuracy), typeof(InfiniteBlades), typeof(PhantomBlades), typeof(FanOfKnives)),
+				Pack("chaos", typeof(ChaosPackPreview), typeof(BundleOfJoy), Summary(2, 2, 4, 3, 3, PackTags.Generation),
+					typeof(CollisionCourse), typeof(Begone), typeof(Quasar), typeof(ManifestAuthority), typeof(JackOfAllTrades), typeof(Discovery),
+					typeof(SpectrumShift), typeof(PillarOfCreation), typeof(BundleOfJoy), typeof(Arsenal), typeof(Jackpot), typeof(Calamity)),
+				Pack("kingdom_arms", typeof(KingdomArmsPackPreview), typeof(SwordSage), Summary(4, 2, 1, 2, 4, PackTags.Forge),
+					typeof(WroughtInWar), typeof(RefineBlade), typeof(SpoilsOfBattle), typeof(Conqueror), typeof(SummonForth), typeof(Bulwark),
+					typeof(Furnace), typeof(Parry), typeof(BeatIntoShape), typeof(TheSmith), typeof(SeekingEdge), typeof(SwordSage)),
+				Pack("starlight", typeof(StarlightPackPreview), typeof(Genesis), Summary(3, 2, 2, 2, 4, PackTags.Stars),
+					typeof(SolarStrike), typeof(GatherLight), typeof(Glow), typeof(HiddenCache), typeof(ShiningStrike), typeof(Radiate),
+					typeof(RoyalGamble), typeof(BlackHole), typeof(ChildOfTheStars), typeof(Genesis), typeof(SevenStars)),
+				Pack("lightning", typeof(LightningPackPreview), typeof(Thunder), Summary(4, 1, 2, 3, 3, PackTags.Orbs),
+					typeof(BallLightning), typeof(Barrage), typeof(LightningRod), typeof(TeslaCoil), typeof(Tempest), typeof(Fusion),
+					typeof(Storm), typeof(Thunder), typeof(Capacitor), typeof(Voltaic), typeof(MeteorStrike)),
+				Pack("frost", typeof(FrostPackPreview), typeof(Glacier), Summary(2, 5, 2, 2, 4, PackTags.Orbs, PackTags.Block),
+					typeof(ColdSnap), typeof(Coolheaded), typeof(Leap), typeof(Refract), typeof(Glacier), typeof(Chill),
+					typeof(Coolant), typeof(Hailstorm), typeof(Loop), typeof(IceLance), typeof(Defragment)),
 			},
-			ExtraPoolCardTypes = Array.Empty<Type>(),
-			DefaultSlots = new[] { "strikes", "random", "choice", "choice", "random" },
+			// Not in any pack (STS1 basics): starters, plus Ancient cards so Dusty Tome has something to give.
+			ExtraPoolCardTypes = new[]
+			{
+				typeof(PackStrike), typeof(PackDefend), typeof(Bash), typeof(Neutralize),
+				typeof(Corruption), typeof(WraithForm), typeof(BiasedCognition), typeof(ForbiddenGrimoire), typeof(TheSealedThrone),
+			},
+			// STS1 default is 7 packs: here 4 random + 3 drafted.
+			DefaultSlots = new[] { "random", "random", "random", "random", "choice", "choice", "choice" },
 		};
 
 		PackmasterApi.RegisterCharacter(Registration);
@@ -140,4 +130,30 @@ public static class VanillaPacksEntry
 			TaskHelper.RunSafely(PackmasterAutoTest.Run());
 		}
 	}
+
+	private static PackDefinition Pack(string id, Type preview, Type cover, PackSummary summary, params Type[] cards)
+	{
+		var entry = StringHelper.Slugify(preview.Name);
+		return new PackDefinition
+		{
+			Id = id,
+			NameKey = $"cards:{entry}.title",
+			DescriptionKey = $"cards:{entry}.description",
+			Author = "Moon",
+			CardTypes = cards,
+			PreviewCardType = preview,
+			CoverCardType = cover,
+			Summary = summary,
+		};
+	}
+
+	private static PackSummary Summary(int offense, int defense, int support, int frontload, int scaling, params string[] tags) => new()
+	{
+		Offense = offense,
+		Defense = defense,
+		Support = support,
+		Frontload = frontload,
+		Scaling = scaling,
+		Tags = tags,
+	};
 }

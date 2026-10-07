@@ -112,6 +112,8 @@ public static class PackResolver
 						break;
 					}
 					var candidates = TakeRandom(offerable, Math.Min(3, offerable.Count), rng);
+					// STS1: offered packs leave the pool, picked or not, so no pack is offered twice.
+					pool.RemoveAll(candidates.Contains);
 					result.PendingChoices.Add(candidates);
 					result.Trace.Add($"slot {i + 1}: choice of {candidates.Count} [{string.Join(", ", candidates.Select(c => c.Id))}]");
 					break;

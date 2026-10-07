@@ -6,16 +6,17 @@ using Sts2Packmaster.Lib.Core;
 namespace Sts2Packmaster.VanillaPacks;
 
 /// <summary>
-/// Card pool of the Vanilla Slinger. Lists every pack card + preview (the frame/energy colors
-/// are author choices; here we reuse Ironclad's). Preview cards are filtered out of reward rolls.
+/// Card pool of the Vanilla Slinger. GenerateAllCards lists only the mod's own cards (starter copies,
+/// pack previews); the vanilla pack cards stay in their original pools and are added to this pool's
+/// GetUnlockedCards by PackmasterLib. The colorless frame is what "One frame for all" applies.
 /// </summary>
 public sealed class VanillaSlingerCardPool : CardPoolModel
 {
 	public override string Title => "vanilla_slinger";
 
-	public override string EnergyColorName => "ironclad";
+	public override string EnergyColorName => "colorless";
 
-	public override string CardFrameMaterialPath => "card_frame_red";
+	public override string CardFrameMaterialPath => "card_frame_colorless";
 
 	public override Color DeckEntryCardColor => new Color("8a6f4d");
 

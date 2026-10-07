@@ -41,6 +41,7 @@ internal static class PackSettingsSection
 
 			var options = new VBoxContainer { Name = OptionsName, Visible = false, MouseFilter = Control.MouseFilterEnum.Ignore };
 			options.AddThemeConstantOverride("separation", 0);
+			AddToggle(options, "oneframe", () => PackmasterSettings.OneFrameMode, v => PackmasterSettings.OneFrameMode = v);
 			AddToggle(options, "multinone", () => PackmasterSettings.AllowMultipleNone, v => PackmasterSettings.AllowMultipleNone = v);
 			AddToggle(options, "unlockall", () => PackmasterSettings.UnlockAllPacks, v => PackmasterSettings.UnlockAllPacks = v);
 			AddToggle(options, "autochoice", () => PackmasterSettings.AutoResolveChoices, v => PackmasterSettings.AutoResolveChoices = v);

@@ -16,6 +16,8 @@ public static class PackmasterSettings
 		public bool AllowMultipleNone { get; set; }
 		public bool UnlockAllPacks { get; set; }
 		public bool AutoResolveChoices { get; set; }
+		public bool OneFrameMode { get; set; }
+		public bool HideSummaries { get; set; }
 	}
 
 	private static Data? _data;
@@ -41,6 +43,23 @@ public static class PackmasterSettings
 	{
 		get => Current.AutoResolveChoices;
 		set { Current.AutoResolveChoices = value; Save(); }
+	}
+
+	/// <summary>
+	/// STS1 "One Frame For All": pack cards owned by a pack character use that character's card frame
+	/// and energy icon instead of their original character's (default off: vanilla cards keep their look).
+	/// </summary>
+	public static bool OneFrameMode
+	{
+		get => Current.OneFrameMode;
+		set { Current.OneFrameMode = value; Save(); }
+	}
+
+	/// <summary>STS1 "Show pack ratings" (inverted so the default is shown): hide the star ratings in pack tooltips.</summary>
+	public static bool HideSummaries
+	{
+		get => Current.HideSummaries;
+		set { Current.HideSummaries = value; Save(); }
 	}
 
 	private static Data Load()

@@ -60,11 +60,19 @@ internal static class CardLibraryPatch
 					image.Texture = character.CharacterSelectIcon;
 				}
 				filterButton.Loc = new LocString("card_library", "PACKMASTER_LIB.pool.tip");
+				// The character's tab lists its own cards plus every pack card, including vanilla cards
+				// referenced by packs (STS1 shows pack cards under the Packmaster tab).
 				var ownPool = character.CardPool;
-				poolFilters[filterButton] = c => ReferenceEquals(c.Pool, ownPool);
+				var registration = PackRegistry.GetRegistration(character)!;
+				var characterCards = PackRegistry.GetCharacterCards(registration).ToHashSet();
+				poolFilters[filterButton] = c => !PackRegistry.IsPreviewCard(c) && (ReferenceEquals(c.Pool, ownPool) || characterCards.Contains(c));
 				cardPoolFilters[character] = filterButton;
-				filterButton.Connect(NCardPoolFilter.SignalName.Toggled,
-					Callable.From<NCardPoolFilter>(f => updateFilter!.Invoke(__instance, new[] { f })));
+				filterButton.Connect(NCardPoolFilter.SignalName.Toggled, Callable.From<NCardPoolFilter>(f =>
+				{
+					// Pack names are drawn above cards while this character's tab is shown.
+					PackDisplayContext.LibraryRegistration = f.IsSelected ? registration : null;
+					updateFilter!.Invoke(__instance, new[] { f });
+				}));
 				filterButton.Connect(Control.SignalName.FocusEntered,
 					Callable.From(() => lastHovered!.SetValue(__instance, filterButton)));
 
@@ -89,6 +97,10 @@ internal static class CardLibraryPatch
 			Log.Error($"[PackmasterLib] CardLibraryPatch failed: {e}");
 		}
 	}
+
+	[HarmonyPatch(typeof(NCardLibrary), nameof(NCardLibrary.OnSubmenuClosed))]
+	[HarmonyPostfix]
+	private static void ClearDisplayContext() => PackDisplayContext.LibraryRegistration = null;
 
 	/// <summary>Mirrors NCardLibrary.OnCardTypeSort (IsDescending is read post-toggle).</summary>
 	private static void OnPackSortClicked(NCardLibrary library, NCardViewSortButton button)

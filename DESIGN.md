@@ -236,3 +236,24 @@ public static void Init()
    - 三选一槽会重复给已有卡包：候选在槽位顺序上预先抽取，之后的随机槽/前一个三选一会拿走其中的包。现在先解析固定/随机槽再解析三选一，且出示/兜底时按已选包重新过滤候选（`PlayerPackState.TakeNextChoice`）。
    - 配置 UI 统一为原生 `NPaginator`（`PackConfigRows`），设置页与选人页共用；顶栏 modifier 图标改用原版 draft 图标。
 7. **v0.1.2**：选人面板改为按内容自适应高度的 PanelContainer（折叠时整体收起）、上移并缩放到 0.7，7 槽时不遮挡出发按钮；行布局改为 HBox（标签裁剪+省略号，不再与翻页控件重叠）；"全包模式（…）"改为"全卡包"（各语言同步缩短）；`PackConfigStore` 之前从未真正写盘（目录不存在时 `FileAccess.Open` 返回 null），已补 `MakeDirRecursiveAbsolute`；自动测试全程静音、关闭首次启动的抢先体验弹窗、非 headless 时截图。
+
+## 7. v0.2 重构：对齐 1 代卡包大师行为
+
+研究 1 代源码（`PackSetupScreen`、`OpeningRunScreenPatch`、`CurrentRunCardsTopPanelItem`、`RenderBaseGameCardPackTopTextPatches`、`AbstractCardPack.initializePack`）后的实现：
+
+| 1 代行为 | STS2 实现 |
+|---|---|
+| 卡包按 ID 引用卡牌，**可直接引用原版卡**（保留原颜色卡框） | `PackDefinition.CardTypes` 可含原版类型。角色卡池 `GenerateAllCards` 只放本 mod 程序集的卡（`PackRegistry.GetPoolCards`）；`CardModel.Pool` 反查仍得到原卡池 → 原卡框/卡图。若把原版卡放进角色池，排在共享池之前的角色池会"劫持"无色卡的 Pool，所以禁止。 |
+| 开局后重建卡池 | `CardPoolModel.GetUnlockedCards` postfix（`CardPoolPatch`）：卡包角色的池返回 额外牌 + 已选卡包的牌。所有"本职业卡"来源（奖励、商店、事件、药水、随机生成、尘封魔典）都经过这里。按 `UnlockState`+角色池找到本局玩家。 |
+| 变化在玩家卡池内进行（无色→无色） | `CardFactory.GetDefaultTransformationOptions` postfix：原版逻辑用 `original.Pool`（原版卡会变成原角色的牌），对卡包角色改为本局卡包池。 |
+| 在涅奥事件开始时打开 `PackSetupScreen`，确认后涅奥照常 | `RunManager.RoomEntered` → `PackSetupTrigger.TryOpen` → `PackSetupScreen`（GlobalUi 顶层覆盖）。上方固定/随机包、下方逐轮三选一、悬停卡包概要、确认按钮。 |
+| 不影响涅奥奖励 | **旧版 bug 根因**：`Neow.GenerateInitialOptions` 在 `RunState.Modifiers` 非空时**只**显示 modifier 选项，存储用的 `PackRunModifier` 把涅奥奖励全部替换（选项用完后甚至为空）。现在 modifier 只做存储，`HiddenModifierPatch` 在涅奥选项/描述和顶栏初始化期间临时把它从列表中隐藏。 |
+| 提供过的候选包移出卡池（选或不选） | `PackResolver`：先解析固定/随机，再解析三选一；候选从池中移除。 |
+| 卡面上方显示包名 | `NCard.Reload` postfix 在 `CardContainer` 内加标签；显示上下文 `PackDisplayContext`（卡牌主人 → 本局本地玩家 → 图鉴中卡包角色筛选）。 |
+| One Frame For All | `CardModel.VisualCardPool` postfix（`PackmasterSettings.OneFrameMode`）。 |
+| 顶栏卡包按钮：悬停列包、点击看牌池 | `PackTopBarButton`：复用原版牌组按钮场景，按节点名替换 `OnRelease/IsOpen/OnFocus/Hotkeys/_Notification`；牌池视图用 `NSimpleCardsViewScreen`。 |
+| 卡包概要（5 项星级 + 标签）、显示评分开关 | `PackSummary`/`PackTags`；`PackSetupScreen.SummaryTips`；`PackmasterSettings.HideSummaries`。 |
+
+存档：`PackRunModifier` 新增 `PackPending`（未选三选一及其候选）与 `PackSetupDone`，中途存档读档后选包界面以同样候选重新打开。多人：无同步选包 UI，三选一用同一随机种子确定性解析并跳过界面。
+
+卡包深度：`PackRegistry.ValidateDepth` 对少于 10 张、或某类型/稀有度少于 2 张（不计仅多人牌）的卡包输出警告。

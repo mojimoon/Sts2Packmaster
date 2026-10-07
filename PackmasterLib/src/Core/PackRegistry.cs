@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
 using Sts2Packmaster.Lib.Api;
 
@@ -20,8 +21,13 @@ public static class PackRegistry
 		public bool Resolved;
 		public readonly Dictionary<Type, CardModel> CardsByType = new();
 		public readonly Dictionary<CardModel, PackDefinition> PackOfCard = new();
-		public readonly HashSet<CardModel> Previews = new();
-		public readonly List<CardModel> PoolCards = new();
+		public readonly Dictionary<CardModel, PackDefinition> Previews = new();
+		public readonly Dictionary<PackDefinition, List<CardModel>> PackCards = new();
+		/// <summary>Cards defined in the character mod's assembly: they live in the character's own pool.</summary>
+		public readonly List<CardModel> OwnPoolCards = new();
+		/// <summary>Every non-preview card of the character (extras + all pack cards).</summary>
+		public readonly List<CardModel> CharacterCards = new();
+		public readonly List<CardModel> ExtraCards = new();
 	}
 
 	private static readonly object Lock = new();
@@ -156,36 +162,72 @@ public static class PackRegistry
 		return null;
 	}
 
-	/// <summary>All cards registered for a character's pool (pack cards + previews + extras).</summary>
+	/// <summary>
+	/// Cards for the character's own CardPoolModel.GenerateAllCards(): only card types defined in the
+	/// character mod's assembly (own pack cards, starters, previews). Vanilla/other-mod cards referenced
+	/// by packs stay in their original pool (so they keep their frame) and are served through
+	/// CardPoolModel.GetUnlockedCards by the library (see CardPoolPatch).
+	/// </summary>
 	public static List<CardModel> GetPoolCards(PackCharacterRegistration registration)
+	{
+		var e = Find(registration);
+		return e == null ? new List<CardModel>() : e.OwnPoolCards.ToList();
+	}
+
+	/// <summary>Every card of the character except preview cards: extras (starters/ancients) + all pack cards.</summary>
+	public static List<CardModel> GetCharacterCards(PackCharacterRegistration registration)
+	{
+		var e = Find(registration);
+		return e == null ? new List<CardModel>() : e.CharacterCards.ToList();
+	}
+
+	/// <summary>Non-pack pool cards (starters, ancients) of the character.</summary>
+	public static List<CardModel> GetExtraCards(PackCharacterRegistration registration)
+	{
+		var e = Find(registration);
+		return e == null ? new List<CardModel>() : e.ExtraCards.ToList();
+	}
+
+	/// <summary>The (resolved) cards of a pack.</summary>
+	public static IReadOnlyList<CardModel> GetPackCards(PackDefinition pack)
 	{
 		lock (Lock)
 		{
 			foreach (var e in Entries)
 			{
-				if (e.Registration != registration)
+				if (EnsureResolved(e) && e.PackCards.TryGetValue(pack, out var cards))
 				{
-					continue;
+					return cards;
 				}
-				EnsureResolved(e);
-				return e.PoolCards.ToList();
 			}
 		}
-		return new List<CardModel>();
+		return Array.Empty<CardModel>();
 	}
 
-	/// <summary>The pack a card belongs to (null for extras / other characters' cards).</summary>
+	/// <summary>The pack a card belongs to for the given character (null for extras / unrelated cards).</summary>
+	public static PackDefinition? GetPackOf(CardModel? card, PackCharacterRegistration? registration)
+	{
+		if (card == null || registration == null)
+		{
+			return null;
+		}
+		var e = Find(registration);
+		return e != null && e.PackOfCard.TryGetValue(Canonical(card), out var pack) ? pack : null;
+	}
+
+	/// <summary>The pack a card belongs to for any pack character (first registration wins).</summary>
 	public static PackDefinition? GetPackOf(CardModel? card)
 	{
 		if (card == null)
 		{
 			return null;
 		}
+		var canonical = Canonical(card);
 		lock (Lock)
 		{
 			foreach (var e in Entries)
 			{
-				if (EnsureResolved(e) && e.PackOfCard.TryGetValue(card, out var pack))
+				if (EnsureResolved(e) && e.PackOfCard.TryGetValue(canonical, out var pack))
 				{
 					return pack;
 				}
@@ -195,24 +237,82 @@ public static class PackRegistry
 	}
 
 	/// <summary>Is this card a pack preview card?</summary>
-	public static bool IsPreviewCard(CardModel? card)
+	public static bool IsPreviewCard(CardModel? card) => GetPreviewPack(card) != null;
+
+	/// <summary>The pack a preview card represents.</summary>
+	public static PackDefinition? GetPreviewPack(CardModel? card)
 	{
 		if (card == null)
 		{
-			return false;
+			return null;
+		}
+		var canonical = Canonical(card);
+		lock (Lock)
+		{
+			foreach (var e in Entries)
+			{
+				if (EnsureResolved(e) && e.Previews.TryGetValue(canonical, out var pack))
+				{
+					return pack;
+				}
+			}
+		}
+		return null;
+	}
+
+	/// <summary>The preview card of a pack (null if the pack has none).</summary>
+	public static CardModel? GetPreviewCard(PackDefinition pack) =>
+		pack.PreviewCardType == null ? null : GetCard(pack.PreviewCardType);
+
+	/// <summary>The cover card of a preview card's pack (explicit CoverCardType, else first Rare, else first card).</summary>
+	public static CardModel? GetCoverCard(CardModel previewCard)
+	{
+		var pack = GetPreviewPack(previewCard);
+		if (pack == null)
+		{
+			return null;
+		}
+		if (pack.CoverCardType != null && GetCard(pack.CoverCardType) is { } cover)
+		{
+			return cover;
+		}
+		var cards = GetPackCards(pack);
+		return cards.FirstOrDefault(c => c.Rarity == CardRarity.Rare) ?? cards.FirstOrDefault();
+	}
+
+	/// <summary>The character model of a registration (null until ModelDb is ready).</summary>
+	public static CharacterModel? GetCharacter(PackCharacterRegistration registration) => Find(registration)?.Character;
+
+	/// <summary>The registration whose character uses this card pool, if any.</summary>
+	public static PackCharacterRegistration? GetRegistrationForPool(CardPoolModel? pool)
+	{
+		if (pool == null)
+		{
+			return null;
 		}
 		lock (Lock)
 		{
 			foreach (var e in Entries)
 			{
-				if (EnsureResolved(e) && e.Previews.Contains(card))
+				if (EnsureResolved(e) && ReferenceEquals(e.Character!.CardPool, pool))
 				{
-					return true;
+					return e.Registration;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
+
+	private static Entry? Find(PackCharacterRegistration registration)
+	{
+		lock (Lock)
+		{
+			var e = Entries.FirstOrDefault(x => x.Registration == registration);
+			return e != null && EnsureResolved(e) ? e : null;
+		}
+	}
+
+	private static CardModel Canonical(CardModel card) => card.IsCanonical ? card : ModelDb.GetById<CardModel>(card.Id);
 
 	/// <summary>
 	/// Global pack ordering index used by "sort by pack": (character registration order, pack order).
@@ -225,7 +325,7 @@ public static class PackRegistry
 			for (var ci = 0; ci < Entries.Count; ci++)
 			{
 				var e = Entries[ci];
-				if (!EnsureResolved(e) || !e.PackOfCard.TryGetValue(card, out var pack))
+				if (!EnsureResolved(e) || !e.PackOfCard.TryGetValue(Canonical(card), out var pack))
 				{
 					continue;
 				}
@@ -397,32 +497,58 @@ public static class PackRegistry
 				return false;
 			}
 			entry.Character = character;
+			var ownAssembly = entry.Registration.CharacterType.Assembly;
 			foreach (var (type, _) in entry.CardsByType.ToList())
 			{
 				var card = ResolveModel<CardModel>(type);
-				if (card != null)
+				if (card == null)
 				{
-					entry.CardsByType[type] = card;
-					entry.PoolCards.Add(card);
-					if (entry.PackOfCard.TryGetValue(card, out var existingPack) && existingPack == null)
-					{
-						entry.PackOfCard.Remove(card);
-					}
+					entry.CardsByType.Remove(type);
+					continue;
+				}
+				entry.CardsByType[type] = card;
+				if (type.Assembly == ownAssembly)
+				{
+					entry.OwnPoolCards.Add(card);
 				}
 			}
-			// Pack membership map (preview cards map to their pack too, but are flagged).
 			foreach (var pack in entry.Registration.Packs)
 			{
+				var cards = new List<CardModel>();
 				foreach (var type in pack.CardTypes)
 				{
-					if (entry.CardsByType.TryGetValue(type, out var card) && card != null)
+					if (!entry.CardsByType.TryGetValue(type, out var card))
 					{
-						entry.PackOfCard[card] = pack;
+						continue;
 					}
+					if (entry.PackOfCard.TryGetValue(card, out var other))
+					{
+						Log.Warn($"[PackmasterLib] {type.Name} is in packs '{other.Id}' and '{pack.Id}'; keeping '{other.Id}'.");
+						continue;
+					}
+					entry.PackOfCard[card] = pack;
+					cards.Add(card);
 				}
-				if (pack.PreviewCardType != null && entry.CardsByType.TryGetValue(pack.PreviewCardType, out var preview) && preview != null)
+				entry.PackCards[pack] = cards;
+				if (pack.PreviewCardType != null && entry.CardsByType.TryGetValue(pack.PreviewCardType, out var preview))
 				{
-					entry.Previews.Add(preview);
+					entry.Previews[preview] = pack;
+				}
+				ValidateDepth(entry.Registration, pack, cards);
+			}
+			foreach (var type in entry.Registration.ExtraPoolCardTypes)
+			{
+				if (entry.CardsByType.TryGetValue(type, out var card) && !entry.ExtraCards.Contains(card))
+				{
+					entry.ExtraCards.Add(card);
+				}
+			}
+			entry.CharacterCards.AddRange(entry.ExtraCards);
+			foreach (var card in entry.PackCards.Values.SelectMany(c => c))
+			{
+				if (!entry.CharacterCards.Contains(card))
+				{
+					entry.CharacterCards.Add(card);
 				}
 			}
 			return true;
@@ -431,6 +557,39 @@ public static class PackRegistry
 		{
 			Log.Warn($"[PackmasterLib] Failed to resolve {entry.Registration.CharacterType.Name}: {e.Message}");
 			return false;
+		}
+	}
+
+	/// <summary>STS1-style pack depth guidance: ~10 cards, 2+ of each type and of each reward rarity.</summary>
+	private static void ValidateDepth(PackCharacterRegistration registration, PackDefinition pack, List<CardModel> cards)
+	{
+		var problems = new List<string>();
+		// Multiplayer-only cards vanish from singleplayer pools, so they don't count toward depth.
+		cards = cards.Where(c => c.MultiplayerConstraint != CardMultiplayerConstraint.MultiplayerOnly).ToList();
+		if (cards.Count < 10)
+		{
+			problems.Add($"{cards.Count} cards (<10)");
+		}
+		foreach (var type in new[] { CardType.Attack, CardType.Skill, CardType.Power })
+		{
+			var n = cards.Count(c => c.Type == type);
+			if (n < 2)
+			{
+				problems.Add($"{n} {type}");
+			}
+		}
+		foreach (var rarity in new[] { CardRarity.Common, CardRarity.Uncommon, CardRarity.Rare })
+		{
+			var n = cards.Count(c => c.Rarity == rarity);
+			if (n < 2)
+			{
+				problems.Add($"{n} {rarity}");
+			}
+		}
+		if (problems.Count > 0)
+		{
+			Log.Warn($"[PackmasterLib] Pack '{pack.Id}' of {registration.CharacterType.Name} is thin ({string.Join(", ", problems)}); "
+				+ "thin pools can starve rewards and random-card effects. See PackDefinition docs.");
 		}
 	}
 

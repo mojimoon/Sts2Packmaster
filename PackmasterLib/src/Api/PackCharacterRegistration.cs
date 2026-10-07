@@ -43,8 +43,10 @@ public sealed class PackCharacterRegistration
 	public required IReadOnlyList<PackDefinition> Packs { get; init; }
 
 	/// <summary>
-	/// Card types that belong to the character pool but not to any pack (starting deck basics).
-	/// They show up in the library under your character and are excluded from reward rolls by rarity.
+	/// Cards in the character's pool that belong to no pack, like STS1 Packmaster's basics: starting
+	/// deck cards and Ancient cards (Dusty Tome picks a random non-transcendence Ancient from the
+	/// pool and crashes if there is none, so register at least one). Own or vanilla types.
+	/// Basic/Ancient rarity keeps them out of normal reward rolls.
 	/// </summary>
 	public IReadOnlyList<Type> ExtraPoolCardTypes { get; init; } = Array.Empty<Type>();
 
