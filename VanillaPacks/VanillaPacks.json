@@ -2,13 +2,16 @@
   "id": "VanillaPacks",
   "name": "Vanilla Packs (Packmaster Demo)",
   "author": "Moon",
-  "description": "Demo character 'Vanilla Slinger' for PackmasterLib: vanilla cards split into 4 card packs. Includes console commands 'packtest'/'packstate'/'packgive' to verify pack selection logic.",
+  "description": "Test/demo character 'Vanilla Slinger' for PackmasterLib: 11 card packs made of vanilla cards. Mainly for testing PackmasterLib and as a reference for mod authors.",
   "version": "0.1.0",
   "min_game_version": "0.111.0",
   "has_pck": false,
   "has_dll": true,
   "dependencies": [
-    { "id": "PackmasterLib", "min_version": "0.1.0" }
+    {
+      "id": "PackmasterLib",
+      "min_version": "0.1.0"
+    }
   ],
   "affects_gameplay": true
 }
