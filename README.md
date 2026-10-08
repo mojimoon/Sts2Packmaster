@@ -2,6 +2,11 @@
 
 [English](#english) | [中文](#中文)
 
+## Workshop Links
+
+- PackmasterLib: [3815696341](https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341) | [Open in Steam Client](https://link.steam.watch/url/CommunityFilePage/3815696341)
+- VanillaPacks: [3815696519](https://steamcommunity.com/sharedfiles/filedetails/?id=3815696519) | [Open in Steam Client](https://link.steam.watch/url/CommunityFilePage/3815696519)
+
 ## English
 
 A **Slay the Spire 2** mod library that brings the core of STS1's *The Packmaster* to STS2: card-pack
