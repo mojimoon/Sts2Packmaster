@@ -28,7 +28,7 @@ Want to try it? Subscribe to [url=][b]Vanilla Packs[/b][/url], a test character 
 [*][b]Packs button[/b] in the top bar: lists the run's packs; click to view the run's card pool.
 [*][b]Card library[/b]: pack sort button, pack filter dropdown and search by pack name.
 [*][b]Settings → General → Packmaster[/b]: One frame for all, multiple "None" slots, plus developer options.
-[*]Save-safe, multiplayer-aware, UI in all 16 game languages. Dependency-free.
+[*]Dependency-free, save-safe, multiplayer-compatible, UI in all 16 game languages.
 [/list]
 
 [h1]For mod authors[/h1]
@@ -45,7 +45,7 @@ Add PackmasterLib as a dependency in your manifest ([b]"dependencies": [{ "id": 
 [h1]Compatibility[/h1]
 Game version v0.111.0 or later. Only affects characters registered with the library.
 
-[pullquote]Comments, bug reports and suggestions are welcome — here or on GitHub![/pullquote]
+[pullquote]Comments, bug reports and suggestions are welcome on GitHub![/pullquote]
 
 GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
@@ -70,7 +70,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [*][b]右上角卡包按钮[/b]：列出本局卡包，点击查看本局牌池。
 [*][b]图鉴[/b]：卡包排序按钮、卡包筛选下拉框，可搜索卡包名。
 [*][b]设置 → 游戏设置 → 卡包大师[/b]：统一卡框、允许多个「无」槽位，以及开发选项。
-[*]支持S/L与多人模式，界面覆盖游戏全部 16 种语言。免依赖。
+[*]免依赖，支持S/L与多人模式，界面覆盖游戏全部 16 种语言。
 [/list]
 
 [h1]给 mod 作者[/h1]
@@ -87,7 +87,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [h1]兼容性[/h1]
 游戏版本 v0.111.0 及以上。只影响注册到本库的角色。
 
-[pullquote]欢迎在这里或 GitHub 上留言、反馈 bug 和提出建议！[/pullquote]
+[pullquote]欢迎在 GitHub 上留言、反馈 bug 和提出建议！[/pullquote]
 
 GitHub 仓库：[url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
@@ -128,7 +128,7 @@ Each pack has 11–13 vanilla cards, with at least 2 Attacks, Skills and Powers 
 [/list]
 
 [h1]For mod authors[/h1]
-The full source is in the Packmaster Lib repository on [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url]; see the [b]VanillaPacks/[/b] folder and the documentation in [b]docs/en/[/b]. It also contains console commands [b]packgive <packId>[/b] and [b]packtestreward[/b].
+The full source is in the Sts2Packmaster repository on GitHub see the [b]VanillaPacks/[/b] folder and the documentation in [b]docs/en/[/b]. It also contains console commands [b]packgive <packId>[/b] and [b]packtestreward[/b].
 
 GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
@@ -167,7 +167,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [/list]
 
 [h1]给 mod 作者[/h1]
-完整源码在 [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url] 上的卡包大师工具库仓库中，见 [b]VanillaPacks/[/b] 目录和 [b]docs/zh/[/b] 中的文档。其中还包含控制台命令 [b]packgive <packId>[/b]、[b]packtestreward[/b]。
+完整源码在 GitHub 的 Sts2Packmaster 仓库中，见 [b]VanillaPacks/[/b] 目录和 [b]docs/zh/[/b] 中的文档。其中还包含控制台命令 [b]packgive <packId>[/b]、[b]packtestreward[/b]。
 
 GitHub 仓库：[url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
