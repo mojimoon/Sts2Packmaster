@@ -28,7 +28,7 @@ Want to try it? Subscribe to [url=][b]Vanilla Packs[/b][/url], a test character 
 [*][b]Packs button[/b] in the top bar: lists the run's packs; click to view the run's card pool.
 [*][b]Card library[/b]: pack sort button, pack filter dropdown and search by pack name.
 [*][b]Settings → General → Packmaster[/b]: One frame for all, multiple "None" slots, plus developer options.
-[*]Save-safe, multiplayer-aware, UI in all 16 game languages. No dependencies besides the game itself.
+[*]Save-safe, multiplayer-aware, UI in all 16 game languages. Dependency-free.
 [/list]
 
 [h1]For mod authors[/h1]
@@ -52,7 +52,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 
 ## PackmasterLib — 中文
 
-标题：`卡包大师工具库`
+标题：`PackMasterLib / 卡包大师Lib`
 
 ```bbcode
 复刻《杀戮尖塔》1 代 [b]卡包大师（The Packmaster）[/b] 核心玩法的杀戮尖塔2工具库：[b]卡包角色[/b]的卡池由每局开始时选出的卡包组成。
@@ -70,7 +70,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [*][b]右上角卡包按钮[/b]：列出本局卡包，点击查看本局牌池。
 [*][b]图鉴[/b]：卡包排序按钮、卡包筛选下拉框，可搜索卡包名。
 [*][b]设置 → 游戏设置 → 卡包大师[/b]：统一卡框、允许多个「无」槽位，以及开发选项。
-[*]支持存读档与多人模式，界面覆盖游戏全部 16 种语言。除游戏本体外无其他依赖。
+[*]支持S/L与多人模式，界面覆盖游戏全部 16 种语言。免依赖。
 [/list]
 
 [h1]给 mod 作者[/h1]
@@ -101,7 +101,7 @@ Title: `Vanilla Packs (Packmaster Demo)`
 ```bbcode
 A [b]test / demo character[/b] for [url=][b]Packmaster Lib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
 
-[pullquote]Requires [url=][b]Packmaster Lib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors. It has no art of its own (it reuses the Ironclad's) and is not balanced as a real character.[/pullquote]
+[pullquote]Requires [url=][b]Packmaster Lib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors.[/pullquote]
 
 [h1]How to play[/h1]
 [list]
@@ -128,7 +128,7 @@ Each pack has 11–13 vanilla cards, with at least 2 Attacks, Skills and Powers 
 [/list]
 
 [h1]For mod authors[/h1]
-The full source is in the Packmaster Lib repository on [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url]; see the [b]VanillaPacks/[/b] folder and the documentation in [b]docs/en/[/b]. It also contains an automated end-to-end test ([b]--packmastertest[/b]) and console commands [b]packgive <packId>[/b] and [b]packtestreward[/b].
+The full source is in the Packmaster Lib repository on [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url]; see the [b]VanillaPacks/[/b] folder and the documentation in [b]docs/en/[/b]. It also contains console commands [b]packgive <packId>[/b] and [b]packtestreward[/b].
 
 GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
@@ -138,9 +138,9 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 标题：`原版卡包（卡包大师演示）`
 
 ```bbcode
-[url=][b]卡包大师工具库[/b][/url] 的[b]测试 / 演示角色[/b]：[b]原版卡包师[/b]，用原版卡组成的卡包构筑牌组——就像 1 代的卡包大师。
+[url=][b]PackMasterLib / 卡包大师Lib[/b][/url] 的[b]测试 / 演示角色[/b]：[b]原版卡包师[/b]，用原版卡组成的卡包构筑牌组——就像 1 代的卡包大师。
 
-[pullquote]需要前置 [url=][b]卡包大师工具库[/b][/url]。本 mod 主要用于测试工具库、给 mod 作者做示例。没有自己的美术（复用铁甲战士），也没有按正式角色进行平衡。[/pullquote]
+[pullquote]需要前置 [url=][b]PackMasterLib[/b][/url]。本 mod 主要用于测试工具库、给 mod 作者做示例。[/pullquote]
 
 [h1]玩法[/h1]
 [list]
@@ -167,7 +167,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [/list]
 
 [h1]给 mod 作者[/h1]
-完整源码在 [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url] 上的卡包大师工具库仓库中，见 [b]VanillaPacks/[/b] 目录和 [b]docs/zh/[/b] 中的文档。其中还包含端到端自动测试（[b]--packmastertest[/b]）和控制台命令 [b]packgive <packId>[/b]、[b]packtestreward[/b]。
+完整源码在 [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[/url] 上的卡包大师工具库仓库中，见 [b]VanillaPacks/[/b] 目录和 [b]docs/zh/[/b] 中的文档。其中还包含控制台命令 [b]packgive <packId>[/b]、[b]packtestreward[/b]。
 
 GitHub 仓库：[url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packmaster[/url]
 ```
