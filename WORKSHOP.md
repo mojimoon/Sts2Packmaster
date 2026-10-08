@@ -39,6 +39,8 @@ Download the source from [url=https://github.com/mojimoon/Sts2Packmaster]GitHub[
 [/list]
 Vanilla Packs in the same repository is a complete working example.
 
+Whether you want to enrich a character with packs, create a Packmaster-ish epic, or share packs between multiple characters, PackmasterLib can do it.
+
 Add PackmasterLib as a dependency in your manifest ([b]"dependencies": [{ "id": "PackmasterLib", "min_version": "0.1.0" }][/b]) and as a Required Item of your Workshop item.
 
 [h1]Compatibility[/h1]
@@ -80,6 +82,8 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 [*][b]游戏内行为[/b]——候选规则、卡池、界面、存档、多人、测试。
 [/list]
 同一仓库中的原版卡包是一个完整可运行的示例。
+
+无论是用卡包丰富角色的玩法，或是创作一款卡包大师级别的史诗巨作，又或是想要在多个角色之间部分共享卡包，PackmasterLib 都能做到。
 
 在清单中把 PackmasterLib 声明为依赖（[b]"dependencies": [{ "id": "PackmasterLib", "min_version": "0.1.0" }][/b]），并在创意工坊物品中添加为「必需物品」。
 
