@@ -101,7 +101,7 @@ Title: `Vanilla Packs (Packmaster Demo)`
 ```bbcode
 A [b]test / demo character[/b] for [url=][b]PackmasterLib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
 
-[pullquote]Requires [url=][b]PackmasterLib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors.[/pullquote]
+[pullquote]Requires [url=][b]PackmasterLib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors, and is not a custom playable character.[/pullquote]
 
 [h1]How to play[/h1]
 [list]
@@ -140,7 +140,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 ```bbcode
 [url=][b]PackMasterLib / 卡包大师Lib[/b][/url] 的[b]测试 / 演示角色[/b]：[b]原版卡包师[/b]，用原版卡组成的卡包构筑牌组——就像 1 代的卡包大师。
 
-[pullquote]需要前置 [url=][b]PackMasterLib[/b][/url]。本 mod 主要用于测试工具库、给 mod 作者做示例。[/pullquote]
+[pullquote]需要前置 [url=][b]PackMasterLib[/b][/url]。本 mod 主要用于测试工具库、作为示例，不是一个全新的可玩角色。[/pullquote]
 
 [h1]玩法[/h1]
 [list]
