@@ -149,7 +149,7 @@ public static class PackLibraryFilter
 	private static readonly ConditionalWeakTable<NCardLibrary, Controls> ByLibrary = new();
 
 	private const float ItemHeight = 44f;
-	private const int MaxVisibleItems = 11;
+	private const int MaxVisibleItems = 12;
 
 	internal static void Attach(NCardLibrary library, Control parent, NCardViewSortButton sortButton)
 	{
@@ -167,7 +167,7 @@ public static class PackLibraryFilter
 		var dropdown = scene.GetNode<NDropdown>("Dropdown");
 		dropdown.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
 		var container = dropdown.GetNode<Control>("%DropdownContainer");
-		// Closed by default (the scene ships open), and at most ~11 rows tall with the game's scrollbar.
+		// Closed by default (the scene ships open), and at most ~12 rows tall with the game's scrollbar.
 		container.Visible = false;
 		scene.GetNode<Control>("Dismisser").Visible = false;
 		AccessTools.Field(container.GetType(), "_maxHeight").SetValue(container, ItemHeight * MaxVisibleItems);

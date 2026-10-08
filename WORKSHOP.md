@@ -1,6 +1,6 @@
 # Steam Workshop descriptions
 
-BBCode for the two Workshop items, English and Chinese. Screenshots: `screenshots/*.jpg`.
+BBCode for the two Workshop items, English and Chinese. Screenshots: `screenshots/en/*.jpg`, `screenshots/zh/*.jpg` (Workshop: English first, then Chinese; English cover).
 
 - PackmasterLib: https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341
 - VanillaPacks: https://steamcommunity.com/sharedfiles/filedetails/?id=3815696519

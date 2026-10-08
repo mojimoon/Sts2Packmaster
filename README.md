@@ -17,26 +17,26 @@ Game version: **v0.111.0** (.NET 9).
 
 ### Features
 
-![Character select](screenshots/1.jpg)
+![Character select](screenshots/en/en-1.jpg)
 
 - **Pack config on character select**: All Packs mode, 3–10 slots, each Random / Choice of 3 / None / a specific pack; saved per character.
 - **Pack draft before Neow** (STS1 setup screen): current packs on top, choice of 3 below, pack summary with star ratings and tags on hover, author under each pack. Back/Esc hides the screen to look at Neow or the map; save & quit before confirming is allowed. Neow's rewards are untouched.
 
-![Pack draft](screenshots/2.jpg)
+![Pack draft](screenshots/en/en-2.jpg)
 
 - **Pack card pool**: rewards, shops, events, potions, "random card" effects and transforms only use the run's packs.
 - **Pack names on cards**, on the top edge of the card frame. Vanilla cards keep their frame unless *One frame for all* is on.
 - **Top-bar packs button**: lists the run's packs; click to view the run's card pool.
 
-![Top-bar button and pool view](screenshots/3.jpg)
+![Top-bar button and pool view](screenshots/en/en-3.jpg)
 
 - **Card library**: pack sort button, pack filter dropdown and search by pack name for pack characters.
 
-![Library pack filter](screenshots/4.jpg)
+![Library pack filter](screenshots/en/en-4.jpg)
 
 - **Settings → General → Packmaster**: One frame for all, multiple "None" slots, and developer options (unlock every pack, skip the draft, relaxed drafting).
 
-![Settings](screenshots/5.jpg)
+![Settings](screenshots/en/en-5.jpg)
 
 ### For mod authors
 
@@ -120,15 +120,27 @@ Based on the design of the Slay the Spire mod *The Packmaster*. Vanilla cards an
 
 ### 功能
 
-- **选人页卡包配置**（图 1）：全卡包模式、3–10 个槽位，每个槽位可选随机 / 三选一 / 无 / 指定卡包；按角色保存。
-- **涅奥之前选包**（图 2，1 代选包界面）：上方为已选定卡包，下方三选一；悬停显示带星级和标签的卡包概要，卡下方显示作者。返回按钮/Esc 可收起界面查看涅奥或地图；确认前可以 SL。涅奥奖励不受影响。
+![选人页卡包配置](screenshots/zh/zh-1.jpg)
+
+- **选人页卡包配置**：全卡包模式、3–10 个槽位，每个槽位可选随机 / 三选一 / 无 / 指定卡包；按角色保存。
+
+![选包界面](screenshots/zh/zh-2.jpg)
+
+- **涅奥之前选包**（1 代选包界面）：上方为已选定卡包，下方三选一；悬停显示带星级和标签的卡包概要，卡下方显示作者。返回按钮/Esc 可收起界面查看涅奥或地图；确认前可以 SL。涅奥奖励不受影响。
 - **卡包卡池**：奖励、商店、事件、药水、「随机一张牌」效果和变化只使用本局卡包。
 - **卡面包名**：显示在卡框上边缘。原版卡保留原卡框，开启「统一卡框」后除外。
-- **右上角卡包按钮**（图 3）：列出本局卡包，点击查看本局牌池。
-- **图鉴**（图 4）：卡包角色有卡包排序按钮、卡包筛选下拉框，搜索框可搜卡包名。
-- **设置 → 游戏设置 → 卡包大师**（图 5）：统一卡框、允许多个「无」槽位，以及开发选项（解锁全部卡包、跳过选包、宽松选包）。
 
-截图见上方英文部分。
+![右上角卡包按钮与牌池](screenshots/zh/zh-3.jpg)
+
+- **右上角卡包按钮**：列出本局卡包，点击查看本局牌池。
+
+![图鉴卡包筛选](screenshots/zh/zh-4.jpg)
+
+- **图鉴**：卡包角色有卡包排序按钮、卡包筛选下拉框，搜索框可搜卡包名。
+
+![设置](screenshots/zh/zh-5.jpg)
+
+- **设置 → 游戏设置 → 卡包大师**：统一卡框、允许多个「无」槽位，以及开发选项（解锁全部卡包、跳过选包、宽松选包）。
 
 ### 给 mod 作者
 

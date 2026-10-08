@@ -537,7 +537,8 @@ internal static class PackmasterAutoTest
 		// Real mouse clicks through the GUI: the list must win over the sidebar rows below it.
 		await Click(dropdown);
 		Yes(container.Visible, "clicking the dropdown opens it");
-		Yes(container.Size.Y <= 11 * 44 + 1, $"list height capped at ~11 rows ({container.Size.Y:0})");
+		Yes(container.Size.Y <= 12 * 44 + 1, $"list height capped at ~12 rows ({container.Size.Y:0})");
+		Yes(items.Count > 12 || container.Size.Y >= items.Count * 44 - 1, $"all {items.Count} rows fit without scrolling ({container.Size.Y:0})");
 		await Click(items[2]);
 		Yes(PackLibraryFilter.SelectedPack == Reg.Packs[1] && !container.Visible, $"clicking a row over the sidebar's buttons selects it ('{PackLibraryFilter.SelectedPack?.Id}')");
 		await Click(dropdown);
