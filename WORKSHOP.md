@@ -10,7 +10,7 @@ items are published. Upload `screenshots/*.jpg` as the item's preview images.
 
 ## PackmasterLib — English
 
-Title: `Packmaster Lib`
+Title: `PackmasterLib`
 
 ```bbcode
 A library that brings the core of STS1's [b]The Packmaster[/b] to Slay the Spire 2: [b]card-pack characters[/b] whose card pool is assembled from packs drafted at the start of each run.
@@ -99,9 +99,9 @@ GitHub 仓库：[url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Pac
 Title: `Vanilla Packs (Packmaster Demo)`
 
 ```bbcode
-A [b]test / demo character[/b] for [url=][b]Packmaster Lib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
+A [b]test / demo character[/b] for [url=][b]PackmasterLib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
 
-[pullquote]Requires [url=][b]Packmaster Lib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors.[/pullquote]
+[pullquote]Requires [url=][b]PackmasterLib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors.[/pullquote]
 
 [h1]How to play[/h1]
 [list]
