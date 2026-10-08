@@ -1,10 +1,9 @@
 # Steam Workshop descriptions
 
-BBCode for the two Workshop items, English and Chinese. Fill in the empty `[url=]` links once both
-items are published. Upload `screenshots/*.jpg` as the item's preview images.
+BBCode for the two Workshop items, English and Chinese. Screenshots: `screenshots/*.jpg`.
 
-- PackmasterLib: <!-- workshop link: TODO -->
-- VanillaPacks: <!-- workshop link: TODO -->
+- PackmasterLib: https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341
+- VanillaPacks: https://steamcommunity.com/sharedfiles/filedetails/?id=3815696519
 
 ---
 
@@ -17,7 +16,7 @@ A library that brings the core of STS1's [b]The Packmaster[/b] to Slay the Spire
 
 [pullquote]This is a library for mod authors. It does nothing on its own — install it together with a character mod that uses it.[/pullquote]
 
-Want to try it? Subscribe to [url=][b]Vanilla Packs[/b][/url], a test character with 11 packs made of vanilla cards.
+Want to try it? Subscribe to [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696519][b]Vanilla Packs[/b][/url], a test character with 11 packs made of vanilla cards.
 
 [h1]Features[/h1]
 [list]
@@ -59,7 +58,7 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 
 [pullquote]这是给 mod 作者使用的前置库，单独安装没有任何效果——请和使用它的角色 mod 一起安装。[/pullquote]
 
-想体验一下？订阅 [url=][b]原版卡包[/b][/url]，一个由原版卡组成 11 个卡包的测试角色。
+想体验一下？订阅 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696519][b]原版卡包[/b][/url]，一个由原版卡组成 11 个卡包的测试角色。
 
 [h1]功能[/h1]
 [list]
@@ -99,9 +98,9 @@ GitHub 仓库：[url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Pac
 Title: `Vanilla Packs (Packmaster Demo)`
 
 ```bbcode
-A [b]test / demo character[/b] for [url=][b]PackmasterLib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
+A [b]test / demo character[/b] for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341][b]PackmasterLib[/b][/url]: [b]The Vanilla Slinger[/b], who builds a deck from card packs made of vanilla cards — like STS1's The Packmaster.
 
-[pullquote]Requires [url=][b]PackmasterLib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors, and is not a custom playable character.[/pullquote]
+[pullquote]Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341][b]PackmasterLib[/b][/url]. This mod mainly exists to test the library and to serve as an example for mod authors, and is not a custom playable character.[/pullquote]
 
 [h1]How to play[/h1]
 [list]
@@ -138,9 +137,9 @@ GitHub repo: [url=https://github.com/mojimoon/Sts2Packmaster]mojimoon/Sts2Packma
 标题：`原版卡包（卡包大师演示）`
 
 ```bbcode
-[url=][b]PackMasterLib / 卡包大师Lib[/b][/url] 的[b]测试 / 演示角色[/b]：[b]原版卡包师[/b]，用原版卡组成的卡包构筑牌组——就像 1 代的卡包大师。
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341][b]PackMasterLib / 卡包大师Lib[/b][/url] 的[b]测试 / 演示角色[/b]：[b]原版卡包师[/b]，用原版卡组成的卡包构筑牌组——就像 1 代的卡包大师。
 
-[pullquote]需要前置 [url=][b]PackMasterLib[/b][/url]。本 mod 主要用于测试工具库、作为示例，不是一个全新的可玩角色。[/pullquote]
+[pullquote]需要前置 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3815696341][b]PackMasterLib[/b][/url]。本 mod 主要用于测试工具库、作为示例，不是一个全新的可玩角色。[/pullquote]
 
 [h1]玩法[/h1]
 [list]
