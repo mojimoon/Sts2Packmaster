@@ -83,7 +83,7 @@ public sealed class VanillaSlinger : RedirectedCharacterModel
         ModelDb.Card<PackStrike>(), /* ... */ ModelDb.Card<Bash>(), ModelDb.Card<Neutralize>(),
     };
     public override IReadOnlyList<RelicModel> StartingRelics => new List<RelicModel> { ModelDb.Relic<BurningBlood>() };
-    // ……其余抽象成员（动画延迟、地图颜色、建筑师特效）
+    // ……其余抽象成员（动画延迟、地图颜色）
 }
 ```
 

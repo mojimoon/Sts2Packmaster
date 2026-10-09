@@ -54,6 +54,4 @@ public sealed class VanillaSlinger : RedirectedCharacterModel
 	public override float CastAnimDelay => 0.25f;
 
 	public override Color MapDrawingColor => new Color("8a6f4d");
-
-	public override List<string> GetArchitectAttackVfx() => new List<string>();
 }

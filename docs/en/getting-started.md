@@ -91,7 +91,7 @@ public sealed class VanillaSlinger : RedirectedCharacterModel
         ModelDb.Card<PackStrike>(), /* ... */ ModelDb.Card<Bash>(), ModelDb.Card<Neutralize>(),
     };
     public override IReadOnlyList<RelicModel> StartingRelics => new List<RelicModel> { ModelDb.Relic<BurningBlood>() };
-    // ... the remaining abstract members (animation delays, map color, architect vfx)
+    // ... the remaining abstract members (animation delays, map color)
 }
 ```
 

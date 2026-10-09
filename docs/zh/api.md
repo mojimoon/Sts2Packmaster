@@ -99,7 +99,7 @@ registration.Drawer = new PityDrawer();
 |---|---|
 | `PackPreviewCard` | 卡包预览卡基类，空子类即可。标题/描述来自本地化（`cards` 表中的 `<ID>.title` / `<ID>.description`），卡图来自封面卡。不在图鉴中显示，不会被生成，也不能打出。 |
 | `PackCardModel` | 复用原版卡图的自有卡基类：重写 `SourcePoolTitle`（如 `"ironclad"`）和 `SourcePortraitEntry`（如 `"strike_ironclad"`）。 |
-| `RedirectedCharacterModel` | 无美术角色基类：重写 `AssetSourceEntry`（如 `"ironclad"`），复用该角色的图标、选人立绘、地图标记、视觉和音效。 |
+| `RedirectedCharacterModel` | 无美术角色基类：重写 `AssetSourceEntry`（如 `"ironclad"`），复用该角色的图标、选人立绘、地图标记、视觉和音效，以及先古之民对话和攻击建筑师的特效（没有建筑师对话的角色会在通关时崩溃）。 |
 
 ## PackmasterSettings
 

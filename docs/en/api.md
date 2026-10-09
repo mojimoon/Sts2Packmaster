@@ -110,7 +110,7 @@ registration.Drawer = new PityDrawer();
 |---|---|
 | `PackPreviewCard` | Base for a pack's preview card. An empty subclass is enough. Title/description come from loc (`<ID>.title` / `<ID>.description` in `cards`), portrait from the cover card. Hidden from the library, never generated, never played. |
 | `PackCardModel` | Base for your own cards that reuse vanilla art: override `SourcePoolTitle` (e.g. `"ironclad"`) and `SourcePortraitEntry` (e.g. `"strike_ironclad"`). |
-| `RedirectedCharacterModel` | Base for a character without its own art: override `AssetSourceEntry` (e.g. `"ironclad"`) to reuse that character's icons, select screen art, map marker, visuals and sounds. |
+| `RedirectedCharacterModel` | Base for a character without its own art: override `AssetSourceEntry` (e.g. `"ironclad"`) to reuse that character's icons, select screen art, map marker, visuals and sounds, plus its Ancient dialogues and attack VFX against the Architect (a character with no Architect dialogue would crash the run's end). |
 
 ## PackmasterSettings
 

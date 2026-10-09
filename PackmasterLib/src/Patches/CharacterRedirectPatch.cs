@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Entities.Ancients;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using Sts2Packmaster.Lib.Api;
@@ -65,5 +66,24 @@ internal static class CharacterRedirectPatch
 		}
 		// Plain replace: paths look like "char_select_bg_vanilla_slinger", where regex \b never matches after '_'.
 		__result = __result.Replace(entry, redirected.AssetRedirectEntry);
+	}
+}
+
+/// <summary>
+/// Ancient dialogues are keyed by character. A redirected character has none of its own, and the
+/// Architect (no character-agnostic lines) would end up with no dialogue and crash in WinRun, so
+/// fall back to the dialogues of the character whose assets it reuses.
+/// </summary>
+[HarmonyPatch(typeof(AncientDialogueSet), nameof(AncientDialogueSet.GetValidDialogues))]
+internal static class RedirectedDialoguePatch
+{
+	private static void Postfix(AncientDialogueSet __instance, ModelId characterId, int charVisits, int totalVisits,
+		bool allowAnyCharacterDialogues, ref IEnumerable<AncientDialogue> __result)
+	{
+		if (__result.Any() || ModelDb.GetByIdOrNull<CharacterModel>(characterId) is not RedirectedCharacterModel { AssetSource: { } source })
+		{
+			return;
+		}
+		__result = __instance.GetValidDialogues(source.Id, charVisits, totalVisits, allowAnyCharacterDialogues);
 	}
 }

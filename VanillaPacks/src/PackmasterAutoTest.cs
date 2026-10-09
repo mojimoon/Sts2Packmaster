@@ -14,6 +14,9 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Characters;
+using MegaCrit.Sts2.Core.Models.Events;
+using MegaCrit.Sts2.Core.Nodes.Events;
+using MegaCrit.Sts2.Core.Nodes.Screens.GameOverScreen;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -96,6 +99,7 @@ internal static class PackmasterAutoTest
 		PoolChecks(player);
 		await CardVisualChecks(player);
 		PersistenceChecks(player);
+		await ArchitectChecks(player);
 	}
 
 	// ---------------------------------------------------------------- registry / pools / loc
@@ -633,6 +637,57 @@ internal static class PackmasterAutoTest
 		var before = PackState.Get(player)!.Selected.Select(p => p.Id).ToList();
 		PackState.LoadRun(run, (PackRunModifier)ModifierModel.FromSerializable(modifier.ToSerializable()));
 		Yes(PackState.Get(player)!.Selected.Select(p => p.Id).SequenceEqual(before) && !PackState.NeedsSetup(player), "a confirmed setup survives save/load");
+	}
+
+	/// <summary>The run's end: the Architect event (dialogue, attack VFX) through to the victory screen. Last step: it ends the run.</summary>
+	private static async Task ArchitectChecks(Player player)
+	{
+		var errors = new List<string>();
+		void OnLog(LogLevel level, string message, int _)
+		{
+			if (level >= LogLevel.Error)
+			{
+				errors.Add(message.Split('\n')[0]);
+			}
+		}
+		Log.LogCallback += OnLog;
+		try
+		{
+			await RunManager.Instance.EnterRoom(new EventRoom(ModelDb.Event<TheArchitect>()));
+			await Task.Delay(3000);
+			Yes(player.RunState.CurrentRoom is EventRoom { CanonicalEvent: TheArchitect }, "entered the Architect event");
+			var clicks = 0;
+			for (var i = 0; i < 40 && Descendants<NGameOverScreen>(NGame.Instance!).Count == 0; i++)
+			{
+				var option = Descendants<NEventOptionButton>(NGame.Instance!).FirstOrDefault(b => b.IsVisibleInTree());
+				if (option != null)
+				{
+					await Click(option);
+					clicks++;
+				}
+				await Task.Delay(1500);
+			}
+			Yes(Descendants<NGameOverScreen>(NGame.Instance!).Count > 0, $"the Architect dialogue and attack play through to the victory screen ({clicks} clicks)");
+		}
+		finally
+		{
+			Log.LogCallback -= OnLog;
+		}
+		Yes(errors.Count == 0, $"no errors during the Architect event{(errors.Count == 0 ? "" : ": " + string.Join(" | ", errors.Distinct()))}");
+	}
+
+	private static List<T> Descendants<T>(Node root) where T : Node
+	{
+		var found = new List<T>();
+		foreach (var child in root.GetChildren())
+		{
+			if (child is T t)
+			{
+				found.Add(t);
+			}
+			found.AddRange(Descendants<T>(child));
+		}
+		return found;
 	}
 
 	// ---------------------------------------------------------------- helpers

@@ -26,6 +26,13 @@ public abstract class RedirectedCharacterModel : CharacterModel
 
 	public override string CharacterSelectSfx => $"event:/sfx/characters/{AssetSourceEntry}/{AssetSourceEntry}_select";
 
+	/// <summary>The character whose assets are reused (null if <see cref="AssetSourceEntry"/> matches none).</summary>
+	public CharacterModel? AssetSource =>
+		ModelDb.AllCharacters.FirstOrDefault(c => string.Equals(c.Id.Entry, AssetSourceEntry, StringComparison.OrdinalIgnoreCase));
+
+	/// <summary>Attack VFX against the Architect: the source character's.</summary>
+	public override List<string> GetArchitectAttackVfx() => AssetSource?.GetArchitectAttackVfx() ?? new List<string> { "vfx/vfx_attack_slash" };
+
 	// Vanilla only ships a few wipe events (Defect/Regent/Necrobinder also use ironclad's).
 	public override string CharacterTransitionSfx => "event:/sfx/ui/wipe_ironclad";
 }
